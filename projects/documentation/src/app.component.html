@@ -1,49 +1,11 @@
-<coer-toolbar (onClickToogle)="sidenav.Toogle()"></coer-toolbar>
+<coer-toolbar 
+    userName="Christian Omar Escamilla Rodriguez"
+    userTitle="Development" 
+    [menu]="_toolbarMenu" 
+    (onClickToogle)="sidenav.Toogle()" 
+    (onClickOptionMenu)="Log($event)"
+></coer-toolbar>
 
 <coer-sidenav #sidenav [navigation]="_navigation">
-
-    <div class="container-section "> 
-    <coer-selectbox 
-        #sele
-        [(ngModel)]="test4"
-        [isInvalid]="false"
-        label="eee"
-        [isLoading]="false"
-        [dataSource]="[ 
-            { id: 1,  name: 'Hola1' },
-            { id: 2,  name: 'Hola2' },
-            { id: 3,  name: 'Hola3' },
-            { id: 4,  name: 'Hola4' },
-            { id: 5,  name: 'Hola5' },
-            { id: 6,  name: 'Hola6' },
-            { id: 7,  name: 'Hola7' },
-            { id: 8,  name: 'Hola8' },
-            { id: 9,  name: 'Hola9' },
-            { id: 10, name: 'Hola10' } 
-        ]" 
-    ></coer-selectbox>
-
-    <coer-textbox  
-        [(ngModel)]="test3"
-        [isInvalid]="false"
-        label="eee" 
-    ></coer-textbox>
-</div> 
- 
-
-   <div class="container-section width-300px"> 
-        <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon-rounded" [isReadonly]="false" [isLoading]="false"  ></coer-button>
-
-        <coer-button #btt icon="i91-alarm-fill" color="danger" type="icon-rounded" [isReadonly]="false" [isLoading]="false"  ></coer-button>
-</div> 
-
- 
-<!-- <coer-accordion #ddddddd title="Hello world" icon="i91-circle-exclamation-fill" [isLoading]="true">
-    <div style="height: 10000px;"></div>
-</coer-accordion>  -->
-
-
-
-
-</coer-sidenav>
-
+    <router-outlet></router-outlet>  
+</coer-sidenav> 

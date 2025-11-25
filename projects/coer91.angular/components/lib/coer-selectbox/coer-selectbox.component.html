@@ -6,9 +6,9 @@
     }"
     [ngStyle]="{
         'padding-right': _paddingRight, 
-        'width'        : width(),
-        'min-width'    : minWidth(),
-        'max-width'    : maxWidth(),
+        'width'        : `calc(${width()} - ${_paddingRight} - 10px)`,
+        'min-width'    : `calc(${minWidth()} - ${_paddingRight} - 10px)`,
+        'max-width'    : `calc(${maxWidth()} - ${_paddingRight} - 10px)`,
         'margin-top'   : marginTop(),
         'margin-right' : marginRight(),
         'margin-bottom': marginBottom(),
@@ -85,8 +85,13 @@
         <ul [id]="_id + '-options'" [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
             @for(item of _dataSource(); track item.index) {
                 <li [id]="_id + '-index' + item.index" [ngClass]="{ 'focus': _index() == item.index }" (click)="_ClickOption(item)"> 
-                    <i></i> 
-                    <span>{{ GetDisplay(item) }}</span>    
+                    @if(_GetIcon(item).isNotOnlyWhiteSpace()) {
+                        <span class="icon-container-option">
+                            <i [class]="_GetIcon(item)"></i> 
+                        </span>
+                    }
+
+                    <span class="display-property-option">{{ _GetDisplay(item) }}</span>    
                 </li>
             }
         </ul>

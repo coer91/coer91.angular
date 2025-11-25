@@ -1,0 +1,102 @@
+<header [id]="GetIdCalculated()(-1, -1, 'header')" class='flex-wrap-middle-right' [ngStyle]="{ 'margin-bottom': _marginBottom + 'px' }"> 
+       
+    <!-- Slot -->
+    <div [id]="GetIdCalculated()(-1, -1, 'header-slots')" class="flex-basis-fit-content margin-right-auto">
+        <ng-content></ng-content>
+    </div> 
+ 
+    <div [id]="GetIdCalculated()(-1, -1, 'header-buttons')" class="flex-basis-min-content display-flex gap-5px">
+        <!-- Export Button -->
+        @if(_showExportButton()) {
+            <div>
+                <coer-button
+                    type="icon" 
+                    icon="excel"
+                    [color]="_ColorButton(exportButton())"
+                    [path]="_GetPath(exportButton())"
+                    [isDisabled]="_IsDisabledExportButton()" 
+                    [isHidden]="isLoading()"
+                    [tooltip]="_TooltipButton(exportButton(), 'Export')"
+                    tooltipPosition="top"
+                    (onClick)="_Export()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Import Button -->
+        @if(importButton().show && !isReadonly()) {
+            <div>
+                <input type="file" #inputFileRef [multiple]="false" (change)="Import($event)" (cancel)="_isLoadingInner.set(false)">
+    
+                <coer-button
+                    type="icon" 
+                    icon="import"
+                    [color]="_ColorButton(importButton())"
+                    [path]="_GetPath(importButton())"
+                    [isDisabled]="_IsDisabledImportButton()" 
+                    [tooltip]="_TooltipButton(importButton(), 'Import')"
+                    tooltipPosition="top"
+                    (onClick)="Import()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Add Button -->
+        @if(addButton().show  && !isReadonly()) {
+            <div>
+                <coer-button
+                    type="icon"
+                    icon="new"
+                    [color]="_ColorButton(addButton())"
+                    [path]="_GetPath(addButton())"
+                    [isDisabled]="_IsDisabledAddButton()" 
+                    [tooltip]="_TooltipButton(addButton(), 'Add')"
+                    tooltipPosition="top" 
+                    (onClick)="onClickAdd.emit()"
+                ></coer-button>
+            </div>
+        }
+    
+        <!-- Save Button -->
+        @if(saveButton().show && !isReadonly()) {
+            <div>
+                <coer-button
+                    type="icon"
+                    icon="save"
+                    [color]="_ColorButton(saveButton())"
+                    [path]="_GetPath(saveButton())"
+                    [isDisabled]="_IsDisabledSaveButton()"  
+                    [isHidden]="isLoading()"
+                    [tooltip]="_TooltipButton(saveButton(), 'Save')" 
+                    tooltipPosition="top" 
+                    (onClick)="onClickSave.emit()"
+                ></coer-button>
+            </div>
+        } 
+    </div>
+        
+    <!-- Search -->
+    @if(search().show) {
+        <div [id]="GetIdCalculated()(-1, -1, 'header-search')" class="mv-flex-basis-100 mv-flex-grow-1 xs-flex-basis-100 md-flex-basis-min-content">
+            <coer-textbox
+                #inputSearch
+                [id]="GetIdCalculated()(-1, -1, 'search')"
+                [ngModel]="searchInner()"
+                placeholder="Search"
+                [isDisabled]="_IsDisabledSearch()"
+                [isLoading]="isLoading()"
+                [selectOnFocus]="true"
+                [showSearchIcon]="true"
+                [showClearIcon]="true"
+                minWidth="250px"
+                (onInput)="onInputSearch.emit($event)"
+                (onClickClear)="onClickClearSearch.emit('')"
+                (onKeyupEnter)="onKeyupEnterSearch.emit({
+                    id: GetIdCalculated()(-1, -1, 'search'),
+                    input: 'coer-search', 
+                    value: $event
+                })"
+            ></coer-textbox>
+        </div>
+    } 
+</header> 

@@ -5,7 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import 'coer91.tools/extensions';
  
 //Components   
+import * as pages      from '@library/pages';
 import * as components from '@library/components';
+import * as pipes      from '@library/pipes'; 
 
 @NgModule({  
     imports: [  
@@ -15,6 +17,8 @@ import * as components from '@library/components';
         FormsModule,
         ReactiveFormsModule,
         components.ComponentsModule,
+        pages.PagesModule,
+        pipes.PipesModule,
     ],
     exports: [ 
         CommonModule,
@@ -22,12 +26,17 @@ import * as components from '@library/components';
         RouterOutlet,
         FormsModule,
         ReactiveFormsModule,
+        pages.HomePage, 
         components.CoerAccordion,
         components.CoerButton,
+        components.CoerGrid,
         components.CoerSelectBox,
         components.CoerSidenav,
         components.CoerTextBox,
         components.CoerToolbar,
+        pipes.HtmlPipe,
+        pipes.NoImagePipe,
+        pipes.NumericFormatPipe 
     ]
 })
 export class coer91Module { } 

@@ -1,0 +1,15 @@
+<section class="container-section">
+    <coer-grid 
+        [(ngModel)]="dataSource"
+        [columns]="[
+            { property: 'id'  , alias: 'id', width: '20px', textAlignY: 'top' },
+            { property: 'name', alias: 'Hola' ,textAlignX: 'center'  },
+            { property: 'name2', textAlignX: 'center', width: '100px', textBreak: false  },
+        ]" 
+        [search]="{ show: true }"
+        [addButton]="{ show: true }"
+        [saveButton]="{ show: true }"
+        [exportButton]="{ show: true }"
+        [importButton]="{ show: true }"
+    ></coer-grid> 
+</section>

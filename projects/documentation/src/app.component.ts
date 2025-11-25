@@ -1,7 +1,7 @@
-import { RootModule } from './root/root.module'; 
-import { Component, viewChild } from '@angular/core'; 
-import { CoerAccordion, CoerButton, CoerSelectBox, CoerTextBox } from '@library/components';
+import { RootModule } from './core/root.module'; 
+import { Component  } from '@angular/core';  
 import { NAVIGATION } from './navigation';
+import { IMenuToolbar } from 'coer91.tools/interfaces';
 
 
 @Component({
@@ -12,25 +12,18 @@ import { NAVIGATION } from './navigation';
 })
 export class AppComponent {  
       
-    //Elements
-    protected readonly ddddddd = viewChild.required<CoerAccordion>('ddddddd'); 
-    protected readonly dddsdddd = viewChild.required<CoerTextBox>('dddsdddd'); 
-    protected readonly btt = viewChild.required<CoerButton>('btt'); 
-    protected readonly sele = viewChild.required<CoerSelectBox<any>>('sele'); 
-    protected test2 = true;
-    protected test3 = '';
-    protected test4 = null
-
-    protected _navigation: any[] = [];
-
-
-    Log(event: any, value?: any) {
-        console.log({ event, value })
-    }
+    
+    protected _toolbarMenu: IMenuToolbar[] = [];
+    
+    protected _navigation: any[] = []; 
 
 
     constructor() {
          
             this._navigation = NAVIGATION 
+    }
+
+    Log(e: any) {
+        console.log(e)
     }
 }

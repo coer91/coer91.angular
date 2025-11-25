@@ -3,7 +3,7 @@ import { AppComponent } from './src/app.component';
 import { provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';   
-import { ROUTES } from './src/root/root.routing'; 
+import { ROUTES } from './src/core/root.routing'; 
 
 bootstrapApplication(AppComponent, {
     providers: [

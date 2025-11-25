@@ -5,10 +5,10 @@
         'display-none': isHidden() 
     }"
     [ngStyle]="{
-        'padding-right': _paddingRight(), 
-        'width'        : width(),
-        'min-width'    : minWidth(),
-        'max-width'    : maxWidth(),
+        'padding-right': _paddingRight, 
+        'width'        : `calc(${width()} - ${_paddingRight} - 10px)`,
+        'min-width'    : `calc(${minWidth()} - ${_paddingRight} - 10px)`,
+        'max-width'    : `calc(${maxWidth()} - ${_paddingRight} - 10px)`,
         'margin-top'   : marginTop(),
         'margin-right' : marginRight(),
         'margin-bottom': marginBottom(),
@@ -52,7 +52,7 @@
                     }">{{ _label }}</label>
             }
 
-            @if(_paddingRight() != '10px') {
+            @if(_paddingRight != '10px') {
                 <span class="icon-container">
                     @if(isInvalid() && _isEnabled) {
                         <span>

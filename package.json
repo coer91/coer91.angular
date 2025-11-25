@@ -16,8 +16,8 @@
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "coer91.styles": "^0.0.25",
-    "coer91.tools": "^0.0.43",
+    "coer91.styles": "^0.0.29",
+    "coer91.tools": "^0.0.49",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.1"

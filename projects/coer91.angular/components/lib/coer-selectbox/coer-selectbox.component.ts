@@ -28,17 +28,20 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     protected _isLoading: boolean = false; 
 
     //output
-    public onInput       = output<T | null>();
-    public onKeyupEnter  = output<T | null>();
-    public onClear       = output<void>();  
-    public onReady       = output<void>();
-    public onDestroy     = output<void>();
+    public onInput      = output<T | null>();
+    public onKeyupEnter = output<T | null>();
+    public onClear      = output<void>(); 
+    public onOpen       = output<void>();
+    public onClose      = output<void>(); 
+    public onReady      = output<void>();
+    public onDestroy    = output<void>();
 
     //input
     public label            = input<string>('');
     public placeholder      = input<string>('');
     public displayProperty  = input<string>('name');
     public dataSource       = input<T[]>([]);
+    public useIconProperty  = input<boolean>(false); 
     public isLoading        = input<boolean>(false); 
     public isReadonly       = input<boolean>(false);
     public isInvisible      = input<boolean>(false);
@@ -49,7 +52,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     public showClearButton  = input<boolean>(true);
     public isInvalid        = input<boolean>(false);
     public isValid          = input<boolean>(false); 
-    public width            = input<string>('');
+    public width            = input<string>('100%');
     public minWidth         = input<string>('100px');
     public maxWidth         = input<string>('100%'); 
     public marginTop        = input<string>('0px');
@@ -67,10 +70,11 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         }
 
         if(typeof this._UpdateValue === 'function') {
-            this._UpdateValue(value); 
-            if(Tools.IsNull(value)) this.onClear.emit();
-            else this.onInput.emit(value);
+            this._UpdateValue(value);  
         } 
+
+        if(Tools.IsNull(value)) this.onClear.emit();
+        this.onInput.emit(value);
          
         this._value = value;
         this._ResetSearch(value);  
@@ -243,6 +247,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
             this._htmlElement.select();
             this._isCollapsed.set(false);  
             this._isFocused = true;
+            this.onOpen.emit();
             
             if(scrollToElement) this.ScrollToElement();
             if(Tools.IsNotNull(this._value) && Tools.HasProperty(this._value, this.displayProperty())) {
@@ -268,6 +273,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this._isCollapsed.set(true); 
         this._isFocused = false;  
         this._index.set(-1); 
+        this.onClose.emit();
 
         this._isLoading = false;  
     }
@@ -279,7 +285,12 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     } 
 
     /** */
-    protected GetDisplay = (item: any) => { 
+    protected _GetIcon = (item: any): string => { 
+        return this.useIconProperty() && Tools.HasProperty(item, 'icon') ? item['icon'] : '';
+    }
+
+    /** */
+    protected _GetDisplay = (item: any) => { 
         return Tools.HasProperty(item, this.displayProperty()) ? item[this.displayProperty()] : '';
     }
 

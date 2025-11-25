@@ -1,0 +1,134 @@
+@switch(input) {
+    @case ('coer-switch') {
+        <coer-switch
+            #coerSwitch
+            [id]="id()"
+            [ngModel]="row()[header().property]"
+            [isDisabled]="_switchAttributes()?.isDisabled || false" 
+            [tooltip]="_switchAttributes()?.tooltip || ''"
+            [tooltipPosition]="_switchAttributes()?.tooltipPosition || 'left'"
+            marginLeft="auto"
+            marginRight="auto"
+            (onChange)="onSwitchChange.emit({ 
+                indexRow: row().indexRow,  
+                property: header().property, 
+                row: row(), 
+                value: $event 
+            })"
+        ></coer-switch> 
+    }
+
+    @case ('coer-textbox') {
+        <coer-textbox
+            #coerTextbox
+            [id]="id()"
+            [ngModel]="row()[header().property]"
+            [isDisabled]="_textboxAttributes()?.isDisabled || false"
+            [isValid]="_textboxAttributes()?.isValid || false"
+            [isInvalid]="_textboxAttributes()?.isInvalid || false"
+            [placeholder]="_textboxAttributes()?.placeholder || ('type ' + header().columnName.toLowerCase() + '...')"
+            [selectOnFocus]="_textboxAttributes()?.selectOnFocus || true"
+            [textPosition]="_textboxAttributes()?.textPosition || 'left'"
+            [minLength]="_textboxAttributes()?.minLength || 0"
+            [maxLength]="_textboxAttributes()?.maxLength || 50"
+            (onInput)="onTextboxChange.emit({ 
+                indexRow: row().indexRow,  
+                property: header().property, 
+                row: row(), 
+                value: $event 
+            })"
+            (onKeyupEnter)="onKeyupEnter.emit({ 
+                id: id(),
+                input: input, 
+                row: row(), 
+                value: $event
+            })"
+         ></coer-textbox> 
+    }
+
+    @case ('coer-numberbox') {
+        <coer-numberbox
+            #coerNumberbox
+            [id]="id()"
+            [ngModel]="row()[header().property]"
+            [isDisabled]="_numberboxAttributes()?.isDisabled || false"
+            [isValid]="_numberboxAttributes()?.isValid || false"
+            [isInvalid]="_numberboxAttributes()?.isInvalid || false"
+            [placeholder]="_numberboxAttributes()?.placeholder || '#'"
+            [selectOnFocus]="_numberboxAttributes()?.selectOnFocus || true"
+            [textPosition]="_numberboxAttributes()?.textPosition || 'right'"
+            [min]="_numberboxAttributes()?.min || 0"
+            [max]="_numberboxAttributes()?.max || 2147483647"            
+            [decimals]="_numberboxAttributes()?.decimals || 0"
+            (onInput)="onTextboxChange.emit({ 
+                indexRow: row().indexRow,  
+                property: header().property, 
+                row: row(), 
+                value: $event 
+            })"
+            (onKeyupEnter)="onKeyupEnter.emit({ 
+                id: id(),
+                input: input, 
+                row: row(), 
+                value: $event
+            })"
+        ></coer-numberbox>
+    }
+
+    @case ('coer-selectbox') {
+        <coer-selectbox
+            #coerSelectbox
+            [id]="id()"
+            [ngModel]="row()[header().property]" 
+            [isDisabled]="_selectboxAttributes()?.isDisabled || false"
+            [isValid]="_selectboxAttributes()?.isValid || false"
+            [isInvalid]="_selectboxAttributes()?.isInvalid || false"
+            [dataSource]="_selectboxAttributes()?.dataSource || []"
+            [placeholder]="_selectboxAttributes()?.placeholder || '-- Select --'"
+            [displayProperty]="_selectboxAttributes()?.displayProperty || 'name'" 
+            (onSelected)="onTextboxChange.emit({ 
+                indexRow: row().indexRow,  
+                property: header().property, 
+                row: row(), 
+                value: $event 
+            }); onKeyupEnter.emit({ 
+                id: id(),
+                input: input, 
+                row: row(), 
+                value: $event
+            })"
+            (onUnselect)="onTextboxChange.emit({ 
+                indexRow: row().indexRow,  
+                property: header().property, 
+                row: row(), 
+                value: $event 
+            })" 
+        ></coer-selectbox>
+    }
+
+
+    @case ('coer-datebox') {
+        <coer-datebox
+            #coerDatebox
+            [id]="id()"
+            [ngModel]="row()[header().property]"  
+        ></coer-datebox>
+    }
+
+    @default {
+        <div class="display-flex min-height-20px padding-5px" 
+            [ngStyle]="{ 
+                'height'         : _GetHeight(),
+                'align-items'    : _GetTextAlignY(),
+                'justify-content': _GetTextAlignX(),
+                'color'          : _GetTextColor(),
+                'word-break'     : _GetTextBreak(),
+                'white-space'    : _GetSpaceBreak(),
+                'cursor'         : checkOnRow() ? 'pointer' : 'default' 
+            }"
+            (click)="onClickRow.emit(row())"
+            (dblclick)="onDoubleClickRow.emit(row())">  
+            <div [innerHTML]="_GetCellValue() | html" class="display-flex"></div>          
+        </div>
+    }
+}

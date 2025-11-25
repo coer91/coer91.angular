@@ -4,6 +4,9 @@
     "paths": {
       "@library":            ["./projects/coer91.angular/index.ts"],
       "@library/components": ["./projects/coer91.angular/components/index.ts"],
+      "@library/pages":      ["./projects/coer91.angular/pages/index.ts"],
+      "@library/pipes":      ["./projects/coer91.angular/pipes/index.ts"],
+      "@library/signals":    ["./projects/coer91.angular/signals/index.ts"],
       "@library/tools":      ["./projects/coer91.angular/tools/index.ts"],
     },
     "outDir": "./dist/out-tsc", 

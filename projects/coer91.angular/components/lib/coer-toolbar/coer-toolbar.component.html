@@ -26,5 +26,31 @@
                 </div>
             </div>  
         </div>   -->
-    </div> 
+          
+    </div>   
 </header>
+
+<figure>
+    <div class="user-container">
+        <div class="user-container-identity" [ngClass]="{ 'user-container-identity-hover': _isOpenMenu }" (click)="selectboxRef.Focus()">
+            <div class="user-container-identity-image" [ngStyle]="{ backgroundImage: `url('coer91/images/no-user.png')` }"></div>
+            <div class="user-container-identity-name">
+                <p>{{ userName() }}</p>
+                <p>{{ userTitle() }}</p>
+            </div>
+        </div>
+    </div>
+
+    <coer-selectbox 
+        #selectboxRef 
+        [useIconProperty]="true"
+        [showClearButton]="false"
+        displayProperty="label"
+        width="225px"
+        maxWidth="225px"
+        [dataSource]="_menu()" 
+        (onOpen)="_isOpenMenu = true"
+        (onClose)="_isOpenMenu = false"
+        (onInput)="_SelectMenu($event)"
+    ></coer-selectbox>
+</figure>

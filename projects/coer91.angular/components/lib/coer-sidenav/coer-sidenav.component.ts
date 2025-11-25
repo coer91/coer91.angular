@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, OnDestroy, signal, input, viewChildren, EffectRef, effect, computed } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, signal, input, viewChildren, EffectRef, effect, computed, inject } from '@angular/core';
 import { HTMLElements, Navigation, Tools, Screen }from 'coer91.tools';
 import { IMenu, IMenuSelected, IScreenSize } from 'coer91.tools/interfaces'; 
 import { CoerSidenavAccordion } from './coer-sidenav-accordion/coer-sidenav-accordion.component';
 import { breakpointSIGNAL, navigationSIGNAL } from '../../../signals/index';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'coer-sidenav',
@@ -15,32 +16,45 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
     //Elements
     protected readonly _menuList = viewChildren(CoerSidenavAccordion); 
 
+    //Injections
+    private readonly _router = inject(Router);
+
     //Variables
     protected readonly _id = Tools.GetGuid("coer-sidenav"); 
     protected readonly _effectNavigation!: EffectRef;
     protected readonly _isOpen = signal<boolean>(['lg', 'xl', 'xxl'].includes(breakpointSIGNAL()));   
+    protected readonly _navigationSIGNAL = navigationSIGNAL;   
     protected isLoading: boolean = false;
      
     //output 
 
     //input 
-    public navigation = input<IMenu[]>([]); 
+    public navigation         = input<IMenu[]>([]); 
+    public showHomeNavigation = input<boolean>(true); 
 
     constructor() {
         this._effectNavigation = effect(() => {  
-            const navigation = this.navigation();
+            const navigation: any[] = this.showHomeNavigation() 
+                ? [{ id: 1, label: 'Home', icon: 'i91-house-door-fill', path: '/home' } as any].concat(this.navigation()) 
+                : this.navigation(); 
             
             Tools.Sleep().then(async () => {                 
                 navigationSIGNAL.set(navigation);
 
                 if(navigation.length > 0) {
-                    const menu = Navigation.GetSelectedMenu();
-
-                    if(menu) {
-                        await Tools.Sleep();
-                        this._ClickOption(menu);
-
-                    } 
+                    await Tools.Sleep();
+                    
+                    const menu = Navigation.GetSelectedMenu();  
+                     
+                    if(menu) this._ClickOption(menu); 
+                    
+                    else if(this.showHomeNavigation()) this._ClickOption({
+                        id: `lv1-1-index0`,
+                        menu: navigation[0],
+                        level: 'LV1',
+                        action: 'NONE',
+                        tree: [{ id: `lv1-1-index0`, label: navigation[0].label, icon: navigation[0].icon }]
+                    });  
                 }
             });
         }); 
@@ -64,6 +78,7 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
     ngOnDestroy() {
         this._effectNavigation?.destroy();
     }  
+    
 
 
     //computed
@@ -174,9 +189,14 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
     /** */
     protected async _ClickOption(option: IMenuSelected) {
         if(this.isLoading) return;
-        this.isLoading = true;
+        this.isLoading = true; 
 
-        if(option.action.equals('NONE')) {
+        if(option.action.equals('NONE')) { 
+            this._router.navigateByUrl(String(option?.menu?.path));
+
+            if(['mv', 'xs', 'sm', 'md'].includes(breakpointSIGNAL())) {
+                this.Close();
+            }
             
             Navigation.SetSelectedMenu(option); 
            
@@ -185,13 +205,13 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
             });
             
             await Tools.Sleep();
-            for(const { id }  of option.tree) {
+            for(const { id } of option.tree) {
                 HTMLElements.AddClass(`#${id}`, 'selected');
             }
             
             //Close Menus
             for(const accordion of this._menuList() || []) {                
-                if(option.level.equals('LV1')) {
+                if(option.level.equals('LV1')) { 
                     accordion.Close();
                 }
 

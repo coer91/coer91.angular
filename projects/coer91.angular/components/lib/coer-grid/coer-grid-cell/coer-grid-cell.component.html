@@ -1,0 +1,34 @@
+@switch(input) {
+    @case ('coer-switch') {
+        
+    }
+
+    @case ('coer-textbox') {
+        
+    }
+
+    @case ('coer-numberbox') {
+         
+    }
+
+    @case ('coer-selectbox') {
+         
+    }
+
+
+    @case ('coer-datebox') {
+        
+    }
+
+    @default {
+        <div class="default-cell" 
+            [ngStyle]="{
+                'justify-content': _GetTextAlignX(),
+                'word-break'     : _GetTextBreak(),
+                'white-space'    : _GetSpaceBreak(),
+                'min-height'     : minHeight()  
+            }">  
+            <div [innerHTML]="_GetCellValue() | html" class="display-flex"></div>          
+        </div>
+    }
+}

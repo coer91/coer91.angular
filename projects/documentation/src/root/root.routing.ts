@@ -1,8 +1,0 @@
-
-
-//Pages 
-
-
-export const ROUTES = [
-     
-];

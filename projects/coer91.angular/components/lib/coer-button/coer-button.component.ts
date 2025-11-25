@@ -24,6 +24,7 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     public type         = input<'filled' | 'outline' | 'icon' | 'icon-rounded' | 'icon-filled' | 'icon-filled-rounded' | 'icon-outline'  | 'icon-outline-rounded'>('filled');
     public color        = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light'>('primary');
     public icon         = input<string>('');
+    public path         = input<string>('');
     public iconPosition = input<'left' | 'right'>('left');
     public isLoading    = input<boolean>(false); 
     public isReadonly   = input<boolean>(false);
@@ -135,6 +136,22 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     //computed
     protected _cursor = computed<string>(() => {
         return this._isEnabled ? 'pointer' : 'default';
+    });
+
+
+    protected _icon = computed<string>(() => {
+        switch(this.icon()) {
+            case 'add'   : return 'i91-plus font-size-20px';
+            case 'save'  : return 'i91-floppy-disk-fill font-size-20px';
+            case 'excel' : return 'i91-file-xls-fill font-size-17px';
+            case 'import': return 'i91-file-arrow-up-fill font-size-17px';
+            default: return this.icon();
+        } 
+    });
+
+
+    protected _path = computed<string | null>(() => {
+        return Tools.IsNotOnlyWhiteSpace(this.path()) ? this.path() : null; 
     });
 
 

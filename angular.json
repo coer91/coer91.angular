@@ -47,9 +47,12 @@
             "stylePreprocessorOptions": {
               "includePaths": ["."]
             },
-            "assets": [{ "glob": "**/*", "input": "projects/documentation/public"}],
+            "assets": [
+              { "glob": "**/*", "input": "projects/documentation/public"},
+              { "glob": "**/*", "input": "node_modules/coer91.styles/dist/images", "output": "/coer91/images" }
+            ],
             "styles": [
-              "node_modules/coer91.styles/dist/coer91.styles.css",
+              "node_modules/coer91.styles/dist/coer91.css",
               "projects/coer91.angular/index.scss"
             ]
           },

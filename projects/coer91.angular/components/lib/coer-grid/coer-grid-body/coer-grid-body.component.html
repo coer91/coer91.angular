@@ -1,0 +1,47 @@
+<section class="coer-grid-body">
+    <table [ngClass]="{ }">        
+        <thead>
+            <tr> 
+                @for(header of columns(); track header.indexColumn) {
+                    <th scope="col" 
+                        [ngStyle]="{ 
+                            'width'     : `calc(${header.config.width} - 10px)`,
+                            'text-align': header.config.textAlignX
+                        }">                       
+                        <div class="th-content">
+                            <span> {{ header.columnName }} </span> 
+                        </div>
+                    </th>
+                } 
+            </tr>
+        </thead>
+            
+        @for(group of dataSource(); track group.indexGroup) {
+            <tbody>     
+                @for(row of group.rows; track row.indexRow) {
+                    <tr [id]="CalculateId()(row.indexRow, 0, 'row')" 
+                        [ngClass]="{ 
+                            'striped': (showStriped() && (row.indexRow % 2 != 0)), 
+                            'hover'  : showHover() 
+                        }">
+                                                    
+                        @for(column of columns(); track column.indexColumn) {
+                            <td class="td-content" 
+                                [ngStyle]="{ 
+                                    'border-bottom' : (showBorders() ? '1px solid var(--readonly)' : ''), 
+                                    'vertical-align': column.config.textAlignY
+                                }">
+                                <coer-grid-cell
+                                    [id]="CalculateId()(row.indexRow, column.indexColumn)"
+                                    [column]="column"
+                                    [row]="row" 
+                                    [minHeight]="`calc(${column.config.height} - ${showBorders() ? '0.800px' : '0px'})`"
+                                ></coer-grid-cell>
+                            </td>
+                        } 
+                    </tr>
+                }
+            </tbody>
+        }
+    </table> 
+</section>

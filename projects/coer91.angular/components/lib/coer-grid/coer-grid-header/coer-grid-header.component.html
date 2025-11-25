@@ -1,0 +1,90 @@
+<header [id]="CalculateId()(-1, -1, 'header')" class='flex-wrap-middle-right' [ngClass]="{ 'margin-bottom-5px': _marginBottom() }"> 
+       
+    <!-- Slot -->
+    <div [id]="CalculateId()(-1, -1, 'header-slots')" class="flex-basis-fit-content margin-right-auto">
+        <ng-content></ng-content>
+    </div> 
+ 
+    <div [id]="CalculateId()(-1, -1, 'header-buttons')" class="flex-basis-min-content display-flex gap-5px">
+        <!-- Export Button -->
+        @if(_showExportButton()) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded" 
+                    icon="excel"
+                    [color]="IsNotOnlyWhiteSpace(exportButton().color) ? exportButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(exportButton().path) ? exportButton().path! : ''"         
+                    [isLoading]="_isLoadingInner()"
+                    (onClick)="_Export()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Import Button -->
+        @if(importButton().show) {
+            <div>
+                <input type="file" #inputFileRef [multiple]="false" (change)="_Import($event)" (cancel)="isLoadingSIGNAL().set(false)">
+    
+                <coer-button
+                    type="icon-filled-rounded" 
+                    icon="import"
+                    [color]="IsNotOnlyWhiteSpace(importButton().color) ? importButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(importButton().path) ? importButton().path! : ''"       
+                    [isLoading]="_isLoadingInner()"
+                    (onClick)="_Import()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Add Button -->
+        @if(addButton().show) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded"
+                    icon="add"
+                    [color]="IsNotOnlyWhiteSpace(addButton().color) ? addButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(addButton().path) ? addButton().path! : ''" 
+                    
+                    (onClick)="onClickAdd.emit()"
+                ></coer-button>
+            </div>
+        }
+    
+        <!-- Save Button -->
+        @if(saveButton().show) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded"
+                    icon="save"
+                    [color]="IsNotOnlyWhiteSpace(saveButton().color) ? saveButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(saveButton().path) ? saveButton().path! : ''"            
+                    
+                    (onClick)="onClickSave.emit()"
+                ></coer-button>
+            </div>
+        } 
+    </div>
+        
+    <!-- Search -->
+    @if(search().show) { 
+        <div class="mv-flex-basis-100 mv-flex-grow-1 xs-flex-basis-100 md-flex-basis-min-content">
+            <coer-textbox
+                #inputSearch
+                [id]="CalculateId()(-1, -1, 'search')"
+                [ngModel]="searchSIGNAL()()"
+                placeholder="Search" 
+                [selectOnFocus]="true"
+                [showSearchButton]="true"
+                [showClearButton]="true"
+                minWidth="250px"
+                (onInput)="searchSIGNAL().set($event)"
+                (onClickClear)="searchSIGNAL().set(''); onClickClearSearch.emit('')"
+                (onKeyupEnter)="onKeyupEnterSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coer-search', 
+                    value: $event
+                })"
+            ></coer-textbox>
+        </div>
+    } 
+</header> 

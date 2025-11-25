@@ -1,0 +1,59 @@
+<div class="coer-grid animation-fadeIn">
+    <div [id]="_id + '-container'" class="coer-grid-container"
+        [ngClass]="{ 
+            'readonly'    : isReadonly() && !isInvisible(),
+            'invisible'   : isInvisible(),
+            'display-none': isHidden() 
+        }"
+        [ngStyle]="{ 
+            'width'        : width(),
+            'min-width'    : minWidth(),
+            'max-width'    : maxWidth(),
+            'margin-top'   : marginTop(),
+            'margin-right' : marginRight(),
+            'margin-bottom': marginBottom(),
+            'margin-left'  : marginLeft()  
+        }">
+        <coer-grid-header 
+            #coerGridHeader 
+            [CalculateId]="_CalculateId" 
+            [dataSourceExport]="_dataSourceExport()"
+            [exportButton]="exportButton()"
+            [importButton]="importButton()"
+            [addButton]="addButton()"
+            [saveButton]="saveButton()"
+            [search]="search()"
+            [searchSIGNAL]="_searchSIGNAL"
+            [isLoadingSIGNAL]="_isLoadingSIGNAL"> 
+            <ng-content></ng-content> 
+        </coer-grid-header>
+
+        <section class="coer-grid-container-body" [ngStyle]="{ 'overflow': !isLoading() ? 'auto' : 'hidden' }">  
+            <div [ngStyle]="{ 'height': _height, 'min-height': minHeight(), 'max-height': maxHeight() }"> 
+                <coer-grid-body
+                    #coerGridBody
+                    [CalculateId]="_CalculateId" 
+                    [columns]="_columns()"
+                    [dataSource]="_dataSource()" 
+                ></coer-grid-body>
+
+            <!-- Loading / Empty -->
+            <!-- @if(isLoading()) {
+                <div class="loading">
+                    <div class="loading-content">
+                        <i class="icon-circle-notch animation-spin text-primary"></i>
+                        <span class="fa-fade">Loading</span>
+                    </div>
+                </div> 
+            }  -->
+
+            <!-- @else if(_isEnabled() && _valueSignal().length <= 0) {
+                <div class="empty-data">
+                    <div class="empty-data-content"> No Data </div>
+                </div>
+            }  -->
+            </div>
+    </section> 
+        
+    </div>
+</div>    

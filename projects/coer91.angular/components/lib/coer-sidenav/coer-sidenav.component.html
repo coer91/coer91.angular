@@ -1,7 +1,7 @@
 <div class="coer-sidenav" [ngStyle]="{ transform: _isOpen() ? 'translateX(0px)' : 'translateX(-225px)' }">
     <nav>
         <ul class="lv1">
-            @for(lv1 of navigation().setIndex(); let i1 = $index; track `${lv1.id}-${i1}`) {
+            @for(lv1 of _navigationSIGNAL().setIndex(); let i1 = $index; track `${lv1.id}-${i1}`) {
                 <li class="lv1">
                     @if(_IsOption(lv1)) {
                         <div [id]="`lv1-${lv1.id}-index${i1}`" class="option lv1-option" (click)="_ClickOptionLv1(lv1, `lv1-${lv1.id}-index${i1}`)">

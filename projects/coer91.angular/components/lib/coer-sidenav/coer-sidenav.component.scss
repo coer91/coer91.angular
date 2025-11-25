@@ -18,6 +18,7 @@ div.coer-sidenav {
         right: inherit !important;
         overflow: auto !important;
         z-index: inherit !important;
+        background-color: inherit !important;
 
         ul.lv1 {
             li.lv1 { 
@@ -55,11 +56,11 @@ div.coer-sidenav {
                 }
 
                 div.lv2-option {
-                    padding-left: 25px !important;
+                    padding-left: 35px !important;
                 }
 
                 div.lv3-option {
-                    padding-left: 25px !important;
+                    padding-left: 35px !important;
                 }
 
                 div.option.selected {

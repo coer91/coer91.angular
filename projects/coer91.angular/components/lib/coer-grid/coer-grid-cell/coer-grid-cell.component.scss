@@ -1,0 +1,6 @@
+div.default-cell {
+    display: flex !important; 
+    padding: 5px !important;
+    height: calc(100% - 10px);
+    white-space: nowrap;
+}

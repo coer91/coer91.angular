@@ -93,7 +93,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
 
     //computed
-    protected _paddingRight = computed<string>(() => {
+    protected get _paddingRight(): string {
         let padding = 10;
         const clearOrSearch = (this._showClearButton || this._showSearchButton);
         const validOrInvalid = (this.isValid() || this.isInvalid());   
@@ -101,7 +101,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
         if(clearOrSearch && validOrInvalid) padding = 50;
         else if (clearOrSearch || validOrInvalid) padding = 25;
         return `${padding}px`;
-    });
+    }
 
 
     //getter
@@ -159,9 +159,9 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     /** */
     public Focus(select: boolean = false, scrollToElement: boolean = false): void {
         if(this._isEnabled) {
+            this._htmlElement.focus();
+            if(select) this._htmlElement.select();
             Tools.Sleep().then(() => {
-                this._htmlElement.focus();
-                if(select) this._htmlElement.select();
                 if(scrollToElement) this.ScrollToElement();
                 this._isFocused = true;
             });            
