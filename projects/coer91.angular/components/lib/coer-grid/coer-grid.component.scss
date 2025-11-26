@@ -25,12 +25,9 @@ div.coer-grid {
                     align-items: inherit !important;
                     font-size: 35px !important;
                     color: var(--gray) !important;
-                }
-
-                div.loading-content::selection,
-                div.empty-data-content::selection {
-                    background-color: transparent !important;
-                }
+                    user-select: none !important; 
+                    i { font-size: inherit !important; }
+                } 
             }
         } 
     }  

@@ -44,7 +44,7 @@
             }">
             
             <span class="label-container">
-                @if(_icon().isNotOnlyWhiteSpace() && iconPosition().equals('left')) {
+                @if(_icon().isNotOnlyWhiteSpace() && _iconPosition().equals('left')) {
                     <i [class]="_icon()"></i> 
                 }
                 
@@ -52,7 +52,7 @@
                     <span>{{ _label() }}</span> 
                 }
                 
-                @if(_icon().isNotOnlyWhiteSpace() && iconPosition().equals('right')) {
+                @if(_icon().isNotOnlyWhiteSpace() && _iconPosition().equals('right')) {
                     <i [class]="_icon()"></i> 
                 }
             </span> 

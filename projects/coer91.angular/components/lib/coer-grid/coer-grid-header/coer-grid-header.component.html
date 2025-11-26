@@ -1,11 +1,11 @@
-<header [id]="CalculateId()(-1, -1, 'header')" class='flex-wrap-middle-right' [ngClass]="{ 'margin-bottom-5px': _marginBottom() }"> 
+<header class='flex-wrap-middle-right' [ngClass]="{ 'margin-bottom-5px': _marginBottom() }"> 
        
     <!-- Slot -->
-    <div [id]="CalculateId()(-1, -1, 'header-slots')" class="flex-basis-fit-content margin-right-auto">
+    <div class="flex-basis-fit-content margin-right-auto">
         <ng-content></ng-content>
     </div> 
  
-    <div [id]="CalculateId()(-1, -1, 'header-buttons')" class="flex-basis-min-content display-flex gap-5px">
+    <div class="flex-basis-min-content display-flex gap-5px">
         <!-- Export Button -->
         @if(_showExportButton()) {
             <div>
@@ -14,14 +14,14 @@
                     icon="excel"
                     [color]="IsNotOnlyWhiteSpace(exportButton().color) ? exportButton().color! : 'primary'"
                     [path]="IsNotOnlyWhiteSpace(exportButton().path) ? exportButton().path! : ''"         
-                    [isLoading]="_isLoadingInner()"
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(exportButton().isLoading)"
                     (onClick)="_Export()"
                 ></coer-button>
             </div>
         }
         
         <!-- Import Button -->
-        @if(importButton().show) {
+        @if(_showImportButton()) {
             <div>
                 <input type="file" #inputFileRef [multiple]="false" (change)="_Import($event)" (cancel)="isLoadingSIGNAL().set(false)">
     
@@ -30,35 +30,35 @@
                     icon="import"
                     [color]="IsNotOnlyWhiteSpace(importButton().color) ? importButton().color! : 'primary'"
                     [path]="IsNotOnlyWhiteSpace(importButton().path) ? importButton().path! : ''"       
-                    [isLoading]="_isLoadingInner()"
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(importButton().isLoading)"
                     (onClick)="_Import()"
                 ></coer-button>
             </div>
         }
         
         <!-- Add Button -->
-        @if(addButton().show) {
+        @if(_showAddButton()) {
             <div>
                 <coer-button
                     type="icon-filled-rounded"
                     icon="add"
                     [color]="IsNotOnlyWhiteSpace(addButton().color) ? addButton().color! : 'primary'"
                     [path]="IsNotOnlyWhiteSpace(addButton().path) ? addButton().path! : ''" 
-                    
+                    [isLoading]="IsBooleanTrue(addButton().isLoading)"
                     (onClick)="onClickAdd.emit()"
                 ></coer-button>
             </div>
         }
     
         <!-- Save Button -->
-        @if(saveButton().show) {
+        @if(_showSaveButton()) {
             <div>
                 <coer-button
                     type="icon-filled-rounded"
                     icon="save"
                     [color]="IsNotOnlyWhiteSpace(saveButton().color) ? saveButton().color! : 'primary'"
                     [path]="IsNotOnlyWhiteSpace(saveButton().path) ? saveButton().path! : ''"            
-                    
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(saveButton().isLoading)"
                     (onClick)="onClickSave.emit()"
                 ></coer-button>
             </div>
@@ -76,6 +76,7 @@
                 [selectOnFocus]="true"
                 [showSearchButton]="true"
                 [showClearButton]="true"
+                [isLoading]="_isLoadingInner()"
                 minWidth="250px"
                 (onInput)="searchSIGNAL().set($event)"
                 (onClickClear)="searchSIGNAL().set(''); onClickClearSearch.emit('')"

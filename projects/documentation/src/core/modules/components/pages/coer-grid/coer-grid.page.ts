@@ -6,13 +6,54 @@ import { Component, AfterViewInit, OnDestroy } from '@angular/core';
     standalone: false
 })
 export class CoerGridPage implements AfterViewInit, OnDestroy {       
-
+    protected dataSource2 = []
     //Variables
     protected dataSource = [
         { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
         { id: 1, name: 'Christ' },
         { id: 2, name: 'Chritst' }, 
         { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 1, name: 'Christ' }, 
+        { id: 122222222, name: 'Christ', name2: 'eeeeeeeeeee  eeeeeeeeeeeee e' },
+        { id: 1, name: 'Christ' },
+        { id: 2, name: 'Chritst' }, 
+        { id: 555567, name: 'Christ' }, 
     ];
 
     //output
@@ -30,5 +71,9 @@ export class CoerGridPage implements AfterViewInit, OnDestroy {
     //OnDestroy
     ngOnDestroy() {
          
-    }   
+    }  
+
+    Log($event: any, p?: any){ 
+        console.log($event)
+    }
 }

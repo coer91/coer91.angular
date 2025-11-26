@@ -45,15 +45,15 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     async ngAfterViewInit() {
         await Tools.Sleep(); 
         this._htmlElement = HTMLElements.GetElementById(this._id)!; 
-        this._htmlElement.addEventListener('focus', this._onFocus);
-        this.onReady.emit();
+        this._htmlElement?.addEventListener('focus', this._onFocus);
+        this.onReady?.emit();
     }
 
 
     //OnDestroy
     ngOnDestroy() {
-        this._htmlElement.removeEventListener('focus', this._onFocus);
-        this.onDestroy.emit();
+        this._htmlElement?.removeEventListener('focus', this._onFocus);
+        this.onDestroy?.emit();
     }  
 
     /** */
@@ -134,17 +134,25 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     });
 
     //computed
-    protected _cursor = computed<string>(() => {
-        return this._isEnabled ? 'pointer' : 'default';
+    protected _cursor = computed<string>(() => { 
+        return !this._isEnabled 
+            ? (this.isLoading() ? 'wait' : 'default')
+            : 'pointer'; 
     });
 
 
     protected _icon = computed<string>(() => {
+        if(this.isLoading()) return 'i91-arrows-rotate animation-spin animation-speed-15';
+
         switch(this.icon()) {
             case 'add'   : return 'i91-plus font-size-20px';
             case 'save'  : return 'i91-floppy-disk-fill font-size-20px';
             case 'excel' : return 'i91-file-xls-fill font-size-17px';
             case 'import': return 'i91-file-arrow-up-fill font-size-17px';
+            case 'delete': return 'i91-trash-can-fill font-size-17px';
+            case 'edit'  : return 'i91-pen-fill font-size-17px';
+            case 'modal' : return 'i91-modal-fill font-size-17px';
+            case 'go'    : return 'i91-arrow-from-bracket font-size-17px';
             default: return this.icon();
         } 
     });
@@ -152,6 +160,11 @@ export class CoerButton implements AfterViewInit, OnDestroy {
 
     protected _path = computed<string | null>(() => {
         return Tools.IsNotOnlyWhiteSpace(this.path()) ? this.path() : null; 
+    });
+
+
+    protected _iconPosition = computed<'left' | 'right'>(() => {
+        return this.isLoading() ? 'right' : this.iconPosition();
     });
 
 

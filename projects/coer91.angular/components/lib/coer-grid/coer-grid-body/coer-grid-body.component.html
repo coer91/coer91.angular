@@ -13,15 +13,31 @@
                         </div>
                     </th>
                 } 
+
+                @if(_ShowButtonByRow('showDeleteButton')) {
+                    <th class="action-column" scope="col"></th>
+                }
+                   
+                @if(_ShowButtonByRow('showEditButton')) { 
+                    <th class="action-column" scope="col"></th>
+                }   
+
+                @if(_ShowButtonByRow('showModalButton')) { 
+                    <th class="action-column" scope="col"></th>
+                } 
+                
+                @if(_ShowButtonByRow('showGoButton')) {
+                    <th class="action-column" scope="col"></th>
+                }
             </tr>
         </thead>
             
         @for(group of dataSource(); track group.indexGroup) {
             <tbody>     
-                @for(row of group.rows; track row.indexRow) {
+                @for(row of group.rows; let i = $index; track row.indexRow) {
                     <tr [id]="CalculateId()(row.indexRow, 0, 'row')" 
                         [ngClass]="{ 
-                            'striped': (showStriped() && (row.indexRow % 2 != 0)), 
+                            'striped': (showStriped() && (i % 2 != 0)), 
                             'hover'  : showHover() 
                         }">
                                                     
@@ -35,10 +51,79 @@
                                     [id]="CalculateId()(row.indexRow, column.indexColumn)"
                                     [column]="column"
                                     [row]="row" 
+                                    [isEnabled]="isEnabled()"
                                     [minHeight]="`calc(${column.config.height} - ${showBorders() ? '0.800px' : '0px'})`"
+                                    (onClickRow)="_ClickOnRow(row)"
+                                    (onDoubleClickRow)="onDoubleClickRow.emit(row)"
                                 ></coer-grid-cell>
                             </td>
                         } 
+
+                        <!-- Delete Button -->
+                        @if(_ShowButtonByRow('showDeleteButton')) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowButtonByRow('showDeleteButton', row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().deleteButtonColor) ? buttonByRow().deleteButtonColor! : 'danger'"
+                                            icon="delete"  
+                                            (onClick)="onClickDeleteRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
+    
+                        <!-- Edit Button -->
+                        @if(_ShowButtonByRow('showEditButton')) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowButtonByRow('showEditButton', row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().editButtonColor) ? buttonByRow().editButtonColor! : 'primary'"
+                                            icon="edit" 
+                                            (onClick)="onClickEditRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        } 
+
+
+                        <!-- Modal Button -->
+                        @if(_ShowButtonByRow('showModalButton')) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowButtonByRow('showModalButton', row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().modalButtonColor) ? buttonByRow().modalButtonColor! : 'primary'"
+                                            icon="modal" 
+                                            (onClick)="onClickModalRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
+
+    
+                        <!-- Go Button -->
+                        @if(_ShowButtonByRow('showGoButton')) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowButtonByRow('showGoButton', row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().goButtonColor) ? buttonByRow().goButtonColor! : 'navigation'"
+                                            icon="go" 
+                                            (onClick)="onClickGoRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
                     </tr>
                 }
             </tbody>

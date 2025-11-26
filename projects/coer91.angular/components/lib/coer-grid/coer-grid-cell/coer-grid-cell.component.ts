@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';  
+import { Component, computed, input, output } from '@angular/core';  
 import { IGridColumnIndex } from '../interfaces';
 import { Tools } from 'coer91.tools';
 
@@ -17,9 +17,11 @@ export class CoerGridCell<T> {
     public column    = input.required<IGridColumnIndex<T>>();
     public row       = input.required<T>();
     public minHeight = input.required<string>();  
+    public isEnabled = input.required<boolean>();
 
     //Outputs 
-
+    protected onClickRow       = output<T>();
+    protected onDoubleClickRow = output<T>();
 
     /** */
     public get input(): 'coer-switch' | 'coer-textbox' | 'coer-numberbox' | 'coer-selectbox' | 'coer-datebox' | '' {

@@ -1,5 +1,5 @@
 import { Component, input, AfterViewInit, output, OnDestroy, AfterContentChecked, computed, signal } from '@angular/core';
-import { IGridColumn, IGridColumnIndex, IGridDataSource, IGridHeaderButton, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridSearch } from './interfaces';
+import { IGridButtonByRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridHeaderButton, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridSearch } from './interfaces';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
 import { Tools } from 'coer91.tools';
 
@@ -22,8 +22,14 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected _height: string = '0px';
     
     //output  
-    protected onReady   = output<void>();
-    protected onDestroy = output<void>();
+    protected onClickRow       = output<T>();
+    protected onDoubleClickRow = output<T>();
+    protected onClickDeleteRow = output<T>();
+    protected onClickEditRow   = output<T>();
+    protected onClickModalRow  = output<T>();
+    protected onClickGoRow     = output<T>();
+    protected onReady          = output<void>();
+    protected onDestroy        = output<void>();
 
     //input
     public columns      = input<IGridColumn<T>[]>([]);
@@ -32,10 +38,15 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     public addButton    = input<IGridHeaderButton>({ show: false });
     public saveButton   = input<IGridHeaderButton>({ show: false });
     public search       = input<IGridSearch>({ show: false }); 
+    public buttonByRow  = input<IGridButtonByRow<T>>({});
     public isLoading    = input<boolean>(false);//PENDING 
     public isReadonly   = input<boolean>(false);//PENDING
     public isInvisible  = input<boolean>(false);//PENDING
     public isHidden     = input<boolean>(false);//PENDING
+    public rowsByPage   = input<number>(50);
+    public showStriped  = input<boolean>(true);
+    public showBorders  = input<boolean>(true);
+    public showHover    = input<boolean>(true);
     public width        = input<string>('100%');
     public minWidth     = input<string>('100px');
     public maxWidth     = input<string>('100%');
@@ -116,7 +127,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
             groupBy: 'Not Grouped',
             indexGroup: -1,
             length: -1,
-            rows: DATA_SOURCE.splice(0, 50)
+            rows: DATA_SOURCE.splice(0, this.rowsByPage())
         }];
     });
 
@@ -162,6 +173,12 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
                 COLUMNS.map(property => [this._GetColumnName(property), row[property]])
             )
         );
+    });
+
+
+    //computed
+    protected _isEnabled = computed<boolean>(() => {
+        return !this.isLoading() && !this.isInvisible() && !this.isReadonly() && !this.isHidden();
     });
 
 

@@ -11,5 +11,14 @@
         [saveButton]="{ show: true }"
         [exportButton]="{ show: true }"
         [importButton]="{ show: true }"
-    ></coer-grid> 
+        [buttonByRow]="{
+            showDeleteButton: true,
+            showEditButton: true,
+            showModalButton: true,
+            showGoButton: true
+        }"
+        [isLoading]="false"
+        [isReadonly]="false"
+        (onDoubleClickRow)="Log($event)"
+    ><h3>gola</h3>  </coer-grid> 
 </section>

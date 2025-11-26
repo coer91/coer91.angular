@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, computed, ElementRef, inject, input, output, Signal, signal, viewChild, WritableSignal } from '@angular/core'; 
+import { Component, computed, ElementRef, input, output, viewChild, WritableSignal } from '@angular/core'; 
 import { IGridHeaderButton, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridInputEnter, IGridInputImport, IGridSearch } from '../interfaces';
 import { Files, Tools } from 'coer91.tools';
 
@@ -8,37 +8,27 @@ import { Files, Tools } from 'coer91.tools';
     styleUrl: './coer-grid-header.component.scss',
     standalone: false
 })
-export class CoerGridHeader<T> implements AfterViewInit { 
-
-    //Injections
-    //protected readonly _alert = inject(CoerAlert);
-
+export class CoerGridHeader<T> { 
+ 
     //Elements
     protected readonly _inputFile = viewChild.required<ElementRef>('inputFileRef');
-    // protected readonly _inputSearch = viewChild.required<CoerTextBox>('inputSearch');
-    // protected _header:        HTMLElement | null = null;
-    // protected _headerButtons: HTMLElement | null = null; 
-    // protected _headerSlots:   HTMLElement | null = null; 
 
     //Variables 
     protected readonly IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
-
-    //Callback
-    //public GetColumnName = input.required<(columnName: string) => string>();
+    protected readonly IsBooleanTrue = Tools.IsBooleanTrue; 
     
     //Inputs 
-    public CalculateId        = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
-    // public columns            = input<IGridHeader<T>[]>([]);
-    // public dataSource         = input<T[]>([]);
-    // public dataSourceFiltered = input<T[]>([]);
-    public dataSourceExport   = input.required<T[]>();
-    public exportButton       = input.required<IGridHeaderButtonExport>();
-    public importButton       = input.required<IGridHeaderButtonImport>();
-    public addButton          = input.required<IGridHeaderButton>();
-    public saveButton         = input.required<IGridHeaderButton>();
-    public search             = input.required<IGridSearch>();
-    public searchSIGNAL       = input.required<WritableSignal<string | number>>();
-    public isLoadingSIGNAL    = input.required<WritableSignal<boolean>>();
+    public CalculateId      = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
+    public dataSourceExport = input.required<T[]>();
+    public exportButton     = input.required<IGridHeaderButtonExport>();
+    public importButton     = input.required<IGridHeaderButtonImport>();
+    public addButton        = input.required<IGridHeaderButton>();
+    public saveButton       = input.required<IGridHeaderButton>();
+    public search           = input.required<IGridSearch>();
+    public searchSIGNAL     = input.required<WritableSignal<string | number>>();
+    public isLoadingSIGNAL  = input.required<WritableSignal<boolean>>();
+    public isLoading        = input.required<boolean>();
+    public isReadonly       = input.required<boolean>(); 
     
     //Outputs
     protected onClickExport      = output<T[]>();
@@ -47,15 +37,6 @@ export class CoerGridHeader<T> implements AfterViewInit {
     protected onClickSave        = output<void>();
     protected onClickClearSearch = output<string | number>();
     protected onKeyupEnterSearch = output<IGridInputEnter<T>>();
-
-    
-    ngAfterViewInit() {
-        // Tools.Sleep().then(_ => {
-        //     this._header        = HTMLElements.GetElement(`#${this.GetIdCalculated()(-1, -1, 'header')}`); 
-        //     this._headerSlots   = HTMLElements.GetElement(`#${this.GetIdCalculated()(-1, -1, 'header-slots')}`); 
-        //     this._headerButtons = HTMLElements.GetElement(`#${this.GetIdCalculated()(-1, -1, 'header-buttons')}`);
-        // });
-    }   
 
 
     //computed
@@ -70,13 +51,31 @@ export class CoerGridHeader<T> implements AfterViewInit {
 
     //computed  
     protected _showExportButton = computed(() => {
-        return this.exportButton().show && this.dataSourceExport().length > 0;
+        return this.exportButton().show && this.dataSourceExport().length > 0 && !Tools.IsBooleanTrue(this.exportButton().isReadonly);
+    });
+
+
+    //computed  
+    protected _showImportButton = computed(() => {
+        return this.importButton().show && !this.isReadonly() && !Tools.IsBooleanTrue(this.importButton().isReadonly);
+    });
+
+
+    //computed  
+    protected _showAddButton = computed(() => {
+        return this.addButton().show && !this.isReadonly() && !Tools.IsBooleanTrue(this.addButton().isReadonly);
+    });
+
+
+    //computed  
+    protected _showSaveButton = computed(() => {
+        return this.saveButton().show && !this.isReadonly() && !Tools.IsBooleanTrue(this.saveButton().isReadonly);
     });
 
 
     //computed  
     protected _isLoadingInner = computed(() => {
-        return this.isLoadingSIGNAL()();
+        return this.isLoadingSIGNAL()() || this.isLoading();
     });
 
 
@@ -149,5 +148,5 @@ export class CoerGridHeader<T> implements AfterViewInit {
             this._inputFile().nativeElement.value = [];
             Tools.Sleep(1000).then(() => this.isLoadingSIGNAL().set(false));
         }
-    }
+    } 
 }

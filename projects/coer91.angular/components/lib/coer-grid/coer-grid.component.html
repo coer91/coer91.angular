@@ -1,7 +1,6 @@
 <div class="coer-grid animation-fadeIn">
     <div [id]="_id + '-container'" class="coer-grid-container"
         [ngClass]="{ 
-            'readonly'    : isReadonly() && !isInvisible(),
             'invisible'   : isInvisible(),
             'display-none': isHidden() 
         }"
@@ -24,7 +23,9 @@
             [saveButton]="saveButton()"
             [search]="search()"
             [searchSIGNAL]="_searchSIGNAL"
-            [isLoadingSIGNAL]="_isLoadingSIGNAL"> 
+            [isLoadingSIGNAL]="_isLoadingSIGNAL"
+            [isLoading]="isLoading()"
+            [isReadonly]="isReadonly()"> 
             <ng-content></ng-content> 
         </coer-grid-header>
 
@@ -35,23 +36,35 @@
                     [CalculateId]="_CalculateId" 
                     [columns]="_columns()"
                     [dataSource]="_dataSource()" 
+                    [buttonByRow]="buttonByRow()"
+                    [showStriped]="showStriped()"
+                    [showBorders]="showBorders()"
+                    [showHover]="showHover()"
+                    [isLoadingSIGNAL]="_isLoadingSIGNAL"
+                    [isEnabled]="_isEnabled()"
+                    (onClickRow)="onClickRow" 
+                    (onDoubleClickRow)="onDoubleClickRow.emit($event)" 
+                    (onClickDeleteRow)="onClickDeleteRow.emit($event)" 
+                    (onClickEditRow)="onClickEditRow.emit($event)" 
+                    (onClickModalRow)="onClickModalRow.emit($event)"
+                    (onClickGoRow)="onClickGoRow.emit($event)" 
                 ></coer-grid-body>
 
             <!-- Loading / Empty -->
-            <!-- @if(isLoading()) {
+            @if(isLoading()) {
                 <div class="loading">
                     <div class="loading-content">
-                        <i class="icon-circle-notch animation-spin text-primary"></i>
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
                         <span class="fa-fade">Loading</span>
                     </div>
                 </div> 
-            }  -->
+            } 
 
-            <!-- @else if(_isEnabled() && _valueSignal().length <= 0) {
+            @else if(_isEnabled() && _valueSIGNAL().length <= 0) {
                 <div class="empty-data">
                     <div class="empty-data-content"> No Data </div>
                 </div>
-            }  -->
+            } 
             </div>
     </section> 
         

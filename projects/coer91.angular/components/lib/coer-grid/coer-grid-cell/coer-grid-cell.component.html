@@ -27,7 +27,9 @@
                 'word-break'     : _GetTextBreak(),
                 'white-space'    : _GetSpaceBreak(),
                 'min-height'     : minHeight()  
-            }">  
+            }"
+            (click)="isEnabled() ? onClickRow.emit(row()) : null"
+            (dblclick)="isEnabled() ? onDoubleClickRow.emit(row()) : null">  
             <div [innerHTML]="_GetCellValue() | html" class="display-flex"></div>          
         </div>
     }
