@@ -5,8 +5,10 @@
     "ng": "ng",
     "build": "ng build",
     "server": "ng serve",
-    "build:css": "sass --no-source-map --style=compressed projects/coer91.angular/styles.scss ./dist/coer91.angular/styles.scss",
-    "build:lib": "ng build mycore & npm run build:css"
+    "update:styles": "npm uninstall coer91.styles & npm install coer91.styles@latest",
+    "update:tools": "npm uninstall coer91.tools & npm install coer91.tools@latest",
+    "build:styles": "sass --no-source-map --style=compressed projects/coer91.angular/styles.scss ./dist/coer91.angular/styles.scss",
+    "build:lib": "ng build mycore & npm run build:styles"
   },
   "dependencies": {
     "@angular/common": "^20.3.0",
@@ -16,8 +18,8 @@
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "coer91.styles": "^0.0.30",
-    "coer91.tools": "^0.0.49",
+    "coer91.styles": "^0.0.31",
+    "coer91.tools": "^0.0.51",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "^0.15.1"

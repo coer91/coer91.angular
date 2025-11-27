@@ -1,4 +1,4 @@
-import { Component, input, AfterViewInit, output, OnDestroy, computed } from '@angular/core';
+import { Component, input, AfterViewInit, output, OnDestroy } from '@angular/core';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
 import { HTMLElements, Tools } from 'coer91.tools';
 
@@ -53,20 +53,21 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     async ngAfterViewInit() {
         await Tools.Sleep();
         this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement; 
-        this._htmlElement.addEventListener('keyup', this._onKeyup);
-        this._htmlElement.addEventListener('paste', this._onPaste);
-        this._htmlElement.addEventListener('focus', this._onFocus);
-        this._htmlElement.addEventListener('blur', this._onBlur);
-        this.onReady.emit();
+        this._htmlElement?.addEventListener('keyup', this._onKeyup);
+        this._htmlElement?.addEventListener('paste', this._onPaste);
+        this._htmlElement?.addEventListener('focus', this._onFocus);
+        this._htmlElement?.addEventListener('blur', this._onBlur);   
+        this.onReady?.emit();
     }
 
 
     //OnDestroy
     ngOnDestroy() { 
-        this._htmlElement.removeEventListener('keyup', this._onKeyup);
-        this._htmlElement.removeEventListener('paste', this._onPaste);
-        this._htmlElement.removeEventListener('focus', this._onFocus);
-        this._htmlElement.removeEventListener('blur', this._onBlur);
+        this.onReady = null as any;   
+        this._htmlElement?.removeEventListener('keyup', this._onKeyup);
+        this._htmlElement?.removeEventListener('paste', this._onPaste);
+        this._htmlElement?.removeEventListener('focus', this._onFocus);
+        this._htmlElement?.removeEventListener('blur', this._onBlur); 
         this.onDestroy.emit();
     } 
 
@@ -74,8 +75,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     /** Sets the value of the component */
     protected override setValue(value: string | number): void { 
         if(typeof this._UpdateValue === 'function') {
-            this._UpdateValue(value); 
-            if(Tools.IsOnlyWhiteSpace(value)) this.onClear.emit();
+            this._UpdateValue(value);  
             this.onInput.emit(value);
         } 
          
@@ -159,8 +159,8 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
     /** */
     public Focus(select: boolean = false, scrollToElement: boolean = false): void {
         if(this._isEnabled) {
-            this._htmlElement.focus();
-            if(select) this._htmlElement.select();
+            this._htmlElement?.focus();
+            if(select) this._htmlElement?.select();
             Tools.Sleep().then(() => {
                 if(scrollToElement) this.ScrollToElement();
                 this._isFocused = true;
@@ -172,7 +172,7 @@ export class CoerTextBox extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     public Blur(): void {      
-        this._htmlElement.blur();  
+        this._htmlElement?.blur();  
         this._isFocused = false;
     }
 

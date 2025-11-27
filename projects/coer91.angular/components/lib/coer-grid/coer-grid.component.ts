@@ -1,5 +1,5 @@
 import { Component, input, AfterViewInit, output, OnDestroy, AfterContentChecked, computed, signal } from '@angular/core';
-import { IGridButtonByRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridHeaderButton, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridSearch } from './interfaces';
+import { IGridButtonByRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridInputEnter, IGridInputImport, IGridSearch } from './interfaces';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
 import { Tools } from 'coer91.tools';
 
@@ -22,20 +22,27 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected _height: string = '0px';
     
     //output  
-    protected onClickRow       = output<T>();
-    protected onDoubleClickRow = output<T>();
-    protected onClickDeleteRow = output<T>();
-    protected onClickEditRow   = output<T>();
-    protected onClickModalRow  = output<T>();
-    protected onClickGoRow     = output<T>();
-    protected onReady          = output<void>();
-    protected onDestroy        = output<void>();
+    protected onClickExport      = output<T[]>();
+    protected onClickImport      = output<IGridInputImport<T>>();
+    protected onClickAdd         = output<void>();
+    protected onClickSave        = output<void>();
+    protected onClickSearch      = output<IGridInputEnter<T>>();
+    protected onClickClearSearch = output<IGridInputEnter<T>>();
+    protected onKeyupEnterSearch = output<IGridInputEnter<T>>();
+    protected onClickRow         = output<T>();
+    protected onDoubleClickRow   = output<T>();
+    protected onClickDeleteRow   = output<T>();
+    protected onClickEditRow     = output<T>();
+    protected onClickModalRow    = output<T>();
+    protected onClickGoRow       = output<T>();
+    protected onReady            = output<void>();
+    protected onDestroy          = output<void>();
 
     //input
     public columns      = input<IGridColumn<T>[]>([]);
     public exportButton = input<IGridHeaderButtonExport>({ show: false });
     public importButton = input<IGridHeaderButtonImport>({ show: false });
-    public addButton    = input<IGridHeaderButton>({ show: false });
+    public addButton    = input<IGridHeaderButtonAdd>({ show: false });
     public saveButton   = input<IGridHeaderButton>({ show: false });
     public search       = input<IGridSearch>({ show: false }); 
     public buttonByRow  = input<IGridButtonByRow<T>>({});
@@ -76,14 +83,13 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep(); 
-
-        this.onReady.emit();
+        this.onReady?.emit();
     }
 
 
     //OnDestroy
-    ngOnDestroy() { 
-        
+    ngOnDestroy() {  
+        this.onReady = null as any;       
         this.onDestroy.emit();
     } 
 
@@ -215,5 +221,56 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     /** */
     protected _CalculateId = (indexRow: number, indexColumn: number, suffix: string = ''): string => { 
         return `${this._id}${indexRow > -1 ? '-row' + indexRow : ''}${indexColumn > -1 ? '-column' + indexColumn : ''}${suffix.length > 0 ? '-' + suffix : ''}`;
+    } 
+
+
+    /** */
+    protected _Add() {
+        if(Tools.IsOnlyWhiteSpace(this.addButton().path) && !Tools.IsBooleanTrue(this.addButton().preventDefault)) {
+            let row: any = {}; 
+
+            if(this._valueSIGNAL().length > 0) {
+                row = { 
+                    ...Object.fromEntries(
+                        Tools.GetPropertyList(this._valueSIGNAL()[0]).map(property => [property, null])
+                    )
+                }
+            }
+
+            else if(this.columns().length > 0) { 
+                row = { 
+                    ...Object.fromEntries(
+                        [...this.columns()].map(property => [property, null])
+                    )
+                }
+            }  
+
+            const data: any = ((Tools.IsOnlyWhiteSpace(this.addButton().addTo) || this.addButton().addTo?.equals('START')) ? [row] : [])
+                .concat([...this._valueSIGNAL()])
+                .concat(this.addButton().addTo?.equals('END') ? [row] : [])
+
+            this.setValue(data);
+        }
+
+        this.onClickAdd.emit();
+    } 
+
+
+    /** */
+    protected _Import(value: IGridInputImport<T>) {
+        this.onClickImport.emit(value);   
+
+        if(value.autofill) {            
+            const SET = new Set(value.data.concat(this._valueSIGNAL()).flatMap(item => Tools.GetPropertyList(item)));
+            
+            const DATA = value.data.concat(this._valueSIGNAL()).map(item => ({
+                ...item,
+                ...Object.fromEntries(
+                    [...SET].filter(x => !Tools.HasProperty(item, x)).map(property => [property, ''])
+                )
+            }));  
+             
+            this.setValue(DATA); 
+        } 
     } 
 }

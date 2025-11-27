@@ -12,6 +12,7 @@ div.coer-sidenav-accordion {
             border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;  
             background-color:var(--sidenav);
             transition: all 0.3s ease-in-out !important;
+            user-select: none !important;
 
             h4 {
                 display: inherit !important;

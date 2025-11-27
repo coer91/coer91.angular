@@ -69,16 +69,15 @@
     <div class="coer-sidenav-content"  
         [ngStyle]="{ 
             width: (_isOpen() && !_showBackdrop() ? 'calc(100vw - 225px)' : '100vw'),
-            transform: (!_showBackdrop() ? 'translateX(225px)' : 'translateX(0px)') 
+            transform: (!_showBackdrop() ? 'translateX(225px)' : 'translateX(0px)')
         }">
+        <div class="margin"></div>
         <ng-content></ng-content>
-
-        @if(_showBackdrop()) {
-            <div class="backdrop" (click)="Close()"></div>
-        }
     </div> 
 </div> 
-
-@if(_showBackdrop()) {
-    <div class="backdrop" (click)="Close()"></div>
-}
+ 
+<div [ngClass]="{ 
+    'backdrop': _showBackdrop(), 
+    'left-0px': !_showBackdrop() 
+}" (click)="Close()"></div>
+ 

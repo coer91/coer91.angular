@@ -73,7 +73,7 @@ export class CoerGridPage implements AfterViewInit, OnDestroy {
          
     }  
 
-    Log($event: any, p?: any){ 
-        console.log($event)
+    Log(event: string, value: any){ 
+        console.log({ event, value })
     }
 }

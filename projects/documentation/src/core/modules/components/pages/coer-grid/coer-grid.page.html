@@ -7,10 +7,10 @@
             { property: 'name2', textAlignX: 'center', width: '100px', textBreak: false  },
         ]" 
         [search]="{ show: true }"
-        [addButton]="{ show: true }"
+        [addButton]="{ show: true, addTo: 'END' }"
         [saveButton]="{ show: true }"
         [exportButton]="{ show: true }"
-        [importButton]="{ show: true }"
+        [importButton]="{ show: true  }"
         [buttonByRow]="{
             showDeleteButton: true,
             showEditButton: true,
@@ -19,6 +19,20 @@
         }"
         [isLoading]="false"
         [isReadonly]="false"
-        (onDoubleClickRow)="Log($event)"
+        (onClickExport)="Log('onClickExport', $event)"
+        (onClickImport)="Log('onClickImport', $event)"
+        (onClickAdd)="Log('onClickAdd', $event)"
+        (onClickSave)="Log('onClickSave', $event)"
+        (onClickSearch)="Log('onClickSearch', $event)"
+        (onClickClearSearch)="Log('onClickClearSearch', $event)"
+        (onKeyupEnterSearch)="Log('onKeyupEnterSearch', $event)"
+        (onDoubleClickRow)="Log('onDoubleClickRow', $event)"
+        (onClickRow)="Log('onClickRow', $event)"
+        (onClickDeleteRow)="Log('onClickDeleteRow', $event)"
+        (onClickEditRow)="Log('onClickEditRow', $event)"
+        (onClickModalRow)="Log('onClickModalRow', $event)"
+        (onClickGoRow)="Log('onClickGoRow', $event)"
+        (onReady)="Log('onReady', $event)"
+        (onDestroy)="Log('onDestroy', $event)"
     ><h3>gola</h3>  </coer-grid> 
 </section>

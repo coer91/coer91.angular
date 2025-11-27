@@ -37,7 +37,8 @@ div.coer-sidenav {
                     align-items: center !important;
                     gap: 10px !important;
                     background-color:var(--sidenav);
-                    border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important; 
+                    border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
+                    user-select: none !important;  
                    
                     i { 
                         width: 15px !important;
@@ -76,20 +77,33 @@ div.coer-sidenav {
 
     div.coer-sidenav-content { 
        transition: width 0.5s ease !important;  
-       
-       div.backdrop {
-           background-color: rgba(128, 128, 128, 0.500);
-       }
+       height: calc(100vh - 50px) !important;
+       padding-bottom: 10px !important;
+       overflow: auto !important; 
+
+        div.margin {
+            height: 10px!important;
+            background: linear-gradient(
+              to bottom,
+              color-mix(in srgb, var(--smoke), var(--dark) 15%),  
+              var(--smoke)
+            ) !important;
+            position: sticky !important;
+            top: 0px !important;
+            left: 0px !important;
+            right: 0px !important;
+        }
     } 
 }
 
 div.backdrop { 
     position: absolute !important;
-    top: 0px !important; 
+    top: 40px !important; 
     right: 0px !important; 
     bottom: 0px !important; 
-    left: 0px !important; 
+    left: 225px !important; 
     backdrop-filter: blur(1.5px);
-    background-color: rgb(128, 128, 128);
-    z-index: 99 !important; 
+    background-color: rgba(128, 128, 128, 0.500) !important;
+    transition: all 0.5s ease !important;
+    z-index: 100 !important; 
 }

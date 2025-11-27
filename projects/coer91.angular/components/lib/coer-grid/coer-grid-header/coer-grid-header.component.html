@@ -79,7 +79,16 @@
                 [isLoading]="_isLoadingInner()"
                 minWidth="250px"
                 (onInput)="searchSIGNAL().set($event)"
-                (onClickClear)="searchSIGNAL().set(''); onClickClearSearch.emit('')"
+                (onSearch)="onClickSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coer-search', 
+                    value: $event
+                })"
+                (onClear)="searchSIGNAL().set(''); onClickClearSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coer-search', 
+                    value: ''
+                })"
                 (onKeyupEnter)="onKeyupEnterSearch.emit({
                     id: CalculateId()(-1, -1, 'search'),
                     input: 'coer-search', 

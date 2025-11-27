@@ -14,8 +14,10 @@
             'margin-left'  : marginLeft()  
         }">
         <coer-grid-header 
-            #coerGridHeader 
-            [CalculateId]="_CalculateId" 
+            #coerGridHeader  
+            [CalculateId]="_CalculateId"
+            [columns]="columns()"
+            [valueSIGNAL]="_valueSIGNAL()" 
             [dataSourceExport]="_dataSourceExport()"
             [exportButton]="exportButton()"
             [importButton]="importButton()"
@@ -25,7 +27,14 @@
             [searchSIGNAL]="_searchSIGNAL"
             [isLoadingSIGNAL]="_isLoadingSIGNAL"
             [isLoading]="isLoading()"
-            [isReadonly]="isReadonly()"> 
+            [isReadonly]="isReadonly()"
+            (onClickExport)="onClickExport.emit($event)"
+            (onClickImport)="_Import($event)"
+            (onClickAdd)="_Add()"
+            (onClickSave)="onClickSave.emit()"
+            (onClickSearch)="onClickSearch.emit($event)"
+            (onClickClearSearch)="onClickClearSearch.emit($event)"
+            (onKeyupEnterSearch)="onKeyupEnterSearch.emit($event)"> 
             <ng-content></ng-content> 
         </coer-grid-header>
 
@@ -42,7 +51,7 @@
                     [showHover]="showHover()"
                     [isLoadingSIGNAL]="_isLoadingSIGNAL"
                     [isEnabled]="_isEnabled()"
-                    (onClickRow)="onClickRow" 
+                    (onClickRow)="onClickRow.emit($event)" 
                     (onDoubleClickRow)="onDoubleClickRow.emit($event)" 
                     (onClickDeleteRow)="onClickDeleteRow.emit($event)" 
                     (onClickEditRow)="onClickEditRow.emit($event)" 

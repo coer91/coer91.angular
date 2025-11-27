@@ -12,19 +12,18 @@ header.coer-toolbar {
     display: flex !important;
     align-items: center !important;  
     justify-content: space-between !important;
-    box-shadow: 0px -15px 30px 0px var(--dark) !important;
     z-index: 100 !important;
 
     div.coer-toolbar-toogle {
         display: flex !important;
-        align-items: center !important;
+        align-items: center !important; 
 
         h3 {
             margin: 0px;
             color: var(--dark)
         }
-    }
-} 
+    } 
+}   
 
 figure {
     position: absolute;
@@ -83,4 +82,4 @@ figure {
             box-shadow: 0px 0px 10px 0px var(--dark) !important;
         }
     } 
-}
+} 

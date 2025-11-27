@@ -19,7 +19,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
     protected readonly _search = signal<string>('');
     protected readonly _applySearch = signal<boolean>(false);
     protected readonly _index = signal<number>(-1);
-    private _searchTimeOut$!: ReturnType<typeof setTimeout>;
+    protected _searchTimeOut$!: ReturnType<typeof setTimeout>;
     protected _htmlElementContainer!: HTMLInputElement; 
     protected _htmlElementOptions!: HTMLInputElement; 
     protected _htmlElement!: HTMLInputElement; 
@@ -87,27 +87,27 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this._htmlElementOptions = HTMLElements.GetElementById(`${this._id}-options`) as HTMLInputElement;
 
         this._htmlElementContainer = HTMLElements.GetElementById(`${this._id}-container`) as HTMLInputElement;
-        this._htmlElementContainer.addEventListener('mouseenter', this._onMouseEnter);
-        this._htmlElementContainer.addEventListener('mouseleave', this._onMouseLeave);
+        this._htmlElementContainer?.addEventListener('mouseenter', this._onMouseEnter);
+        this._htmlElementContainer?.addEventListener('mouseleave', this._onMouseLeave);
 
         this._htmlElement = HTMLElements.GetElementById(this._id) as HTMLInputElement; 
-        this._htmlElement.addEventListener('keyup', this._onKeyup);
-        this._htmlElement.addEventListener('paste', this._onPaste);
-        this._htmlElement.addEventListener('focus', this._onFocus);
-        this._htmlElement.addEventListener('blur', this._onBlur);
-
-        this.onReady.emit();
+        this._htmlElement?.addEventListener('keyup', this._onKeyup);
+        this._htmlElement?.addEventListener('paste', this._onPaste);
+        this._htmlElement?.addEventListener('focus', this._onFocus);
+        this._htmlElement?.addEventListener('blur', this._onBlur);
+        this.onReady?.emit();
     }
 
 
     //OnDestroy
     ngOnDestroy() { 
-        this._htmlElement.removeEventListener('keyup', this._onKeyup);
-        this._htmlElement.removeEventListener('paste', this._onPaste);
-        this._htmlElement.removeEventListener('focus', this._onFocus);
-        this._htmlElement.removeEventListener('blur', this._onBlur);
-        this._htmlElementContainer.removeEventListener('mouseenter', this._onMouseEnter);
-        this._htmlElementContainer.removeEventListener('mouseleave', this._onMouseLeave);
+        this.onReady = null as any; 
+        this._htmlElement?.removeEventListener('keyup', this._onKeyup);
+        this._htmlElement?.removeEventListener('paste', this._onPaste);
+        this._htmlElement?.removeEventListener('focus', this._onFocus);
+        this._htmlElement?.removeEventListener('blur', this._onBlur);
+        this._htmlElementContainer?.removeEventListener('mouseenter', this._onMouseEnter);
+        this._htmlElementContainer?.removeEventListener('mouseleave', this._onMouseLeave); 
         this.onDestroy.emit();
     } 
 
@@ -176,8 +176,8 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
 
                 else {
                     this._index.set(-1);
-                    this._htmlElement.focus();
-                    this._htmlElement.select();
+                    this._htmlElement?.focus();
+                    this._htmlElement?.select();
                 } 
             }
     
@@ -244,7 +244,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
             this._applySearch.set(false);
             await Tools.Sleep();             
             
-            this._htmlElement.select();
+            this._htmlElement?.select();
             this._isCollapsed.set(false);  
             this._isFocused = true;
             this.onOpen.emit();
@@ -269,7 +269,7 @@ export class CoerSelectBox<T> extends ControlValue implements AfterViewInit, OnD
         this._search.set(Tools.IsNotOnlyWhiteSpace(this._value) ? (this._value as any)[this.displayProperty()] : '');   
         await Tools.Sleep();
 
-        this._htmlElement.blur();  
+        this._htmlElement?.blur();  
         this._isCollapsed.set(true); 
         this._isFocused = false;  
         this._index.set(-1); 

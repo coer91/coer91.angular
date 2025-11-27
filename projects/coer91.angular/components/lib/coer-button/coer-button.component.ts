@@ -44,16 +44,17 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     //AfterViewInit
     async ngAfterViewInit() {
         await Tools.Sleep(); 
-        this._htmlElement = HTMLElements.GetElementById(this._id)!; 
-        this._htmlElement?.addEventListener('focus', this._onFocus);
-        this.onReady?.emit();
+        this._htmlElement = HTMLElements.GetElementById(this._id)!;          
+        this._htmlElement?.addEventListener('focus', this._onFocus); 
+        this.onReady?.emit(); 
     }
 
 
     //OnDestroy
     ngOnDestroy() {
+        this.onReady = null as any; 
         this._htmlElement?.removeEventListener('focus', this._onFocus);
-        this.onDestroy?.emit();
+        this.onDestroy.emit();
     }  
 
     /** */
@@ -142,7 +143,8 @@ export class CoerButton implements AfterViewInit, OnDestroy {
 
 
     protected _icon = computed<string>(() => {
-        if(this.isLoading()) return 'i91-arrows-rotate animation-spin animation-speed-15';
+        if(this.isLoading() && ['filled', 'outline'].includes(this.type())) return 'i91-arrows-rotate animation-spin animation-speed-15';
+        if(this.icon().isOnlyWhiteSpace() && !['filled', 'outline'].includes(this.type())) return 'i91-pointer-fill';
 
         switch(this.icon()) {
             case 'add'   : return 'i91-plus font-size-20px';
@@ -186,7 +188,7 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     public Focus(scrollToElement: boolean = false): void {
         if(this._isEnabled) {
             Tools.Sleep().then(() => {
-                this._htmlElement.focus();
+                this._htmlElement?.focus();
                 if(scrollToElement) this.ScrollToElement();
             });            
         }
@@ -197,7 +199,7 @@ export class CoerButton implements AfterViewInit, OnDestroy {
 
     /** */
     public Blur(): void {      
-        this._htmlElement.blur();
+        this._htmlElement?.blur();
     }
 
 

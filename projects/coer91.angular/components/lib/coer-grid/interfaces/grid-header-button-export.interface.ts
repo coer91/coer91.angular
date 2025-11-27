@@ -6,4 +6,4 @@ export interface IGridHeaderButtonExport extends IGridHeaderButton {
     onlyRowFiltered?: boolean;
     onlySelectedItem?: boolean;
     preventDefault?: boolean;
- }
+}

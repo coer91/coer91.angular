@@ -23,7 +23,7 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
     protected readonly _id = Tools.GetGuid("coer-sidenav"); 
     protected readonly _effectNavigation!: EffectRef;
     protected readonly _isOpen = signal<boolean>(['lg', 'xl', 'xxl'].includes(breakpointSIGNAL()));   
-    protected readonly _navigationSIGNAL = navigationSIGNAL;   
+    protected readonly _navigationSIGNAL = navigationSIGNAL;    
     protected isLoading: boolean = false;
      
     //output 
@@ -187,10 +187,7 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
 
 
     /** */
-    protected async _ClickOption(option: IMenuSelected) {
-        if(this.isLoading) return;
-        this.isLoading = true; 
-
+    protected async _ClickOption(option: IMenuSelected) { 
         if(option.action.equals('NONE')) { 
             this._router.navigateByUrl(String(option?.menu?.path));
 
@@ -198,28 +195,24 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
                 this.Close();
             }
             
-            Navigation.SetSelectedMenu(option); 
-           
-            document.querySelectorAll('.selected').forEach(element => {
-                HTMLElements.RemoveClass(element as HTMLElement, 'selected');
-            });
-            
-            await Tools.Sleep();
-            for(const { id } of option.tree) {
-                HTMLElements.AddClass(`#${id}`, 'selected');
-            }
-            
-            //Close Menus
-            for(const accordion of this._menuList() || []) {                
-                if(option.level.equals('LV1')) { 
-                    accordion.Close();
-                }
+            Navigation.SetSelectedMenu(option);   
 
-                else if(option.level.equals('LV2')) {
-                    if(option.tree[0].id.equals(accordion.id())) continue;
-                    else accordion.Close();
-                }
-            }
+            Tools.Sleep(0, 'update-menu-selected').then(() => {
+                document.querySelectorAll<HTMLElement>('.selected').forEach(item => item.classList.remove('selected'));
+                option.tree.forEach(({ id }) => HTMLElements.AddClass(`#${id}`, 'selected')); 
+                
+                //Close Menus
+                for(const accordion of this._menuList() || []) {                
+                    if(option.level.equals('LV1')) { 
+                        accordion.Close();
+                    }
+    
+                    else if(option.level.equals('LV2')) {
+                        if(option.tree[0].id.equals(accordion.id())) continue;
+                        else accordion.Close();
+                    }
+                }   
+            });
         } 
 
         else {             
@@ -235,9 +228,6 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
                     accordion.Close();                     
                 }
             } 
-        }
-
-        await Tools.Sleep();
-        this.isLoading = false;
+        } 
     } 
 }

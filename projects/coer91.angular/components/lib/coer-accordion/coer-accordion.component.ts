@@ -52,12 +52,13 @@ export class CoerAccordion implements AfterViewInit, OnDestroy {
     async ngAfterViewInit() {
         await Tools.Sleep(); 
         this._htmlElement = HTMLElements.GetElementById(this._id)!;
-        this.onReady.emit();
+        this.onReady?.emit(); 
     }
 
 
     //OnDestroy
     ngOnDestroy() {
+        this.onReady = null as any;    
         this._effectValue?.destroy();
         this.onDestroy.emit();
     }  

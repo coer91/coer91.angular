@@ -2,6 +2,7 @@ export * from './grid-button-by-row.interface';
 export * from './grid-column-index.interface';
 export * from './grid-column.interface';
 export * from './grid-data-source.interface';
+export * from './grid-header-button-add.interface';
 export * from './grid-header-button-export.interface';
 export * from './grid-header-button-import.interface';
 export * from './grid-header-button.interface';
