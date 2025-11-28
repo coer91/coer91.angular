@@ -11,7 +11,9 @@ div.coer-button {
     display: inline-block !important;
     
     a {
-        display: inherit !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         width: inherit !important;
         min-width: inherit !important;
         max-width: inherit !important;
@@ -34,6 +36,10 @@ div.coer-button {
                 align-items: center;
                 justify-content: center;
                 gap: 5px;
+
+                i {
+                    position: absolute !important;
+                }
             }
         }
     

@@ -2,6 +2,7 @@ export * from './lib/components.module';
 export * from './lib/coer-accordion/coer-accordion.component';
 export * from './lib/coer-button/coer-button.component';
 export * from './lib/coer-grid/coer-grid.component';
+export * from './lib/coer-page-title/coer-page-title.component';
 export * from './lib/coer-selectbox/coer-selectbox.component';
 export * from './lib/coer-sidenav/coer-sidenav.component';
 export * from './lib/coer-textbox/coer-textbox.component';

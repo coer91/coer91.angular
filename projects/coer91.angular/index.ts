@@ -30,6 +30,7 @@ import * as pipes      from '@library/pipes';
         components.CoerAccordion,
         components.CoerButton,
         components.CoerGrid,
+        components.CoerPageTitle,
         components.CoerSelectBox,
         components.CoerSidenav,
         components.CoerTextBox,

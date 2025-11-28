@@ -17,6 +17,8 @@ header.coer-toolbar {
     div.coer-toolbar-toogle {
         display: flex !important;
         align-items: center !important; 
+        gap: 3px !important;
+        margin-left: 5px !important;
 
         h3 {
             margin: 0px;

@@ -1,10 +1,9 @@
-<section class="container-section">
+<section class="container-section padding-bottom-0px">
     <coer-grid 
         [(ngModel)]="dataSource" 
         [columns]="[
             { property: 'id'  , alias: 'id', width: '20px' },
-            { property: 'name', alias: 'Hola' },
-            { property: 'name2', width: '100px', textBreak: false  },
+            { property: 'name', alias: 'Hola' }
         ]" 
         [search]="{ show: true }"
         [headerButtonAdd]="{ show: true, }"

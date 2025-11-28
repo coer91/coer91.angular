@@ -84,31 +84,6 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     protected _width = computed(() => {
         return ['filled', 'outline'].includes(this.type()) ? this.width() : '35px';
     });
-
-    //computed
-    protected _minWidth = computed(() => {
-        return ['filled', 'outline'].includes(this.type()) ? this.minWidth() : '35px';
-    });
-
-    //computed
-    protected _maxWidth = computed(() => {
-        return ['filled', 'outline'].includes(this.type()) ? this.maxWidth() : '35px';
-    });
-
-    //computed
-    protected _height = computed(() => {
-        return ['filled', 'outline'].includes(this.type()) ? this.height() : '35px';
-    });
-
-    //computed
-    protected _minHeight = computed(() => {
-        return ['filled', 'outline'].includes(this.type()) ? this.minHeight() : '35px';
-    });
-
-    //computed
-    protected _maxHeight = computed(() => {
-        return ['filled', 'outline'].includes(this.type()) ? this.maxHeight() : '35px';
-    });
     
     //computed
     protected _borderRadius = computed(() => {
