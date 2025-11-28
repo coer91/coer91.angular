@@ -1,4 +1,4 @@
-export interface IGridSearch {
+export interface IGridHeaderSearch {
     show: boolean;
     ignore?: boolean;
     isReadonly?: boolean;

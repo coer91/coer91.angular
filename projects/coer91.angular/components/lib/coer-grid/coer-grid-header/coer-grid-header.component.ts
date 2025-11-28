@@ -1,5 +1,5 @@
-import { Component, computed, ElementRef, input, output, viewChild, WritableSignal } from '@angular/core'; 
-import { IGridColumn, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridInputEnter, IGridInputImport, IGridSearch } from '../interfaces';
+import { AfterViewInit, Component, computed, ElementRef, input, OnDestroy, output, viewChild, WritableSignal } from '@angular/core'; 
+import { IGridColumn, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputEnter, IGridInputImport } from '../interfaces';
 import { Files, Tools } from 'coer91.tools';
 
 @Component({
@@ -8,7 +8,7 @@ import { Files, Tools } from 'coer91.tools';
     styleUrl: './coer-grid-header.component.scss',
     standalone: false
 })
-export class CoerGridHeader<T> { 
+export class CoerGridHeader<T> implements AfterViewInit, OnDestroy { 
  
     //Elements
     protected readonly _inputFile = viewChild.required<ElementRef>('inputFileRef');
@@ -26,7 +26,7 @@ export class CoerGridHeader<T> {
     public importButton     = input.required<IGridHeaderButtonImport>();
     public addButton        = input.required<IGridHeaderButtonAdd>();
     public saveButton       = input.required<IGridHeaderButton>();
-    public search           = input.required<IGridSearch>();
+    public search           = input.required<IGridHeaderSearch>();
     public searchSIGNAL     = input.required<WritableSignal<string | number>>();
     public isLoadingSIGNAL  = input.required<WritableSignal<boolean>>();
     public isLoading        = input.required<boolean>();
@@ -39,11 +39,25 @@ export class CoerGridHeader<T> {
     protected onClickSave        = output<void>();
     protected onClickSearch      = output<IGridInputEnter<T>>();
     protected onClickClearSearch = output<IGridInputEnter<T>>();
-    protected onKeyupEnterSearch = output<IGridInputEnter<T>>();
+    protected onKeyupEnterSearch = output<IGridInputEnter<T>>(); 
+    protected onReady            = output<void>();
+    protected onDestroy          = output<void>(); 
 
+    //AfterViewInit
+    async ngAfterViewInit() {
+        await Tools.Sleep();  
+        this.onReady?.emit();
+    }
+
+
+    //OnDestroy
+    ngOnDestroy() {  
+        this.onReady = null as any;       
+        this.onDestroy.emit();
+    } 
 
     //computed
-    public _marginBottom = computed(() => {
+    public marginBottom = computed<boolean>(() => {
         return this._showExportButton()
             || this.importButton().show 
             || this.addButton().show
@@ -51,23 +65,9 @@ export class CoerGridHeader<T> {
             || this.search().show
     }); 
 
-
-    //computed  
-    protected _showExportButton = computed(() => {
-        return this.exportButton().show && this.dataSourceExport().length > 0 && !Tools.IsBooleanTrue(this.exportButton().isReadonly);
-    });
-
-
-    //computed  
-    protected _showImportButton = computed(() => {
-        return this.importButton().show && !this.isReadonly() && !Tools.IsBooleanTrue(this.importButton().isReadonly);
-    });
-
-
     //computed  
     protected _showAddButton = computed(() => {  
         return this.addButton().show 
-            && !this.isReadonly() 
             && !Tools.IsBooleanTrue(this.addButton().isReadonly)     
             && !(!Tools.IsBooleanFalse(this.addButton().preventDefault) && this.columns().length <= 0 && this.valueSIGNAL().length <= 0)       
     });
@@ -75,9 +75,21 @@ export class CoerGridHeader<T> {
 
     //computed  
     protected _showSaveButton = computed(() => {
-        return this.saveButton().show && !this.isReadonly() && !Tools.IsBooleanTrue(this.saveButton().isReadonly);
+        return this.saveButton().show && !Tools.IsBooleanTrue(this.saveButton().isReadonly) && !this.isReadonly();
     });
 
+
+    //computed  
+    protected _showImportButton = computed(() => {
+        return this.importButton().show && !Tools.IsBooleanTrue(this.importButton().isReadonly && !this.isReadonly());
+    }); 
+
+
+    //computed  
+    protected _showExportButton = computed(() => {
+        return this.exportButton().show && !Tools.IsBooleanTrue(this.exportButton().isReadonly && this.dataSourceExport().length > 0);
+    }); 
+ 
 
     //computed  
     protected _isLoadingInner = computed(() => {

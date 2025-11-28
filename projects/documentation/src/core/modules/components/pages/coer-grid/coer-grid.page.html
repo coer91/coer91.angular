@@ -1,24 +1,23 @@
 <section class="container-section">
     <coer-grid 
-        [(ngModel)]="dataSource"
+        [(ngModel)]="dataSource" 
         [columns]="[
-            { property: 'id'  , alias: 'id', width: '20px', textAlignY: 'top' },
-            { property: 'name', alias: 'Hola' ,textAlignX: 'center'  },
-            { property: 'name2', textAlignX: 'center', width: '100px', textBreak: false  },
+            { property: 'id'  , alias: 'id', width: '20px' },
+            { property: 'name', alias: 'Hola' },
+            { property: 'name2', width: '100px', textBreak: false  },
         ]" 
         [search]="{ show: true }"
-        [addButton]="{ show: true, addTo: 'END' }"
-        [saveButton]="{ show: true }"
-        [exportButton]="{ show: true }"
-        [importButton]="{ show: true  }"
-        [buttonByRow]="{
-            showDeleteButton: true,
-            showEditButton: true,
-            showModalButton: true,
-            showGoButton: true
-        }"
+        [headerButtonAdd]="{ show: true, }"
+        [headerButtonSave]="{ show: true }"
+        [headerButtonExport]="{ show: true }"
+        [headerButtonImport]="{ show: true  }" 
+        [rowButtonDelete]="{ show: true }"
+        [rowButtonEdit]="{ show: true }"
+        [rowButtonModal]="{ show: true }"
+        [rowButtonGo]="{ show: true }"
         [isLoading]="false"
         [isReadonly]="false"
+        height="calc(100vh - 95px)"
         (onClickExport)="Log('onClickExport', $event)"
         (onClickImport)="Log('onClickImport', $event)"
         (onClickAdd)="Log('onClickAdd', $event)"
@@ -34,5 +33,5 @@
         (onClickGoRow)="Log('onClickGoRow', $event)"
         (onReady)="Log('onReady', $event)"
         (onDestroy)="Log('onDestroy', $event)"
-    ><h3>gola</h3>  </coer-grid> 
+    ></coer-grid> 
 </section>

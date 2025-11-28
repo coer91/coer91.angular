@@ -14,19 +14,19 @@
                     </th>
                 } 
 
-                @if(_ShowButtonByRow('showDeleteButton')) {
+                @if(_ShowDeleteButton()) {
                     <th class="action-column" scope="col"></th>
                 }
                    
-                @if(_ShowButtonByRow('showEditButton')) { 
+                @if(_ShowEditButton()) { 
                     <th class="action-column" scope="col"></th>
                 }   
 
-                @if(_ShowButtonByRow('showModalButton')) { 
+                @if(_ShowModalButton()) { 
                     <th class="action-column" scope="col"></th>
                 } 
                 
-                @if(_ShowButtonByRow('showGoButton')) {
+                @if(_ShowGoButton()) {
                     <th class="action-column" scope="col"></th>
                 }
             </tr>
@@ -60,13 +60,13 @@
                         } 
 
                         <!-- Delete Button -->
-                        @if(_ShowButtonByRow('showDeleteButton')) {
+                        @if(_ShowDeleteButton()) {
                             <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
-                                @if(_ShowButtonByRow('showDeleteButton', row)) {
+                                @if(_ShowDeleteButton(row)) {
                                     <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
                                         <coer-button
                                             type="icon-rounded"
-                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().deleteButtonColor) ? buttonByRow().deleteButtonColor! : 'danger'"
+                                            [color]="IsNotOnlyWhiteSpace(buttonDelete().color) ? buttonDelete().color! : 'danger'"
                                             icon="delete"  
                                             (onClick)="onClickDeleteRow.emit(row)"
                                         ></coer-button>
@@ -76,13 +76,13 @@
                         }
     
                         <!-- Edit Button -->
-                        @if(_ShowButtonByRow('showEditButton')) {
+                        @if(_ShowEditButton()) {
                             <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
-                                @if(_ShowButtonByRow('showEditButton', row)) {
+                                @if(_ShowEditButton(row)) {
                                     <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
                                         <coer-button
                                             type="icon-rounded"
-                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().editButtonColor) ? buttonByRow().editButtonColor! : 'primary'"
+                                            [color]="IsNotOnlyWhiteSpace(buttonEdit().color) ? buttonEdit().color! : 'primary'"
                                             icon="edit" 
                                             (onClick)="onClickEditRow.emit(row)"
                                         ></coer-button>
@@ -93,13 +93,13 @@
 
 
                         <!-- Modal Button -->
-                        @if(_ShowButtonByRow('showModalButton')) {
+                        @if(_ShowModalButton()) {
                             <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
-                                @if(_ShowButtonByRow('showModalButton', row)) {
+                                @if(_ShowModalButton(row)) {
                                     <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
                                         <coer-button
                                             type="icon-rounded"
-                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().modalButtonColor) ? buttonByRow().modalButtonColor! : 'primary'"
+                                            [color]="IsNotOnlyWhiteSpace(buttonModal().color) ? buttonModal().color! : 'primary'"
                                             icon="modal" 
                                             (onClick)="onClickModalRow.emit(row)"
                                         ></coer-button>
@@ -110,14 +110,15 @@
 
     
                         <!-- Go Button -->
-                        @if(_ShowButtonByRow('showGoButton')) {
+                        @if(_ShowGoButton()) {
                             <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
-                                @if(_ShowButtonByRow('showGoButton', row)) {
+                                @if(_ShowGoButton(row)) {
                                     <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
                                         <coer-button
                                             type="icon-rounded"
-                                            [color]="IsNotOnlyWhiteSpace(buttonByRow().goButtonColor) ? buttonByRow().goButtonColor! : 'navigation'"
+                                            [color]="IsNotOnlyWhiteSpace(buttonGo().color) ? buttonGo().color! : 'navigation'"
                                             icon="go" 
+                                            [path]="_GetPath(row)"
                                             (onClick)="onClickGoRow.emit(row)"
                                         ></coer-button>
                                     </div>

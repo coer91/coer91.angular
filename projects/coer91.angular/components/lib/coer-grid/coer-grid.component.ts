@@ -1,7 +1,8 @@
-import { Component, input, AfterViewInit, output, OnDestroy, AfterContentChecked, computed, signal } from '@angular/core';
-import { IGridButtonByRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridInputEnter, IGridInputImport, IGridSearch } from './interfaces';
+import { IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputEnter, IGridInputImport,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
+import { Component, input, AfterViewInit, output, OnDestroy, computed, signal, viewChild } from '@angular/core';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
-import { Tools } from 'coer91.tools';
+import { HTMLElements, Tools } from 'coer91.tools';
+import { CoerGridHeader } from './coer-grid-header/coer-grid-header.component';
 
 @Component({
     selector: 'coer-grid',
@@ -10,17 +11,51 @@ import { Tools } from 'coer91.tools';
     providers: [CONTROL_VALUE(CoerGrid)],
     standalone: false
 })
-export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestroy, AfterContentChecked {
+export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestroy {
     
-    protected override _value : T[] = [];
-    protected _valueSIGNAL = signal<T[]>([]);
+    //Elements
+    protected _coerGridHeader = viewChild<CoerGridHeader<T>>('coerGridHeader');
 
     //Variables
+    protected override _value : T[] = [];
+    protected _valueSIGNAL = signal<T[]>([]);
     protected readonly _id = Tools.GetGuid("coer-grid"); 
     protected readonly _searchSIGNAL = signal<string | number>('');
     protected readonly _isLoadingSIGNAL = signal<boolean>(false);
-    protected _height: string = '0px';
-    
+    protected _headerReady: boolean = false;
+    protected _footerReady: boolean = false;  
+
+    //input
+    public columns            = input<IGridColumn<T>[]>([]);
+    public search             = input<IGridHeaderSearch>({ show: false }); 
+    public headerButtonExport = input<IGridHeaderButtonExport>({ show: false });
+    public headerButtonImport = input<IGridHeaderButtonImport>({ show: false });
+    public headerButtonAdd    = input<IGridHeaderButtonAdd>({ show: false });
+    public headerButtonSave   = input<IGridHeaderButton>({ show: false }); 
+    public rowButtonDelete    = input<IGridRowButtonDelete<T>>({});
+    public rowButtonEdit      = input<IGridRowButtonEdit<T>>({});
+    public rowButtonModal     = input<IGridRowButtonModal<T>>({});
+    public rowButtonGo        = input<IGridRowButtonGo<T>>({});  
+    public footer             = input<IGridFooter>({ show: true });
+    public isLoading          = input<boolean>(false); 
+    public isReadonly         = input<boolean>(false);
+    public isInvisible        = input<boolean>(false);
+    public isHidden           = input<boolean>(false);
+    public rowsByPage         = input<number>(50);
+    public showStriped        = input<boolean>(true);
+    public showBorders        = input<boolean>(true);
+    public showHover          = input<boolean>(true);
+    public width              = input<string>('100%');
+    public minWidth           = input<string>('100px');
+    public maxWidth           = input<string>('100%');
+    public height             = input<string>('350px');
+    public minHeight          = input<string>('140px');
+    public maxHeight          = input<string>('100vh');
+    public marginTop          = input<string>('0px');
+    public marginRight        = input<string>('0px');
+    public marginBottom       = input<string>('0px');
+    public marginLeft         = input<string>('0px'); 
+
     //output  
     protected onClickExport      = output<T[]>();
     protected onClickImport      = output<IGridInputImport<T>>();
@@ -38,34 +73,6 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected onReady            = output<void>();
     protected onDestroy          = output<void>();
 
-    //input
-    public columns      = input<IGridColumn<T>[]>([]);
-    public exportButton = input<IGridHeaderButtonExport>({ show: false });
-    public importButton = input<IGridHeaderButtonImport>({ show: false });
-    public addButton    = input<IGridHeaderButtonAdd>({ show: false });
-    public saveButton   = input<IGridHeaderButton>({ show: false });
-    public search       = input<IGridSearch>({ show: false }); 
-    public buttonByRow  = input<IGridButtonByRow<T>>({});
-    public isLoading    = input<boolean>(false);//PENDING 
-    public isReadonly   = input<boolean>(false);//PENDING
-    public isInvisible  = input<boolean>(false);//PENDING
-    public isHidden     = input<boolean>(false);//PENDING
-    public rowsByPage   = input<number>(50);
-    public showStriped  = input<boolean>(true);
-    public showBorders  = input<boolean>(true);
-    public showHover    = input<boolean>(true);
-    public width        = input<string>('100%');
-    public minWidth     = input<string>('100px');
-    public maxWidth     = input<string>('100%');
-    public height       = input<string>('350px');//PENDING
-    public minHeight    = input<string>('140px');//PENDING
-    public maxHeight    = input<string>('100vh');//PENDING
-    public marginTop    = input<string>('0px');
-    public marginRight  = input<string>('0px');
-    public marginBottom = input<string>('0px');
-    public marginLeft   = input<string>('0px'); 
-
-
     /** Sets the value of the component */
     protected override setValue(value: T[] | null): void {
         if(Tools.IsNull(value)) value = [];
@@ -82,7 +89,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
     //AfterViewInit
     async ngAfterViewInit() {
-        await Tools.Sleep(); 
+        await Tools.Sleep();  
         this.onReady?.emit();
     }
 
@@ -91,21 +98,6 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     ngOnDestroy() {  
         this.onReady = null as any;       
         this.onDestroy.emit();
-    } 
-
-    //AfterViewChecked
-    ngAfterContentChecked() { 
-        this._height = this.height(); //= (this.height() == 'full') 
-            // ? (Screen.WINDOW_HEIGHT - (
-            //     45 //Toolbar
-            //     + Screen.BREAKPOINT == 'mv' ? 5 : 15
-            //     + (this._coerGridHeader()?.heigth || 0)
-            //     + (this._coerGridFooter()?.heigth || 0)
-            //     + HTMLElements.GetOffsetTop(this._grid)
-            //     + Number(HTMLElements.GetCssValue(this._gridGrandFather, 'padding-top').split('px')[0])
-            //     + Number(HTMLElements.GetCssValue(this._gridGrandFather, 'padding-bottom').split('px')[0])
-            // ))  + 'px'
-            //: this.height();
     }  
 
 
@@ -126,20 +118,20 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
     //computed
     protected _dataSource = computed<IGridDataSource[]>(() => {
-        const DATA_SOURCE = this._dataSourceFiltered();
+        const DATA_SOURCE = this._valueFiltered(); 
 
         //Response
         return [{
             groupBy: 'Not Grouped',
             indexGroup: -1,
             length: -1,
-            rows: DATA_SOURCE.splice(0, this.rowsByPage())
+            rows: [...DATA_SOURCE].splice(0, this.rowsByPage())
         }];
     });
 
 
     //computed
-    protected _dataSourceFiltered = computed<T[]>(() => { 
+    protected _valueFiltered = computed<T[]>(() => { 
         const DATA_SOURCE = [...this._valueSIGNAL()];
         const SEARCH_TEXT = String(this._searchSIGNAL()).cleanUpBlanks().toUpperCase();
 
@@ -160,17 +152,17 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     //computed
     protected _dataSourceExport = computed<T[]>(() => {  
         let DATA_SOURCE: T[] = [];
-        if (Tools.IsBooleanTrue(this.exportButton()?.onlySelectedItem)) {
+        if (Tools.IsBooleanTrue(this.headerButtonExport()?.onlySelectedItem)) {
             //DATA_SOURCE = this.dataSourceSelected();
         }
 
         else {
-            DATA_SOURCE = Tools.IsBooleanTrue(this.exportButton()?.onlyRowFiltered)
-                ? this._dataSourceFiltered() 
+            DATA_SOURCE = Tools.IsBooleanTrue(this.headerButtonExport()?.onlyRowFiltered)
+                ? this._valueFiltered() 
                 : [...this._valueSIGNAL()];
         }
                  
-        const COLUMNS = Tools.IsBooleanFalse(this.exportButton()?.onlyColumnFiltered)
+        const COLUMNS = Tools.IsBooleanFalse(this.headerButtonExport()?.onlyColumnFiltered)
             ? Tools.GetPropertyList(DATA_SOURCE[0]).except(['indexRow', 'checked'])
             : this.columns().map(x => (x.property)).except(['indexRow', 'checked']);
 
@@ -203,6 +195,26 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     }
 
 
+    //getter
+    protected get _heightCompensation(): string { 
+        let COMPENSATION = 0;
+
+        //HEADER
+        if(this._headerReady) {
+            COMPENSATION += this._coerGridHeader()?.marginBottom() 
+                ? Number(HTMLElements.GetElementHeight(`#${this._id}-coer-grid-header`).split('px')[0]) + 5 
+                : 0;
+        } else COMPENSATION += 40;
+
+        //FOOTER
+        if(this._footerReady) {
+            COMPENSATION += this.footer().show ? 30 : 0; 
+        } else COMPENSATION += 30;
+         
+        return `${COMPENSATION}px`;
+    }
+
+
     /** */
     protected _GetColumnConfig = (property: string): IGridColumn<T> | null => {
         const COLUMN_CONFIG = this.columns().find(x => x.property.equals(property)) || {} as any;   
@@ -226,7 +238,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     protected _Add() {
-        if(Tools.IsOnlyWhiteSpace(this.addButton().path) && !Tools.IsBooleanTrue(this.addButton().preventDefault)) {
+        if(Tools.IsOnlyWhiteSpace(this.headerButtonAdd().path) && !Tools.IsBooleanTrue(this.headerButtonAdd().preventDefault)) {
             let row: any = {}; 
 
             if(this._valueSIGNAL().length > 0) {
@@ -245,9 +257,9 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
                 }
             }  
 
-            const data: any = ((Tools.IsOnlyWhiteSpace(this.addButton().addTo) || this.addButton().addTo?.equals('START')) ? [row] : [])
+            const data: any = ((Tools.IsOnlyWhiteSpace(this.headerButtonAdd().addTo) || this.headerButtonAdd().addTo?.equals('START')) ? [row] : [])
                 .concat([...this._valueSIGNAL()])
-                .concat(this.addButton().addTo?.equals('END') ? [row] : [])
+                .concat(this.headerButtonAdd().addTo?.equals('END') ? [row] : [])
 
             this.setValue(data);
         }
@@ -273,4 +285,27 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
             this.setValue(DATA); 
         } 
     } 
+
+
+    /** */
+    protected _DeleteRow(row: any) {
+        const SetValue = () => {
+            this._isLoadingSIGNAL.set(true);
+            const dataSource = [...this._valueSIGNAL()]
+            dataSource.splice(row.indexRow, 1);
+            this.setValue(dataSource);
+            this._isLoadingSIGNAL.set(false);
+        }
+
+        if(!Tools.IsBooleanTrue(this.rowButtonDelete().preventDefault)) {  
+            if(!Tools.IsBooleanFalse(this.rowButtonDelete().showAlert)) {
+                //WARNING here
+                SetValue(); 
+            }
+
+            else SetValue();
+        }
+
+        this.onClickDeleteRow.emit(row);
+    }
 }

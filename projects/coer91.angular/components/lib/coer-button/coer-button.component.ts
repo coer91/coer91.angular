@@ -15,9 +15,9 @@ export class CoerButton implements AfterViewInit, OnDestroy {
     protected _htmlElement!: HTMLElement; 
 
     //output
-    public onClick   = output<void>(); 
-    public onReady   = output<void>();
-    public onDestroy = output<void>();
+    protected onClick   = output<void>(); 
+    protected onReady   = output<void>();
+    protected onDestroy = output<void>();
 
     //input
     public label        = input<string>(''); 

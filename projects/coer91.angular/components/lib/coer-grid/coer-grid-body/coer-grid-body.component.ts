@@ -1,5 +1,5 @@
 import { Tools } from 'coer91.tools';
-import { IGridDataSource, IGridColumnIndex, IGridButtonByRow } from '../interfaces';
+import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo } from '../interfaces';
 import { Component, computed, input, output, WritableSignal } from '@angular/core'; 
 
 
@@ -20,7 +20,10 @@ export class CoerGridBody<T> {
     public CalculateId     = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
     public columns         = input.required<IGridColumnIndex<T>[]>();
     public dataSource      = input.required<IGridDataSource[]>();
-    public buttonByRow     = input.required<IGridButtonByRow<T>>(); 
+    public buttonDelete    = input.required<IGridRowButtonDelete<T>>(); 
+    public buttonEdit      = input.required<IGridRowButtonEdit<T>>(); 
+    public buttonModal     = input.required<IGridRowButtonModal<T>>(); 
+    public buttonGo        = input.required<IGridRowButtonGo<T>>(); 
     public showStriped     = input.required<boolean>();
     public showBorders     = input.required<boolean>();
     public showHover       = input.required<boolean>(); 
@@ -36,39 +39,110 @@ export class CoerGridBody<T> {
     protected onClickGoRow     = output<T>();
 
     //computed  
-    protected isLoading = computed(() => this.isLoadingSIGNAL()()); 
+    protected isLoading = computed(() => this.isLoadingSIGNAL()());  
+
 
     /** */
-    protected _ShowButtonByRow(property: 'showDeleteButton' | 'showEditButton' | 'showModalButton' | 'showGoButton', data: any = null) {
+    protected _ShowDeleteButton(row: any = null) {
         let response = false;
 
-        if(!this.isEnabled() && ['showDeleteButton', 'showEditButton'].includes(property)) {
-            return response;
+        if(this.isEnabled() && !this.isLoading()) {
+            if (Tools.IsNull(row)) {
+                response = Tools.IsBoolean(this.buttonDelete().show) ? Boolean(this.buttonDelete().show) : true;
+            }
+
+            else if (Tools.IsBoolean(this.buttonDelete().show)) {
+                response = Boolean(this.buttonDelete().show);
+            }
+
+            else if (Tools.IsFunction(this.buttonDelete().show)) {
+                const show = this.buttonDelete().show as ((item: IGridItem<T>) => boolean);
+                response = show({ indexRow: row.indexRow, property: 'rowButtonDelete', row, value: null });
+            }
         } 
 
-        if(this.isLoading() || this.dataSource().filter(x => x.indexGroup >= 0).length > 0 ) {
-            return response;
+        return response;  
+    }
+
+
+    /** */
+    protected _ShowEditButton(row: any = null) {
+        let response = false;
+
+        if(this.isEnabled() && !this.isLoading()) {
+            if (Tools.IsNull(row)) {
+                response = Tools.IsBoolean(this.buttonEdit().show) ? Boolean(this.buttonEdit().show) : true;
+            }
+
+            else if (Tools.IsBoolean(this.buttonEdit().show)) {
+                response = Boolean(this.buttonEdit().show);
+            }
+
+            else if (Tools.IsFunction(this.buttonEdit().show)) {
+                const show = this.buttonEdit().show as ((item: IGridItem<T>) => boolean);
+                response = show({ indexRow: row.indexRow, property: 'rowButtonEdit', row, value: null });
+            }
+        } 
+
+        return response;  
+    } 
+
+
+    /** */
+    protected _ShowModalButton(row: any = null) {
+        let response = false; 
+
+        if(!this.isLoading() && this.dataSource().length > 0) {
+            if (Tools.IsNull(row)) {
+                response = Tools.IsBoolean(this.buttonModal().show) ? Boolean(this.buttonModal().show) : true;
+            }
+
+            else if (Tools.IsBoolean(this.buttonModal().show)) {
+                response = Boolean(this.buttonModal().show);
+            }
+
+            else if (Tools.IsFunction(this.buttonModal().show)) {
+                const show = this.buttonModal().show as ((item: IGridItem<T>) => boolean);
+                response = show({ indexRow: row.indexRow, property: 'rowButtonModal', row, value: null });
+            }
+        } 
+
+        return response;  
+    } 
+
+
+    /** */
+    protected _ShowGoButton(row: any = null) {
+        let response = false; 
+
+        if(!this.isLoading() && this.dataSource().length > 0) {
+            if (Tools.IsNull(row)) {
+                response = Tools.IsBoolean(this.buttonGo().show) ? Boolean(this.buttonGo().show) : true;
+            }
+
+            else if (Tools.IsBoolean(this.buttonGo().show)) {
+                response = Boolean(this.buttonGo().show);
+            }
+
+            else if (Tools.IsFunction(this.buttonGo().show)) {
+                const show = this.buttonGo().show as ((item: IGridItem<T>) => boolean);
+                response = show({ indexRow: row.indexRow, property: 'rowButtonGo', row, value: null });
+            }
+        } 
+
+        return response;  
+    }  
+
+
+    /** */
+    protected _GetPath = (row: any): string => { 
+        if(Tools.IsFunction(this.buttonGo().path) && !Tools.IsBooleanTrue(this.buttonGo().preventDefault)) { 
+            const path = this.buttonGo().path as ((item: IGridItem<T>) => string);
+            return path({ indexRow: row.indexRow, property: 'rowButtonGo', row, value: null });
         }
 
-        const buttonByRow: any = this.buttonByRow();
-        const row = Tools.IsNotNull(data) ? { ...data } : null;
-
-        if (buttonByRow.hasOwnProperty(property)) {
-            if (row === null) {
-                response = (typeof buttonByRow[property] === 'boolean') ? buttonByRow[property] : true;
-            }
-
-            else if (typeof buttonByRow[property] === 'boolean') {
-                response = buttonByRow[property];
-            }
-
-            else if (typeof buttonByRow[property] === 'function') {
-                response = buttonByRow[property]({ indexRow: data.indexRow, property, row, value: null });
-            }
-        } 
-
-        return response;
-    }
+        return '';
+    } 
 
 
     /** */
@@ -79,5 +153,5 @@ export class CoerGridBody<T> {
         // }
 
         this.onClickRow.emit(row);
-    }
+    } 
 }
