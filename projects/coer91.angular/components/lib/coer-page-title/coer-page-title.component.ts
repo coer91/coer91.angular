@@ -1,4 +1,4 @@
-import { Component, computed, input, output, viewChild } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { breakpointSIGNAL } from '@library/signals';
 import { Navigation, Tools } from 'coer91.tools';
 import { ITitleBreadcrumb, ITitleGoBack, ITitleInformation } from 'coer91.tools/interfaces';
@@ -23,6 +23,7 @@ export class CoerPageTitle {
     
     //Outputs 
     public readonly onClickInformation = output<void>();
+    public readonly onClickGoBack      = output<void>();
 
 
     //Constructor
@@ -50,9 +51,13 @@ export class CoerPageTitle {
         this.breadcrumbs().slice(0, (breakpointSIGNAL() == 'mv' ? 1 : this.breadcrumbs().length))
     );  
 
-    //computed
-    protected _showGoBack = computed<boolean>(() =>  
-        this.goBack().show && Tools.IsNotOnlyWhiteSpace(this.goBack().path)
-    ); 
 
+    /** */
+    protected _ClickGoBack() {
+        if(Tools.IsFunction(this.goBack().click)) {
+            this.goBack().click!();
+        }
+
+        this.onClickGoBack.emit();
+    }
 }

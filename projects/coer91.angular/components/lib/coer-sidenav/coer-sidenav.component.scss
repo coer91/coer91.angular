@@ -36,7 +36,7 @@ div.coer-sidenav {
                     display: flex !important;
                     align-items: center !important;
                     gap: 10px !important;
-                    background-color:var(--sidenav);
+                    background-color: var(--sidenav);
                     border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
                     user-select: none !important;  
                    
@@ -84,9 +84,9 @@ div.coer-sidenav {
         div.margin {
             height: 10px!important;
             background: linear-gradient(
-              to bottom,
-              color-mix(in srgb, var(--smoke), var(--dark) 15%),  
-              var(--smoke)
+                to bottom,
+                color-mix(in srgb, var(--smoke), var(--dark) 15%),  
+                var(--smoke)
             ) !important;
             position: sticky !important;
             top: 0px !important;

@@ -1,18 +1,23 @@
-import { Component, AfterViewInit, OnDestroy, viewChild, computed } from '@angular/core'; 
+import { Component, viewChild, computed } from '@angular/core'; 
 import { CoerSelectBox } from '@library/components';
+import { page } from '@library/tools';
 
 @Component({
     selector: 'coer-selectbox-page',
     templateUrl: './coer-selectbox.page.html', 
     standalone: false
 })
-export class CoerSelectboxPage implements AfterViewInit, OnDestroy {       
+export class CoerSelectboxPage extends page {       
 
     //Elements
     protected readonly selectboxRef = viewChild.required<CoerSelectBox<any>>('selectboxRef'); 
      
     //Variables
     protected value1 = null;
+
+    constructor() {
+        super('coer-selectbox');
+    }
 
     protected dataSource1 = computed(() => [ 
         { id: 1,  name: 'Hola1', icon: 'i91-alarm'  },
@@ -25,15 +30,5 @@ export class CoerSelectboxPage implements AfterViewInit, OnDestroy {
         { id: 8,  name: 'Hola8', icon: 'i91-alarm'  },
         { id: 9,  name: 'Hola9', icon: 'i91-alarm'  },
         { id: 10, name: 'Hola10' } 
-    ]);
-     
-    //AfterViewInit
-    async ngAfterViewInit() {
-       
-    } 
-
-    //OnDestroy
-    ngOnDestroy() {
-         
-    }   
+    ]);   
 }

@@ -1,29 +1,14 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core'; 
+import { Component } from '@angular/core'; 
+import { page } from '@library/tools';
 
 @Component({
     selector: 'coer-button-page',
     templateUrl: './coer-button.page.html', 
     standalone: false
 })
-export class CoerButtonPage implements AfterViewInit, OnDestroy {       
-
-    //Variables
-     
-
-    //output
+export class CoerButtonPage extends page { 
     
-
-    //input
-     
-
-    //AfterViewInit
-    async ngAfterViewInit() {
-       
+    constructor() {
+        super('coer-button');
     }
-
-
-    //OnDestroy
-    ngOnDestroy() {
-         
-    }   
 }

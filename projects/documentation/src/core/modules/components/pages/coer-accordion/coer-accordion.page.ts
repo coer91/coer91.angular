@@ -1,33 +1,26 @@
-import { Component, AfterViewInit, OnDestroy, viewChild } from '@angular/core'; 
-import { CoerAccordion } from '@library/components';
+import { Component, viewChild } from '@angular/core'; 
+import { CoerAccordion } from '@library/components';  
+import { page } from '@library/tools';
 
 @Component({
     selector: 'coer-accordion-page',
     templateUrl: './coer-accordion.page.html', 
     standalone: false
 })
-export class CoerAccordionPage implements AfterViewInit, OnDestroy {   
+export class CoerAccordionPage extends page {   
     
     //Elements
     protected accordion1 = viewChild<CoerAccordion>('accordion1');
 
-    //Variables
+    //Variables  
      
-
-    //output
-    
-
-    //input
-     
-
-    //AfterViewInit
-    async ngAfterViewInit() {
-       
+    constructor() {
+        super('coer-accordion');
     }
 
 
-    //OnDestroy
-    ngOnDestroy() {
+    //Main
+    override RunPage() {
          
     }   
 }

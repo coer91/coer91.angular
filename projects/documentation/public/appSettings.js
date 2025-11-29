@@ -1,7 +1,7 @@
 const appSettings = {
     appInfo: {
         id: 1,
-        project: 'COER 91',
+        project: 'COER91',
         title: 'COER 91',
         storage: 'coer91',
         version: '0.0.0'
@@ -18,6 +18,7 @@ const appSettings = {
         format: 'MDY'
     },
     navigation: {
-        static: true
+        static: true,
+        useHash: true
     },
 }

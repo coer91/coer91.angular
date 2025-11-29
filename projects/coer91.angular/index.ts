@@ -26,7 +26,7 @@ import * as pipes      from '@library/pipes';
         RouterOutlet,
         FormsModule,
         ReactiveFormsModule,
-        pages.HomePage, 
+        pages.HomePage,  
         components.CoerAccordion,
         components.CoerButton,
         components.CoerGrid,

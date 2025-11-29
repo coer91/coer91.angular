@@ -1,11 +1,17 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core'; 
+import { Component } from '@angular/core'; 
+import { page } from '@library/tools';
 
 @Component({
     selector: 'coer-grid-page',
     templateUrl: './coer-grid.page.html', 
     standalone: false
 })
-export class CoerGridPage implements AfterViewInit, OnDestroy {       
+export class CoerGridPage extends page {     
+    
+    constructor() {
+        super('coer-grid');
+    }
+
     protected dataSource2 = []
     //Variables
     protected dataSource = [
@@ -66,24 +72,7 @@ export class CoerGridPage implements AfterViewInit, OnDestroy {
         { id: 2, name: 'Two' },
         { id: 3, name: 'Three' }, 
         { id: 4, name: 'Four' }, 
-    ];
-
-    //output
-    
-
-    //input
-     
-
-    //AfterViewInit
-    async ngAfterViewInit() {
-       
-    }
-
-
-    //OnDestroy
-    ngOnDestroy() {
-         
-    }  
+    ]; 
 
     Log(event: string, value: any){ 
         console.log({ event, value })

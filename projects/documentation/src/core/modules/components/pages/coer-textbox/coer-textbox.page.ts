@@ -1,29 +1,14 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core'; 
+import { Component } from '@angular/core'; 
+import { page } from '@library/tools';
 
 @Component({
     selector: 'coer-textbox-page',
     templateUrl: './coer-textbox.page.html', 
     standalone: false
 })
-export class CoerTextboxPage implements AfterViewInit, OnDestroy {       
+export class CoerTextboxPage extends page {     
 
-    //Variables
-     
-
-    //output
-    
-
-    //input
-     
-
-    //AfterViewInit
-    async ngAfterViewInit() {
-       
+    constructor() {
+        super('coer-textbox');
     }
-
-
-    //OnDestroy
-    ngOnDestroy() {
-         
-    }   
 }

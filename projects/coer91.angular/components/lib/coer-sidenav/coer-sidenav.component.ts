@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnDestroy, signal, input, viewChildren, EffectRef, effect, computed, inject } from '@angular/core';
-import { HTMLElements, Navigation, Tools, Screen }from 'coer91.tools';
+import { HTMLElements, Navigation, Tools, Screen, Strings, Source }from 'coer91.tools';
 import { IMenu, IMenuSelected, IScreenSize } from 'coer91.tools/interfaces'; 
 import { CoerSidenavAccordion } from './coer-sidenav-accordion/coer-sidenav-accordion.component';
 import { breakpointSIGNAL, navigationSIGNAL } from '../../../signals/index';
@@ -24,9 +24,7 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
     protected readonly _effectNavigation!: EffectRef;
     protected readonly _isOpen = signal<boolean>(['lg', 'xl', 'xxl'].includes(breakpointSIGNAL()));   
     protected readonly _navigationSIGNAL = navigationSIGNAL;    
-    protected isLoading: boolean = false;
-     
-    //output 
+    protected isLoading: boolean = false; 
 
     //input 
     public navigation         = input<IMenu[]>([]); 
@@ -114,6 +112,8 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
 
     /** */
     protected _ClickOptionLv1(lv1: IMenu, lv1Id: string) {
+        Source.Reset();
+
         this._ClickOption({
             id: lv1Id,
             menu: { ...lv1 }, 
@@ -128,6 +128,8 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
 
     /** */
     protected _ClickOptionLv2(lv2: IMenu, lv1: IMenu, lv2Id: string, lv1Id: string) {
+        Source.Reset();
+
         this._ClickOption({
             id: lv2Id,
             menu: { ...lv2 }, 
@@ -143,6 +145,8 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
 
     /** */
     protected _ClickOptionLv3(lv3: IMenu, lv2: IMenu, lv1: IMenu, lv3Id: string, lv2Id: string, lv1Id: string) {
+        Source.Reset();
+
         this._ClickOption({
             id: lv3Id,
             menu: { ...lv3 }, 
@@ -187,47 +191,82 @@ export class CoerSidenav implements AfterViewInit, OnDestroy {
 
 
     /** */
+    protected _ClickMenuGrid(lv1: IMenu, lv1Id: string) {
+        Source.Reset();
+
+        this._ClickOption({
+            id: lv1Id,
+            menu: { ...lv1 }, 
+            level: 'LV1',
+            action: 'GRID',
+            tree: [
+                { id: lv1Id, label: lv1.label, icon: lv1?.icon || '' }
+            ]
+        });
+    } 
+
+
+    /** */
     protected async _ClickOption(option: IMenuSelected) { 
-        if(option.action.equals('NONE')) { 
-            this._router.navigateByUrl(String(option?.menu?.path));
+        const OPTION = { ...option };
+
+        if(['NONE', 'GRID'].includes(OPTION.action)) {              
+            if(OPTION.action.equals('GRID')) {
+                if(![...OPTION.tree].pop()?.id.equals('GRID')) {
+                    OPTION.tree.push({ id: 'GRID', label: 'Menu', icon: 'i91-grip-vertical' });
+                }
+
+                this._router.navigateByUrl('/menu'); 
+            }
+
+            else {
+               this._router.navigateByUrl(String(OPTION?.menu?.path));
+            } 
 
             if(['mv', 'xs', 'sm', 'md'].includes(breakpointSIGNAL())) {
                 this.Close();
             }
-            
-            Navigation.SetSelectedMenu(option);   
+           
+            OPTION.menu.items = [];
+            Navigation.SetSelectedMenu(OPTION);   
 
-            Tools.Sleep(0, 'update-menu-selected').then(() => {
+            Tools.Sleep(0, 'update-menu-selected').then(() => {            
                 document.querySelectorAll<HTMLElement>('.selected').forEach(item => item.classList.remove('selected'));
-                option.tree.forEach(({ id }) => HTMLElements.AddClass(`#${id}`, 'selected')); 
+                OPTION.tree.forEach(({ id }) => HTMLElements.AddClass(`#${id}`, 'selected')); 
                 
                 //Close Menus
                 for(const accordion of this._menuList() || []) {                
-                    if(option.level.equals('LV1')) { 
+                    if(OPTION.level.equals('LV1')) { 
                         accordion.Close();
                     }
     
-                    else if(option.level.equals('LV2')) {
-                        if(option.tree[0].id.equals(accordion.id())) continue;
+                    else if(OPTION.level.equals('LV2')) {
+                        if(OPTION.tree[0].id.equals(accordion.id())) continue;
                         else accordion.Close();
                     }
                 }   
             });
-        } 
+        }  
 
-        else {             
+        else {      
             for(const accordion of this._menuList() || []) {
-                if(option.level.equals('LV1')) {
-                    if(accordion.id().equals(option.id)) continue;
+                if(OPTION.level.equals('LV1')) {
+                    if(accordion.id().equals(OPTION.id)) continue;
                     else accordion.Close();
                 }
 
-                else if(option.level.equals('LV2')) {  
-                    if(option.tree[0].id.equals(accordion.id())) continue;
-                    if(option.tree[1].id.equals(accordion.id())) continue;
+                else if(OPTION.level.equals('LV2')) {  
+                    if(OPTION.tree[0].id.equals(accordion.id())) continue;
+                    if(OPTION.tree[1].id.equals(accordion.id())) continue;
                     accordion.Close();                     
                 }
             } 
         } 
+    } 
+
+
+    /** */
+    protected _isMenu = (item: IMenu) => {
+        return Tools.IsNotNull(item.items) && !Strings.Equals(item.show, 'GRID');
     } 
 }

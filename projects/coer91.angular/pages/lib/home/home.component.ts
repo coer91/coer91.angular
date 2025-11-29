@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';  
+import { page } from '@library/tools';
 
 @Component({
     selector: 'home-page',
@@ -6,9 +7,9 @@ import { Component } from '@angular/core';
     styleUrl: './home.component.scss',
     standalone: false
 })
-export class HomePage   {   
+export class HomePage extends page {   
   
     constructor() { 
-            
+        super('Home');        
     }
 }
