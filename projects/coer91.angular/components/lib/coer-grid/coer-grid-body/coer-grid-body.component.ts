@@ -37,6 +37,7 @@ export class CoerGridBody<T> {
     protected onClickEditRow   = output<T>();
     protected onClickModalRow  = output<T>();
     protected onClickGoRow     = output<T>();
+    protected onSwitchChange   = output<IGridItem<T>>();
 
     //computed  
     protected isLoading = computed(() => this.isLoadingSIGNAL()());  

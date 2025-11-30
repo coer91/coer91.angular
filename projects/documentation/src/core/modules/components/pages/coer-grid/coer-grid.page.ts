@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'; 
 import { page } from '@library/tools';
+import { IGridCoerSwitch } from 'projects/coer91.angular/components/lib/coer-grid/interfaces';
 
 @Component({
     selector: 'coer-grid-page',
@@ -15,63 +16,10 @@ export class CoerGridPage extends page {
     protected dataSource2 = []
     //Variables
     protected dataSource = [
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-         { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
-        { id: 1, name: 'One' },
-        { id: 2, name: 'Two' },
-        { id: 3, name: 'Three' }, 
-        { id: 4, name: 'Four' }, 
+        { id: 1, name: 'One'  , isBool: true },
+        { id: 2, name: 'Two'  , isBool: false },
+        { id: 3, name: 'Three', isBool: true }, 
+        { id: 4, name: 'Four' , isBool: false },  
     ]; 
 
     Log(event: string, value: any){ 
@@ -80,4 +28,12 @@ export class CoerGridPage extends page {
 
 
     protected path = (xxx: any) => `${xxx.row.id}`
+
+    coerSwitch = (element: any): IGridCoerSwitch => {
+        return {
+            showInput: true,
+            type:'checkbox'
+        }
+
+    }
 }

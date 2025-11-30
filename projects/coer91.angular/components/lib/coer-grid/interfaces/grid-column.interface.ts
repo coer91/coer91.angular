@@ -1,8 +1,5 @@
-// import { IGridCoerNumberBox } from "./grid-coer-numberbox.interface";
-// import { IGridCoerSelectBox } from "./grid-coer-selectbox.interface";
-// import { IGridCoerSwitch } from "./grid-coer-switch.interface";
-// import { IGridCoerTextBox } from "./grid-coer-textbox.interface";
-// import { IGridItem } from "./grid-item.interface";
+import { IGridCoerSwitch } from "./grid-coer-switch.interface";
+import { IGridItem } from "./grid-item.interface"; 
 
 export interface IGridColumn<T> {
     property:          string;
@@ -22,8 +19,8 @@ export interface IGridColumn<T> {
     // typeDate?:      boolean | ((item: IGridItem<T>) => boolean);
     // typeDateTime?:  boolean | ((item: IGridItem<T>) => boolean);
     // toLocalZone?:   boolean | ((item: IGridItem<T>) => boolean);
-    // template?:      null    | ((item: IGridItem<T>) => string) | string;
-    // coerSwitch?:    null    | ((item: IGridItem<T>) => IGridCoerSwitch);
+    template?:         null    | ((item: IGridItem<T>) => string) | string;
+    coerSwitch?:       null    | ((item: IGridItem<T>) => IGridCoerSwitch);
     // coerTextbox?:   null    | ((item: IGridItem<T>) => IGridCoerTextBox);
     // coerNumberbox?: null    | ((item: IGridItem<T>) => IGridCoerNumberBox);
     // coerSelectbox?: null    | ((item: IGridItem<T>) => IGridCoerSelectBox);

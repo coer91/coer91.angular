@@ -23,22 +23,24 @@ export class CoerSwitch extends ControlValue implements AfterViewInit, OnDestroy
     protected onDestroy = output<void>();
 
     //input
-    public label         = input<string>(''); 
-    public labelPosition = input<'left' | 'right'>('right'); 
-    public breakLabel    = input<boolean>(true); 
-    public type          = input<'switch' | 'checkbox'>('switch');
-    public color         = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information'>('primary');  
-    public textColor     = input<boolean>(true);    
-    public isLoading     = input<boolean>(false); 
-    public isReadonly    = input<boolean>(false);
-    public isInvisible   = input<boolean>(false);
-    public isHidden      = input<boolean>(false);
-    public width         = input<string>('fit-content'); 
-    public maxWidth      = input<string>('fit-content'); 
-    public marginTop     = input<string>('0px');
-    public marginRight   = input<string>('0px');
-    public marginBottom  = input<string>('0px');
-    public marginLeft    = input<string>('0px'); 
+    public label           = input<string>(''); 
+    public labelPosition   = input<'left' | 'right'>('right'); 
+    public breakLabel      = input<boolean>(true); 
+    public type            = input<'switch' | 'checkbox'>('switch');
+    public color           = input<'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information'>('primary');  
+    public textColor       = input<boolean>(true);    
+    public isLoading       = input<boolean>(false); 
+    public isReadonly      = input<boolean>(false);
+    public isInvisible     = input<boolean>(false);
+    public isHidden        = input<boolean>(false);
+    public tooltip         = input<string>(''); 
+    public tooltipPosition = input<'top' | 'right' | 'bottom'| 'left'>('left');  
+    public width           = input<string>('fit-content'); 
+    public maxWidth        = input<string>('fit-content'); 
+    public marginTop       = input<string>('0px');
+    public marginRight     = input<string>('0px');
+    public marginBottom    = input<string>('0px');
+    public marginLeft      = input<string>('0px'); 
 
 
     /** Sets the value of the component */

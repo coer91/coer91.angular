@@ -1,6 +1,23 @@
 @switch(input) {
     @case ('coer-switch') {
-        
+        <coer-switch
+            #coerSwitch
+            [id]="id()"
+            [ngModel]="row()[column().config.property]"
+            [isReadonly]="_switchAttributes()?.isReadonly || false" 
+            [type]="_switchAttributes()?.type || 'switch'"
+            [tooltip]="_switchAttributes()?.tooltip || ''"
+            [tooltipPosition]="_switchAttributes()?.tooltipPosition || 'left'"
+            marginLeft="auto"
+            marginRight="auto"
+            [isLoading]="isLoading()"
+            (onInput)="onSwitchChange.emit({ 
+                indexRow: row().indexRow,  
+                property: column().config.property, 
+                row: row(), 
+                value: $event 
+            })"
+        ></coer-switch>
     }
 
     @case ('coer-textbox') {

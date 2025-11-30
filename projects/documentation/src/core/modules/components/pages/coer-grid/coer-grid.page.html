@@ -8,8 +8,9 @@
     <coer-grid 
         [(ngModel)]="dataSource" 
         [columns]="[
-            { property: 'id'  , alias: 'id', width: '20px' },
-            { property: 'name', alias: 'Hola' }
+            { property: 'id'  ,   alias: 'id'    , width: '20px' },
+            { property: 'name',   alias: 'Hola'   },
+            { property: 'isBool', alias: 'is', coerSwitch, width: '40px' }
         ]" 
         [search]="{ show: true }"
         [headerButtonAdd]="{ show: true, }"
@@ -40,3 +41,5 @@
         (onDestroy)="Log('onDestroy', $event)"
     ></coer-grid> 
 </section>
+
+{{ dataSource | json }}

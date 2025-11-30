@@ -1,4 +1,5 @@
 export * from './grid-button-by-row.interface';
+export * from './grid-coer-switch.interface';
 export * from './grid-column-index.interface';
 export * from './grid-column.interface';
 export * from './grid-data-source.interface';

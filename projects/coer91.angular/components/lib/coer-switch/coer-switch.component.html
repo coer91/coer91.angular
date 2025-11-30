@@ -24,7 +24,7 @@
                     class="coer-switch-base"
                     [ngClass]="{ 'animation-appear': isLoading() }" 
                     [ngStyle]="{ 
-                        'background-color': !_value ? 'var(--input)' : `var(--${color()}-light)` 
+                        'background-color': !_value ? 'var(--readonly)' : `var(--${color()}-light)` 
                     }">
                     <div class="coer-switch-selector" 
                         [ngStyle]="{ 
@@ -39,8 +39,8 @@
                     class="coer-checkbox-base"
                     [ngClass]="{ 'animation-appear': isLoading() }"
                     [ngStyle]="{ 
-                        'background-color': !_value ? 'var(--light)' : `var(--${color()})`, 
-                        'border-color'    : !_value ? 'var(--gray)'  : `var(--${color()})` 
+                        'background-color': !_value ? 'var(--light)'   : `var(--${color()})`, 
+                        'border-color'    : !_value ? 'var(--readonly)': `var(--${color()})` 
                     }">
 
                     <i class="i91-check" [ngStyle]="{ color: _checkboxColor }"></i>

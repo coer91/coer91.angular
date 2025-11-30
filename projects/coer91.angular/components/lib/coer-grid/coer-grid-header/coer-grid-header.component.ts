@@ -39,7 +39,7 @@ export class CoerGridHeader<T> implements AfterViewInit, OnDestroy {
     protected onClickSave        = output<void>();
     protected onClickSearch      = output<IGridInputEnter<T>>();
     protected onClickClearSearch = output<IGridInputEnter<T>>();
-    protected onKeyupEnterSearch = output<IGridInputEnter<T>>(); 
+    protected onKeyupEnterSearch = output<IGridInputEnter<T>>();  
     protected onReady            = output<void>();
     protected onDestroy          = output<void>(); 
 

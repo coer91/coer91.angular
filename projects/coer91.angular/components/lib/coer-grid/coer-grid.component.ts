@@ -1,4 +1,4 @@
-import { IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputEnter, IGridInputImport,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
+import { IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputEnter, IGridInputImport,  IGridItem,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
 import { Component, input, AfterViewInit, output, OnDestroy, computed, signal, viewChild } from '@angular/core';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
 import { HTMLElements, Tools } from 'coer91.tools';
@@ -18,7 +18,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
     //Variables
     protected override _value : T[] = [];
-    protected _valueSIGNAL = signal<T[]>([]);
+    protected readonly _valueSIGNAL = signal<T[]>([]);
     protected readonly _id = Tools.GetGuid("coer-grid"); 
     protected readonly _searchSIGNAL = signal<string | number>('');
     protected readonly _isLoadingSIGNAL = signal<boolean>(false);
@@ -72,6 +72,10 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected onClickGoRow       = output<T>();
     protected onReady            = output<void>();
     protected onDestroy          = output<void>();
+    protected onSwitchChange     = output<IGridItem<T>>();
+    protected onTextboxChange    = output<IGridItem<T>>();
+    protected onNumberboxChange  = output<IGridItem<T>>();
+    protected onSelectboxChange  = output<IGridItem<T>>();
 
     /** Sets the value of the component */
     protected override setValue(value: T[] | null): void {
@@ -84,6 +88,30 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         } 
 
         this._valueSIGNAL.set(this._value);   
+    }
+
+
+    //ControlValueAccessor
+    protected _SetValueInput(row: IGridItem<T>, input: 'coer-switch' | 'coer-textbox' | 'coer-numberbox' | 'coer-selectbox'): void {  
+        if(Tools.IsNotNull(this._value[row.indexRow])) {            
+            (this._value[row.indexRow] as any)[row.property] = row.value;
+            
+            Tools.Sleep(1500, `update-${row.property}-${row.indexRow}`).then(() => { 
+                this._valueSIGNAL.set(this._value);
+                this._value = [...this._value];
+                
+                if(typeof this._UpdateValue === 'function')  {
+                   this._UpdateValue(this._value); 
+                }
+            });
+
+            switch(input) {
+                case 'coer-switch'   : this.onSwitchChange.emit(row);    break;
+                case 'coer-textbox'  : this.onTextboxChange.emit(row);   break;
+                case 'coer-numberbox': this.onNumberboxChange.emit(row); break;
+                case 'coer-selectbox': this.onSelectboxChange.emit(row); break;
+            }
+        }  
     }
 
 
@@ -217,15 +245,26 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
     /** */
     protected _GetColumnConfig = (property: string): IGridColumn<T> | null => {
-        const COLUMN_CONFIG = this.columns().find(x => x.property.equals(property)) || {} as any;   
+        const COLUMN_CONFIG = this.columns().find(x => x.property.equals(property)) || {} as any; 
+        
+        let width      = COLUMN_CONFIG?.width      || 'auto';
+        let height     = COLUMN_CONFIG?.height     || '20px';
+        let textAlignX = COLUMN_CONFIG?.textAlignX || 'left';
+        let textAlignY = COLUMN_CONFIG?.textAlignY || 'middle';
+
+        //coer-switch
+        if(Tools.IsNotNull(COLUMN_CONFIG?.coerSwitch)) {
+            if (Tools.IsOnlyWhiteSpace(COLUMN_CONFIG?.width))      width      = '100px';
+            if (Tools.IsOnlyWhiteSpace(COLUMN_CONFIG?.textAlignX)) textAlignX = 'center';
+        } 
 
         return {
             property, 
             ...COLUMN_CONFIG,
-            width:      COLUMN_CONFIG?.width      || 'auto',
-            height:     COLUMN_CONFIG?.height     || '20px',
-            textAlignX: COLUMN_CONFIG?.textAlignX || 'left',
-            textAlignY: COLUMN_CONFIG?.textAlignY || 'middle',  
+            width,
+            height,
+            textAlignX,
+            textAlignY,  
         }  
     }
     
@@ -307,5 +346,5 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         }
 
         this.onClickDeleteRow.emit(row);
-    }
+    } 
 }
