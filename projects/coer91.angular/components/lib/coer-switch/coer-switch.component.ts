@@ -18,6 +18,7 @@ export class CoerSwitch extends ControlValue implements AfterViewInit, OnDestroy
     protected _htmlElement!: HTMLElement; 
 
     //output 
+    protected onClick   = output<boolean>();
     protected onInput   = output<boolean>();
     protected onReady   = output<void>();
     protected onDestroy = output<void>();
@@ -47,12 +48,13 @@ export class CoerSwitch extends ControlValue implements AfterViewInit, OnDestroy
     protected override setValue(value: boolean): void {
         if(Tools.IsNull(value)) value = false;
 
-        this._value = value; 
-         
+        this._value = value;          
+        
         if(typeof this._UpdateValue === 'function')  {
             this._UpdateValue(this._value); 
-            this.onInput.emit(value);
-        }    
+        }   
+        
+        Tools.Sleep(0, this._id).then(() => this.onInput.emit(value));
     }
 
 
@@ -81,9 +83,10 @@ export class CoerSwitch extends ControlValue implements AfterViewInit, OnDestroy
     
     
     /** */
-    protected Toggle(): void {  
+    protected Toggle(): void {
         if(this._value) this.Uncheck();
         else this.Check();
+        this.onClick.emit(this._value);  
     }
 
 

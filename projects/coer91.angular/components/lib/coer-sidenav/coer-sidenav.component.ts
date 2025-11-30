@@ -34,7 +34,7 @@ export class CoerSidenav implements OnDestroy {
     constructor() {
         this._effectNavigation = effect(() => {  
             const navigation: any[] = this.showHomeNavigation() 
-                ? [{ id: 1, label: 'Home', icon: 'i91-house-door-fill', path: '/home' } as any].concat(this.navigation()) 
+                ? [{ id: 1, label: 'Home', icon: 'i91-house-door-fill', path: '/home', items: null } as any].concat(this.navigation()) 
                 : this.navigation(); 
             
             Tools.Sleep().then(async () => {                 
@@ -43,13 +43,13 @@ export class CoerSidenav implements OnDestroy {
                 if(navigation.length > 0) {
                     await Tools.Sleep();
                     
-                    const menu = Navigation.GetSelectedMenu();   
+                    const menu = Navigation.GetSelectedMenu();    
                      
                     if(menu) this._NavigateToOption(menu); 
                     
                     else if(this.showHomeNavigation()) this._NavigateToOption({
                         id: `lv1-1-index0`,
-                        menu: navigation[0],
+                        menu: { ...navigation[0] },
                         level: 'LV1',
                         action: 'NONE',
                         tree: [{ id: `lv1-1-index0`, label: navigation[0].label, icon: navigation[0].icon }]
@@ -227,7 +227,7 @@ export class CoerSidenav implements OnDestroy {
     /** */
     protected async _NavigateToOption(option: IMenuSelected, navigate: boolean = false) {  
         const OPTION = { ...option };
-
+         
         if(['NONE', 'GRID'].includes(OPTION.action)) {  
                          
             Tools.Sleep(0, 'update-menu-selected').then(() => {                 

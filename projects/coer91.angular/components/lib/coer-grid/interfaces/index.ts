@@ -1,4 +1,5 @@
 export * from './grid-button-by-row.interface';
+export * from './grid-check-row.interface';
 export * from './grid-coer-switch.interface';
 export * from './grid-column-index.interface';
 export * from './grid-column.interface';
@@ -12,6 +13,7 @@ export * from './grid-input-enter.interface';
 export * from './grid-input-import.interface';
 export * from './grid-item.interface';
 export * from './grid-header-search.interface';
+export * from './grid-input-check-row.interface';
 export * from './grid-row-button-delete.interface';
 export * from './grid-row-button-edit.interface';
 export * from './grid-row-button-go.interface';

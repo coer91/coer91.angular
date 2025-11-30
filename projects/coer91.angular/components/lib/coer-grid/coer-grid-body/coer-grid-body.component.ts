@@ -1,5 +1,5 @@
 import { Tools } from 'coer91.tools';
-import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo } from '../interfaces';
+import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo, IGridCheckRow, IGridInputCheckRow } from '../interfaces';
 import { Component, computed, input, output, WritableSignal } from '@angular/core'; 
 
 
@@ -12,35 +12,52 @@ import { Component, computed, input, output, WritableSignal } from '@angular/cor
 export class CoerGridBody<T> {
 
     //Variables
-    protected IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
+    protected readonly IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
+    protected _checkAll: boolean = false;
 
     //Elements 
     
     //Inputs  
-    public CalculateId     = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
-    public columns         = input.required<IGridColumnIndex<T>[]>();
-    public dataSource      = input.required<IGridDataSource[]>();
-    public buttonDelete    = input.required<IGridRowButtonDelete<T>>(); 
-    public buttonEdit      = input.required<IGridRowButtonEdit<T>>(); 
-    public buttonModal     = input.required<IGridRowButtonModal<T>>(); 
-    public buttonGo        = input.required<IGridRowButtonGo<T>>(); 
-    public showStriped     = input.required<boolean>();
-    public showBorders     = input.required<boolean>();
-    public showHover       = input.required<boolean>(); 
-    public isLoadingSIGNAL = input.required<WritableSignal<boolean>>(); 
-    public isEnabled       = input.required<boolean>();   
+    public readonly CalculateId     = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
+    public readonly columns         = input.required<IGridColumnIndex<T>[]>();
+    public readonly valueSIGNAL     = input.required<T[]>();
+    public readonly dataSource      = input.required<IGridDataSource[]>();
+    public readonly buttonDelete    = input.required<IGridRowButtonDelete<T>>(); 
+    public readonly buttonEdit      = input.required<IGridRowButtonEdit<T>>(); 
+    public readonly buttonModal     = input.required<IGridRowButtonModal<T>>(); 
+    public readonly buttonGo        = input.required<IGridRowButtonGo<T>>(); 
+    public readonly checkbox        = input.required<IGridCheckRow>(); 
+    public readonly showStriped     = input.required<boolean>();
+    public readonly showBorders     = input.required<boolean>();
+    public readonly showHover       = input.required<boolean>(); 
+    public readonly isLoadingSIGNAL = input.required<WritableSignal<boolean>>();  
+    public readonly isEnabled       = input.required<boolean>();   
 
     //Outputs
-    protected onClickRow       = output<T>();
-    protected onDoubleClickRow = output<T>();
-    protected onClickDeleteRow = output<T>();
-    protected onClickEditRow   = output<T>();
-    protected onClickModalRow  = output<T>();
-    protected onClickGoRow     = output<T>();
-    protected onSwitchChange   = output<IGridItem<T>>();
+    protected readonly onClickRow       = output<T>();
+    protected readonly onDoubleClickRow = output<T>();
+    protected readonly onClickDeleteRow = output<T>();
+    protected readonly onClickEditRow   = output<T>();
+    protected readonly onClickModalRow  = output<T>();
+    protected readonly onClickGoRow     = output<T>();
+    protected readonly onSwitchChange   = output<IGridItem<T>>();
+    protected readonly onCheckboxChange = output<IGridInputCheckRow<T>>();
+    protected readonly onSelectedValue  = output<T[]>();
 
     //computed  
     protected isLoading = computed(() => this.isLoadingSIGNAL()());  
+
+
+    //computed
+    protected _showCheckbox = computed(() => {
+        return this.checkbox().show && !this.isLoading() && this.isEnabled() && this.dataSource().length > 0;
+    });
+
+
+    //getter
+    protected get _isInvisibleCheckboxAll(): boolean { 
+        return this.checkbox()?.onlyOneCheck === true || !this.isEnabled() || this.isLoading(); 
+    } 
 
 
     /** */
@@ -146,13 +163,88 @@ export class CoerGridBody<T> {
     } 
 
 
+    //compute 
+    protected _checkOnRow = computed<boolean>(() => {
+        return this.checkbox().show && this.isEnabled() && Tools.IsBooleanTrue(this.checkbox().checkOnRow);
+    });
+
+
     /** */
     protected _ClickOnRow(row: T): void { 
         if(!this.isEnabled()) return;
-        // if(this._checkOnRow()) {
-        //     this.CheckBy((x: any) => x.indexRow == (row as any).indexRow);
-        // }
+
+        if(this._checkOnRow()) {
+            this.CheckBy((x: any) => x.indexRow == (row as any).indexRow);
+        }
 
         this.onClickRow.emit(row);
+    } 
+
+
+    /** */
+    protected async _ClickCheckAll(checked: boolean): Promise<void> {   
+        const SELECTED_VALUE = [...this.valueSIGNAL()].map(item => ({ ...item, checked }));
+
+        this.onSelectedValue.emit(SELECTED_VALUE);           
+    
+        //Event
+        this.onCheckboxChange.emit({ 
+            all: true,
+            checked,
+            rows: [...SELECTED_VALUE]
+        });              
+    } 
+
+
+    /** */
+    protected _ClickCheck(checked: boolean, row: any): void { 
+        if(checked) this.CheckBy((x: any) => x.indexRow == row.indexRow);
+        else this.UncheckBy((x: any) => x.indexRow == row.indexRow);
+    }
+
+
+    /** */
+    public CheckBy(callback: (row: T) => boolean): void { 
+        if(this.checkbox().show) {   
+
+            let SELECTED_VALUE: T[];
+            if(Tools.IsBooleanTrue(this.checkbox()?.onlyOneCheck)) {  
+                const CHECKBOX = this.valueSIGNAL().find(callback) as any;  
+                SELECTED_VALUE = this.valueSIGNAL().map((item: any) => ({ ...item, checked: (item.indexRow == CHECKBOX.indexRow) }));   
+            }
+
+            else {
+                SELECTED_VALUE = this.valueSIGNAL().map((item) => callback(item) ? { ...item, checked: true } : item);  
+            }
+
+            this.onSelectedValue.emit(SELECTED_VALUE);
+             
+            //Mark All checkbox
+            this._checkAll = SELECTED_VALUE.every((x: any) => x.checked); 
+            
+            //Event Checkbox Change
+            this.onCheckboxChange.emit({ 
+                all: false, 
+                checked: true, 
+                rows: [ ...SELECTED_VALUE.filter(callback) ] 
+            });   
+        }
+    } 
+
+
+    /** */
+    public UncheckBy(callback: (row: T) => boolean): void {
+        if(this.checkbox().show) {  
+            const SELECTED_VALUE = this.valueSIGNAL().map((item) => callback(item) ? { ...item, checked: false } : item); 
+            this.onSelectedValue.emit(SELECTED_VALUE);     
+ 
+            this._checkAll = SELECTED_VALUE.every((x: any) => x.checked);
+
+            this.onCheckboxChange.emit({ 
+                all: false, 
+                checked: false, 
+                rows: [ ...SELECTED_VALUE.filter(callback) ] 
+            }); 
+        }
     } 
 }

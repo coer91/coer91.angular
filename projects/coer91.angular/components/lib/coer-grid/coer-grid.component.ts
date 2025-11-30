@@ -1,4 +1,4 @@
-import { IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputEnter, IGridInputImport,  IGridItem,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
+import { IGridCheckRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputCheckRow, IGridInputEnter, IGridInputImport,  IGridItem,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
 import { Component, input, AfterViewInit, output, OnDestroy, computed, signal, viewChild } from '@angular/core';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
 import { HTMLElements, Tools } from 'coer91.tools';
@@ -14,68 +14,70 @@ import { CoerGridHeader } from './coer-grid-header/coer-grid-header.component';
 export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestroy {
     
     //Elements
-    protected _coerGridHeader = viewChild<CoerGridHeader<T>>('coerGridHeader');
+    protected readonly _coerGridHeader = viewChild<CoerGridHeader<T>>('coerGridHeader');
 
     //Variables
-    protected override _value : T[] = [];
-    protected readonly _valueSIGNAL = signal<T[]>([]);
-    protected readonly _id = Tools.GetGuid("coer-grid"); 
-    protected readonly _searchSIGNAL = signal<string | number>('');
+    protected override _value : T[]     = [];
+    protected readonly _valueSIGNAL     = signal<T[]>([]);
+    protected readonly _id              = Tools.GetGuid("coer-grid"); 
+    protected readonly _searchSIGNAL    = signal<string | number>(''); 
     protected readonly _isLoadingSIGNAL = signal<boolean>(false);
-    protected _headerReady: boolean = false;
-    protected _footerReady: boolean = false;  
+    protected _headerReady: boolean     = false;
+    protected _footerReady: boolean     = false;  
 
     //input
-    public columns            = input<IGridColumn<T>[]>([]);
-    public search             = input<IGridHeaderSearch>({ show: false }); 
-    public headerButtonExport = input<IGridHeaderButtonExport>({ show: false });
-    public headerButtonImport = input<IGridHeaderButtonImport>({ show: false });
-    public headerButtonAdd    = input<IGridHeaderButtonAdd>({ show: false });
-    public headerButtonSave   = input<IGridHeaderButton>({ show: false }); 
-    public rowButtonDelete    = input<IGridRowButtonDelete<T>>({});
-    public rowButtonEdit      = input<IGridRowButtonEdit<T>>({});
-    public rowButtonModal     = input<IGridRowButtonModal<T>>({});
-    public rowButtonGo        = input<IGridRowButtonGo<T>>({});  
-    public footer             = input<IGridFooter>({ show: true });
-    public isLoading          = input<boolean>(false); 
-    public isReadonly         = input<boolean>(false);
-    public isInvisible        = input<boolean>(false);
-    public isHidden           = input<boolean>(false);
-    public rowsByPage         = input<number>(50);
-    public showStriped        = input<boolean>(true);
-    public showBorders        = input<boolean>(true);
-    public showHover          = input<boolean>(true);
-    public width              = input<string>('100%');
-    public minWidth           = input<string>('100px');
-    public maxWidth           = input<string>('100%');
-    public height             = input<string>('350px');
-    public minHeight          = input<string>('140px');
-    public maxHeight          = input<string>('100vh');
-    public marginTop          = input<string>('0px');
-    public marginRight        = input<string>('0px');
-    public marginBottom       = input<string>('0px');
-    public marginLeft         = input<string>('0px'); 
+    public readonly columns            = input<IGridColumn<T>[]>([]);
+    public readonly search             = input<IGridHeaderSearch>({ show: false }); 
+    public readonly headerButtonExport = input<IGridHeaderButtonExport>({ show: false });
+    public readonly headerButtonImport = input<IGridHeaderButtonImport>({ show: false });
+    public readonly headerButtonAdd    = input<IGridHeaderButtonAdd>({ show: false });
+    public readonly headerButtonSave   = input<IGridHeaderButton>({ show: false }); 
+    public readonly rowButtonDelete    = input<IGridRowButtonDelete<T>>({});
+    public readonly rowButtonEdit      = input<IGridRowButtonEdit<T>>({});
+    public readonly rowButtonModal     = input<IGridRowButtonModal<T>>({});
+    public readonly rowButtonGo        = input<IGridRowButtonGo<T>>({}); 
+    public readonly checkbox           = input<IGridCheckRow>({ show: false }); 
+    public readonly footer             = input<IGridFooter>({ show: true });
+    public readonly isLoading          = input<boolean>(false); 
+    public readonly isReadonly         = input<boolean>(false);
+    public readonly isInvisible        = input<boolean>(false);
+    public readonly isHidden           = input<boolean>(false);
+    public readonly rowsByPage         = input<number>(50);
+    public readonly showStriped        = input<boolean>(true);
+    public readonly showBorders        = input<boolean>(true);
+    public readonly showHover          = input<boolean>(true);
+    public readonly width              = input<string>('100%');
+    public readonly minWidth           = input<string>('100px');
+    public readonly maxWidth           = input<string>('100%');
+    public readonly height             = input<string>('350px');
+    public readonly minHeight          = input<string>('140px');
+    public readonly maxHeight          = input<string>('100vh');
+    public readonly marginTop          = input<string>('0px');
+    public readonly marginRight        = input<string>('0px');
+    public readonly marginBottom       = input<string>('0px');
+    public readonly marginLeft         = input<string>('0px'); 
 
     //output  
-    protected onClickExport      = output<T[]>();
-    protected onClickImport      = output<IGridInputImport<T>>();
-    protected onClickAdd         = output<void>();
-    protected onClickSave        = output<void>();
-    protected onClickSearch      = output<IGridInputEnter<T>>();
-    protected onClickClearSearch = output<IGridInputEnter<T>>();
-    protected onKeyupEnterSearch = output<IGridInputEnter<T>>();
-    protected onClickRow         = output<T>();
-    protected onDoubleClickRow   = output<T>();
-    protected onClickDeleteRow   = output<T>();
-    protected onClickEditRow     = output<T>();
-    protected onClickModalRow    = output<T>();
-    protected onClickGoRow       = output<T>();
-    protected onReady            = output<void>();
-    protected onDestroy          = output<void>();
-    protected onSwitchChange     = output<IGridItem<T>>();
-    protected onTextboxChange    = output<IGridItem<T>>();
-    protected onNumberboxChange  = output<IGridItem<T>>();
-    protected onSelectboxChange  = output<IGridItem<T>>();
+    protected readonly onClickExport      = output<T[]>();
+    protected readonly onClickImport      = output<IGridInputImport<T>>();
+    protected readonly onClickAdd         = output<void>();
+    protected readonly onClickSave        = output<void>();
+    protected readonly onClickSearch      = output<IGridInputEnter<T>>();
+    protected readonly onClickClearSearch = output<IGridInputEnter<T>>();
+    protected readonly onKeyupEnterSearch = output<IGridInputEnter<T>>();
+    protected readonly onClickRow         = output<T>();
+    protected readonly onDoubleClickRow   = output<T>();
+    protected readonly onClickDeleteRow   = output<T>();
+    protected readonly onClickEditRow     = output<T>();
+    protected readonly onClickModalRow    = output<T>();
+    protected readonly onClickGoRow       = output<T>();
+    protected readonly onSwitchChange     = output<IGridItem<T>>();
+    protected readonly onTextboxChange    = output<IGridItem<T>>();
+    protected readonly onNumberboxChange  = output<IGridItem<T>>();
+    protected readonly onSelectboxChange  = output<IGridItem<T>>();
+    protected readonly onCheckboxChange   = output<IGridInputCheckRow<T>>();
+    protected readonly onDestroy          = output<void>();
+    protected onReady                     = output<void>();
 
     /** Sets the value of the component */
     protected override setValue(value: T[] | null): void {
@@ -96,7 +98,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         if(Tools.IsNotNull(this._value[row.indexRow])) {            
             (this._value[row.indexRow] as any)[row.property] = row.value;
             
-            Tools.Sleep(1500, `update-${row.property}-${row.indexRow}`).then(() => { 
+            Tools.Sleep(1500, `${this._id}-${row.property}-${row.indexRow}`).then(() => { 
                 this._valueSIGNAL.set(this._value);
                 this._value = [...this._value];
                 
@@ -105,12 +107,23 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
                 }
             });
 
-            switch(input) {
+            switch(input) { 
                 case 'coer-switch'   : this.onSwitchChange.emit(row);    break;
                 case 'coer-textbox'  : this.onTextboxChange.emit(row);   break;
                 case 'coer-numberbox': this.onNumberboxChange.emit(row); break;
                 case 'coer-selectbox': this.onSelectboxChange.emit(row); break;
             }
+        }  
+    }
+
+
+    //ControlValueAccessor
+    protected _SetSelectedValue(value: T[]): void {   
+        this._value = [...value]; 
+        this._valueSIGNAL.set(this._value);
+
+        if(typeof this._UpdateValue === 'function')  {
+            this._UpdateValue(this._value); 
         }  
     }
 
@@ -177,17 +190,22 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     });
 
 
+    //getter
+    public get selectedValue(): T[] {
+        return [...this._value].filter((x: any) => x.checked);
+    }
+
+
     //computed
     protected _dataSourceExport = computed<T[]>(() => {  
-        let DATA_SOURCE: T[] = [];
-        if (Tools.IsBooleanTrue(this.headerButtonExport()?.onlySelectedItem)) {
-            //DATA_SOURCE = this.dataSourceSelected();
+        let DATA_SOURCE = [...this._valueSIGNAL()]; 
+
+        if(Tools.IsBooleanTrue(this.headerButtonExport()?.onlyRowFiltered)) {
+            DATA_SOURCE = [...this._valueFiltered()];  
         }
 
-        else {
-            DATA_SOURCE = Tools.IsBooleanTrue(this.headerButtonExport()?.onlyRowFiltered)
-                ? this._valueFiltered() 
-                : [...this._valueSIGNAL()];
+        if (Tools.IsBooleanTrue(this.headerButtonExport()?.onlySelectedItem)) {
+            DATA_SOURCE = [...DATA_SOURCE].filter((x: any) => x.checked);
         }
                  
         const COLUMNS = Tools.IsBooleanFalse(this.headerButtonExport()?.onlyColumnFiltered)
@@ -205,7 +223,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     //computed
     protected _isEnabled = computed<boolean>(() => {
         return !this.isLoading() && !this.isInvisible() && !this.isReadonly() && !this.isHidden();
-    });
+    }); 
 
 
     /**  */

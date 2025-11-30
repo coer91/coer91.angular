@@ -40,7 +40,7 @@ div.coer-switch {
             transition: all 0.3s ease !important;
 
             i {
-                position: absolute !important;
+                display: flex !important;
                 transition: color 0.3s ease !important; 
             }
         }

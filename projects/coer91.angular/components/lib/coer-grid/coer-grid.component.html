@@ -50,11 +50,13 @@
                     #coerGridBody
                     [CalculateId]="_CalculateId" 
                     [columns]="_columns()"
+                    [valueSIGNAL]="_valueSIGNAL()"
                     [dataSource]="_dataSource()" 
                     [buttonDelete]="rowButtonDelete()"
                     [buttonEdit]="rowButtonEdit()"
                     [buttonModal]="rowButtonModal()"
                     [buttonGo]="rowButtonGo()"
+                    [checkbox]="checkbox()"
                     [showStriped]="showStriped()"
                     [showBorders]="showBorders()"
                     [showHover]="showHover()"
@@ -67,6 +69,8 @@
                     (onClickModalRow)="onClickModalRow.emit($event)"
                     (onClickGoRow)="onClickGoRow.emit($event)" 
                     (onSwitchChange)="_SetValueInput($event, 'coer-switch')"
+                    (onCheckboxChange)="onCheckboxChange.emit($event)"
+                    (onSelectedValue)="_SetSelectedValue($event)"
                 ></coer-grid-body>
 
             <!-- Loading / Empty -->

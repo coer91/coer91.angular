@@ -1,7 +1,25 @@
 <section class="coer-grid-body">
     <table [ngClass]="{ }">        
         <thead>
-            <tr> 
+            <tr>  
+                @if(_showCheckbox()) {
+                    <th class="action-column" scope="col">    
+                        <div class="action-column-content height-20px">
+                            <div [ngClass]="{ 'display-none': _isInvisibleCheckboxAll }">
+                                <coer-switch 
+                                    type="checkbox"
+                                    [(ngModel)]="_checkAll"
+                                    (onClick)="_ClickCheckAll($event)"
+                                ></coer-switch>
+                            </div> 
+    
+                            <div [class]="isLoading() ? 'display-contents' : 'display-none'">
+                                <i class="icon-circle-notch animation-spin text-primary"></i> 
+                            </div>   
+                        </div>
+                    </th>
+                }
+
                 @for(header of columns(); track header.indexColumn) {
                     <th scope="col" 
                         [ngStyle]="{ 
@@ -40,12 +58,33 @@
                             'striped': (showStriped() && (i % 2 != 0)), 
                             'hover'  : showHover() 
                         }">
+
+                        <!-- CheckBox Column -->
+                        @if(_showCheckbox()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                <div class="action-column-content" [ngStyle]="{ 'height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                    <div [ngClass]="{ 'display-none': isLoading() }">
+                                        <coer-switch 
+                                            [ngModel]="row.checked"
+                                            [isReadonly]="!isEnabled()"
+                                            type="checkbox"
+                                            (onClick)="_ClickCheck($event, row)"
+                                        ></coer-switch>
+                                    </div>
+    
+                                    <div [class]="isLoading() ? 'display-contents' : 'display-none'">
+                                        <i class="icon-circle-notch animation-spin text-primary"></i> 
+                                    </div>
+                                </div>
+                            </td>
+                        }
                                                     
                         @for(column of columns(); track column.indexColumn) {
                             <td class="td-content" 
                                 [ngStyle]="{ 
                                     'border-bottom' : (showBorders() ? '1px solid var(--readonly)' : ''), 
-                                    'vertical-align': column.config.textAlignY
+                                    'vertical-align': column.config.textAlignY,
+                                    'cursor'        : _checkOnRow() ? 'pointer' : 'default'
                                 }">
                                 <coer-grid-cell
                                     [id]="CalculateId()(row.indexRow, column.indexColumn)"

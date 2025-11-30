@@ -16,14 +16,14 @@ export class CoerGridPage extends page {
     protected dataSource2 = []
     //Variables
     protected dataSource = [
-        { id: 1, name: 'One'  , isBool: true },
-        { id: 2, name: 'Two'  , isBool: false },
-        { id: 3, name: 'Three', isBool: true }, 
-        { id: 4, name: 'Four' , isBool: false },  
+        { id: 1, name: 'One'  , isBool: true, checked: true },
+        { id: 2, name: 'Two'  , isBool: false, checked: false  },
+        { id: 3, name: 'Three', isBool: true, checked: true  }, 
+        { id: 4, name: 'Four' , isBool: false, checked: false },  
     ]; 
 
     Log(event: string, value: any){ 
-        console.log({ event, value })
+        //console.log({ event, value })
     }
 
 
@@ -31,8 +31,7 @@ export class CoerGridPage extends page {
 
     coerSwitch = (element: any): IGridCoerSwitch => {
         return {
-            showInput: true,
-            type:'checkbox'
+            showInput: true, 
         }
 
     }
