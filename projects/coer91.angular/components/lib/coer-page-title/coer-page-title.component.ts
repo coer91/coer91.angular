@@ -13,6 +13,7 @@ export class CoerPageTitle {
     
     //Variables
     protected _iconRoot: string = 'i91-house-door-fill';
+    protected _labelRoot: string | null = null;
 
     //Inputs 
     public readonly title           = input<string | null>(null);
@@ -32,8 +33,15 @@ export class CoerPageTitle {
 
         if(MENU) {             
             const MENU_SELECTED = MENU.tree.shift();
-            if(MENU_SELECTED && MENU_SELECTED.icon) {
-                this._iconRoot = MENU_SELECTED.icon;
+
+            if(Tools.IsNotNull(MENU_SELECTED)) {                
+                if(Tools.IsNotOnlyWhiteSpace(MENU_SELECTED!.icon)) {
+                    this._iconRoot = MENU_SELECTED!.icon;
+                }
+
+                else if(Tools.IsNotOnlyWhiteSpace(MENU_SELECTED!.label)) {
+                    this._labelRoot = MENU_SELECTED!.label;
+                }
             }
         }
     } 

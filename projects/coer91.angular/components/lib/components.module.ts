@@ -16,6 +16,7 @@ import { CoerPageTitle        } from './coer-page-title/coer-page-title.componen
 import { CoerSelectBox        } from './coer-selectbox/coer-selectbox.component';
 import { CoerSidenav          } from './coer-sidenav/coer-sidenav.component';
 import { CoerSidenavAccordion } from './coer-sidenav/coer-sidenav-accordion/coer-sidenav-accordion.component';
+import { CoerSwitch           } from './coer-switch/coer-switch.component';
 import { CoerTextBox          } from './coer-textbox/coer-textbox.component';
 import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
 
@@ -39,6 +40,7 @@ import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
         CoerSelectBox,
         CoerSidenav,
         CoerSidenavAccordion,
+        CoerSwitch,
         CoerTextBox,
         CoerToolbar
     ],
@@ -48,7 +50,8 @@ import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
         CoerGrid,
         CoerPageTitle,
         CoerSelectBox,
-        CoerSidenav,
+        CoerSidenav, //Este No
+        CoerSwitch,
         CoerTextBox,
         CoerToolbar
     ]

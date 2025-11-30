@@ -44,6 +44,13 @@ figure {
         z-index: 1 !important;
         top: -5px !important;
         right: 0px !important;
+
+        div.user-container-loading {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            font-weight: bold !important;
+        }
         
 
         div.user-container-identity {

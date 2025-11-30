@@ -1,4 +1,5 @@
 import { Component, output, input, computed } from '@angular/core';
+import { isLoadingSIGNAL } from '@library/signals';
 import {  Tools, User }from 'coer91.tools';
 import { IAppSettings, IMenuToolbar } from 'coer91.tools/interfaces';
 declare const appSettings: IAppSettings;
@@ -32,14 +33,21 @@ export class CoerToolbar {
     public preventLogOutMenu   = input<boolean>(false); 
 
 
-    //
+    //computed
     protected _menu = computed<IMenuToolbar[]>(() => {
         return this.menu()
             .concat(this.showProfileMenu()  ? [{ label: 'Profile'        , preventDefault: this.preventProfileMenu() , icon: 'i91-user-fill'      }] : [])
             .concat(this.showPasswordMenu() ? [{ label: 'Change Password', preventDefault: this.preventPasswordMenu(), icon: 'i91-lock-fill'      }] : [])
             .concat(this.showLogOutMenu()   ? [{ label: 'Log Out'        , preventDefault: this.preventLogOutMenu()  , icon: 'i91-door-open-fill' }] : [])
     });
+
+
+    //computed
+    protected _isLoadingInner = computed(() => {
+        return isLoadingSIGNAL();
+    }); 
  
+
     /** */
     protected _SelectMenu(menu: IMenuToolbar | null) {
         if(menu) {

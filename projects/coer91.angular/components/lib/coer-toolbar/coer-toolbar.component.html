@@ -13,36 +13,26 @@
 
         <h3>{{ _appSettings.appInfo.title }}</h3>
     </div> 
-
-    <div class="coer-toolbar-user animation-fadeIn"> 
-        <!-- <div class="coer-toolbar-user-loading">
-            <span>Loading</span>
-            <i class="fa-solid fa-sync fa-spin"></i> 
-        </div>   -->
- 
-        <!-- <div class="treebox-mask-container">
-            <div class="treebox-mask"  >
-                 <div class="treebox-mask-user-image" style={{ backgroundImage: `url('coer91/images/no-user.png')` }}></div> -->
-
-                <!-- <div class="treebox-mask-identity"> -->
-                    <!-- <p>{ fullname }</p>
-                    <p>{ role }</p> 
-                </div>
-            </div>  
-        </div>   -->
-          
-    </div> 
 </header>  
 
 <figure>
     <div class="user-container">
-        <div class="user-container-identity" [ngClass]="{ 'user-container-identity-hover': _isOpenMenu }" (click)="selectboxRef.Focus()">
-            <div class="user-container-identity-image" [ngStyle]="{ backgroundImage: `url('coer91/images/no-user.png')` }"></div>
-            <div class="user-container-identity-name">
-                <p>{{ userName() }}</p>
-                <p>{{ userTitle() }}</p>
+        @if(_isLoadingInner()) {
+            <div class="user-container-loading animation-appear">
+                <span> Loading </span>
+                <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
             </div>
-        </div>
+        }
+
+        @else {
+            <div class="user-container-identity" [ngClass]="{ 'user-container-identity-hover': _isOpenMenu }" (click)="selectboxRef.Focus()">
+                <div class="user-container-identity-image" [ngStyle]="{ backgroundImage: `url('coer91/images/no-user.png')` }"></div>
+                <div class="user-container-identity-name">
+                    <p>{{ userName() }}</p>
+                    <p>{{ userTitle() }}</p>
+                </div>
+            </div>
+        }
     </div>
 
     <coer-selectbox 

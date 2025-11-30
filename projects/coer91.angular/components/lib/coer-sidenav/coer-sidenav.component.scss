@@ -32,7 +32,7 @@ div.coer-sidenav {
                     height: calc(40px - 0.800px) !important;
                     max-height: calc(40px - 0.800px) !important;
                     padding-left: 10px !important;
-                    padding-right: 10px !important;
+                    padding-right: 10px;
                     display: flex !important;
                     align-items: center !important;
                     gap: 10px !important;
@@ -53,6 +53,22 @@ div.coer-sidenav {
                         white-space: nowrap !important;
                         overflow: hidden !important;
                         font-weight: bold !important;
+                    }
+
+                    div.grid {
+                        width: 100% !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: space-between !important;
+
+                        i {
+                            width: 30px !important;
+                            min-width: 30px !important;
+                            max-width: 30px !important;
+                            height: 15px !important;
+                            min-height: 15px !important;
+                            max-height: 15px !important;
+                        }
                     }
                 }
 
@@ -101,9 +117,21 @@ div.backdrop {
     top: 40px !important; 
     right: 0px !important; 
     bottom: 0px !important; 
-    left: 225px !important; 
+    left: 225px; 
     backdrop-filter: blur(1.5px);
     background-color: rgba(128, 128, 128, 0.500) !important;
     transition: all 0.5s ease !important;
     z-index: 100 !important; 
+
+    div.loading-image {
+        position: fixed !important;
+        top: 10% !important; 
+        width: 80% !important;
+        height: 80% !important; 
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important; 
+        margin-left: 10% !important;
+        margin-right: 10% !important; 
+    }
 }

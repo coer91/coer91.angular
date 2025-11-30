@@ -5,5 +5,6 @@ export * from './lib/coer-grid/coer-grid.component';
 export * from './lib/coer-page-title/coer-page-title.component';
 export * from './lib/coer-selectbox/coer-selectbox.component';
 export * from './lib/coer-sidenav/coer-sidenav.component';
+export * from './lib/coer-switch/coer-switch.component';
 export * from './lib/coer-textbox/coer-textbox.component';
 export * from './lib/coer-toolbar/coer-toolbar.component';

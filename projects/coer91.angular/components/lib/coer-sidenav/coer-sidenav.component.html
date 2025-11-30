@@ -1,5 +1,5 @@
 <div class="coer-sidenav" [ngStyle]="{ transform: _isOpen() ? 'translateX(0px)' : 'translateX(-225px)' }">
-    <nav>
+    <nav [ngClass]="{ 'display-none': _isLoadingInner() }">
         <ul class="lv1">
             @for(lv1 of _navigationSIGNAL().setIndex(); let i1 = $index; track `${lv1.id}-${i1}`) {
                 <li class="lv1">
@@ -40,7 +40,7 @@
                                                 level="LV2"
                                                 [icon]="lv2.icon" 
                                                 [title]="lv2.label" 
-                                                paddingLeft="25px" 
+                                                paddingLeft="35px" 
                                                 (onOpen)="_ClickSubmenu(lv2, lv1, true, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)" 
                                                 (onClose)="_ClickSubmenu(lv2, lv1, false, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
                                                 
@@ -58,11 +58,15 @@
                                         }
 
                                         @else {
-                                            <div [id]="`lv2-${lv2.id}-index${i1}`" class="option lv2-option" (click)="_ClickMenuGrid(lv2, `lv2-${lv2.id}-index${i2}`)">
+                                            <div [id]="`lv2-${lv2.id}-index${i2}`" class="option lv2-option padding-right-5px" (click)="_ClickSubmenuGrid(lv2, lv1, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
                                                 @if(lv2.icon?.isNotOnlyWhiteSpace()) {
                                                     <i [class]="lv2.icon"></i>
                                                 }
-                                                <span>{{ lv2.label }}</span>
+
+                                                <div class="grid">
+                                                    <span>{{ lv2.label }}</span>
+                                                    <i class="i91-grid"></i>
+                                                </div> 
                                             </div>
                                         }
                                     </li>
@@ -72,17 +76,35 @@
                     }
 
                     @else {
-                        <div [id]="`lv1-${lv1.id}-index${i1}`" class="option lv1-option" (click)="_ClickMenuGrid(lv1, `lv1-${lv1.id}-index${i1}`)">
+                        <div [id]="`lv1-${lv1.id}-index${i1}`" class="option lv1-option padding-right-5px" (click)="_ClickMenuGrid(lv1, `lv1-${lv1.id}-index${i1}`)">
                             @if(lv1.icon?.isNotOnlyWhiteSpace()) {
                                 <i [class]="lv1.icon"></i>
                             }
-                            <span>{{ lv1.label }}</span>
+
+                            <div class="grid">
+                                <span>{{ lv1.label }}</span>
+                                <i class="i91-grid"></i>
+                            </div> 
                         </div>
                     }
                 </li>
             } 
         </ul>
     </nav>
+
+    <!-- Loading -->
+    @if(_isLoadingInner()) {
+        <nav>
+            <ul class="lv1">
+                <li class="lv1">
+                    <div class="option lv1-option animation-appear">                    
+                        <span> Loading </span>
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    }
 
     <div class="coer-sidenav-content"  
         [ngStyle]="{ 
@@ -94,8 +116,10 @@
     </div> 
 </div> 
  
-<div [ngClass]="{ 
-    'backdrop': _showBackdrop(), 
-    'left-0px': !_showBackdrop() 
-}" (click)="Close()"></div>
+<div (click)="Close()" [ngClass]="{ 
+    'backdrop': _showBackdrop() || _isLoadingSIGNAL(), 
+    'left-0px': !_isOpen() || (_isLoadingSIGNAL() && !_isOpen())
+}">
+    <div class="loading-image" style="background-image: url('coer91/images/loading.gif');"></div>
+</div>
  

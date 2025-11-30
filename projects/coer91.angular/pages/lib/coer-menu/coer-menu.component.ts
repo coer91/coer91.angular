@@ -15,6 +15,7 @@ export class CoerMenuPage extends page {
      
     //variables
     protected menu = signal<IMenu[]>([]);
+    protected title = signal<string>('Menu');
     protected IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
 
     constructor() { 
@@ -24,10 +25,25 @@ export class CoerMenuPage extends page {
             const NAVIGATION = navigationSIGNAL();
 
             if(NAVIGATION.length > 0) {
+                
+               
+                let INDEX_SUBMENU: string | null = null;
+
                 const TREE = Navigation.GetSelectedMenu()?.tree.filter(x => !x.id.equals('GRID')) || [];
-                const INDEX = TREE.length == 1 ? Number(TREE[0].id.split('index')[1]) : Number(TREE[1].id.split('index')[1]);
-                this.SetName(TREE[0].label); 
-                this.menu.set(NAVIGATION[INDEX]?.items || []);
+                
+                if(TREE.length > 0) {
+                    this.title.set(TREE[0].label);
+                    const INDEX_MENU = Number(TREE[0].id.split('index')[1]);
+                    const MENU = NAVIGATION[INDEX_MENU]?.items || [];
+                                        
+                    if(TREE.length > 1) {
+                        const INDEX_SUBMENU = Number(TREE[1].id.split('index')[1]);
+                        const SUBMENU = MENU[INDEX_SUBMENU]?.items || [];
+                        this.menu.set(SUBMENU);
+                    }
+
+                    else this.menu.set(MENU);
+                } 
             } 
         }); 
     }  

@@ -32,7 +32,8 @@ import * as pipes      from '@library/pipes';
         components.CoerGrid,
         components.CoerPageTitle,
         components.CoerSelectBox,
-        components.CoerSidenav,
+        components.CoerSidenav, // Este NO
+        components.CoerSwitch,
         components.CoerTextBox,
         components.CoerToolbar,
         pipes.HtmlPipe,
