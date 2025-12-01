@@ -19,3 +19,4 @@ export * from './grid-row-button-edit.interface';
 export * from './grid-row-button-go.interface';
 export * from './grid-row-button-modal.interface';
 export * from './grid-row-button.interface';
+export * from './grid-sort.interface';

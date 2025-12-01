@@ -28,7 +28,7 @@ export class CoerGridCell<T> {
     /** */
     public get input(): 'coer-switch' | 'coer-textbox' | 'coer-numberbox' | 'coer-selectbox' | 'coer-datebox' | '' {
         if(this.isEnabled() && Tools.IsNull(this.column().config?.template)) {
-            if(this._switchAttributes()?.showInput) {
+            if(Tools.IsBooleanTrue(this.column().config?.coerSwitch) || (Tools.IsFunction(this.column().config?.coerSwitch) && this._switchAttributes()?.showInput)) {
                 return 'coer-switch';
             }
 

@@ -5,6 +5,6 @@ import { Numbers } from 'coer91.tools';
 export class NumericFormatPipe implements PipeTransform {
 
     transform(value: string | number | null | undefined, decimals: number = 0): string {
-        return Numbers.GetNumericFormat(value, decimals);
+        return Numbers.ToNumericFormat(value, decimals);
     }
 }

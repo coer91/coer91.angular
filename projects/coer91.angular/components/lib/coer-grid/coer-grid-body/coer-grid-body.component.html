@@ -11,10 +11,6 @@
                                     [(ngModel)]="_checkAll"
                                     (onClick)="_ClickCheckAll($event)"
                                 ></coer-switch>
-                            </div> 
-    
-                            <div [class]="isLoading() ? 'display-contents' : 'display-none'">
-                                <i class="icon-circle-notch animation-spin text-primary"></i> 
                             </div>   
                         </div>
                     </th>
@@ -22,12 +18,18 @@
 
                 @for(header of columns(); track header.indexColumn) {
                     <th scope="col" 
+                        (dblclick)="_ToggleSort(header.config)"
                         [ngStyle]="{ 
                             'width'     : `calc(${header.config.width} - 10px)`,
                             'text-align': header.config.textAlignX
                         }">                       
                         <div class="th-content">
-                            <span> {{ header.columnName }} </span> 
+                            <span>
+                                <span> {{ header.columnName }} </span> 
+                                <i [class]="_IconShortHeader(header.config.property)"></i>
+                            </span>
+
+                            <i [class]="_IconSearchHeader(header.config)"></i>
                         </div>
                     </th>
                 } 

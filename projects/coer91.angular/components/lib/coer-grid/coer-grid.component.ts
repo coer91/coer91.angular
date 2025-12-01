@@ -76,6 +76,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected readonly onNumberboxChange  = output<IGridItem<T>>();
     protected readonly onSelectboxChange  = output<IGridItem<T>>();
     protected readonly onCheckboxChange   = output<IGridInputCheckRow<T>>();
+    protected readonly onSort             = output<T[]>();
     protected readonly onDestroy          = output<void>();
     protected onReady                     = output<void>();
 
@@ -179,12 +180,12 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         //Ignore Filter
         if (SEARCH_TEXT.isOnlyWhiteSpace() || Tools.IsBooleanTrue(this.search()?.ignore)) {
             return DATA_SOURCE;
-        }
+        } 
 
         //Filter by search   
         const SEARCH_PROPERTIES = Tools.IsNull(this.search().properties) 
-            ? this.columns().map(item => item.property).filter(property => property.isNotOnlyWhiteSpace())  
-            : this.search().properties!.filter(property => property.isNotOnlyWhiteSpace());
+            ? this.columns().filter(item => item.property.isNotOnlyWhiteSpace() && Tools.IsNull(item?.coerSwitch)).map(item => item.property)  
+            : this.search().properties!.filter(property => property.isNotOnlyWhiteSpace()); 
 
         return DATA_SOURCE.search(SEARCH_TEXT, SEARCH_PROPERTIES);
     });
@@ -265,13 +266,18 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected _GetColumnConfig = (property: string): IGridColumn<T> | null => {
         const COLUMN_CONFIG = this.columns().find(x => x.property.equals(property)) || {} as any; 
         
+        let short      = Tools.IsNotNull(COLUMN_CONFIG?.short) ? COLUMN_CONFIG?.short : true;
         let width      = COLUMN_CONFIG?.width      || 'auto';
         let height     = COLUMN_CONFIG?.height     || '20px';
+        let textBreak  = Tools.IsNotNull(COLUMN_CONFIG?.textBreak) ? COLUMN_CONFIG?.textBreak : false;
         let textAlignX = COLUMN_CONFIG?.textAlignX || 'left';
         let textAlignY = COLUMN_CONFIG?.textAlignY || 'middle';
+        let color      = COLUMN_CONFIG?.color      || 'dark';
+        let type       = COLUMN_CONFIG?.type       || 'string';
 
         //coer-switch
         if(Tools.IsNotNull(COLUMN_CONFIG?.coerSwitch)) {
+            if (Tools.IsNull(COLUMN_CONFIG?.short))                short      = false;
             if (Tools.IsOnlyWhiteSpace(COLUMN_CONFIG?.width))      width      = '100px';
             if (Tools.IsOnlyWhiteSpace(COLUMN_CONFIG?.textAlignX)) textAlignX = 'center';
         } 
@@ -279,10 +285,14 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         return {
             property, 
             ...COLUMN_CONFIG,
+            short,
             width,
             height,
+            textBreak,
             textAlignX,
             textAlignY,  
+            color,
+            type
         }  
     }
     

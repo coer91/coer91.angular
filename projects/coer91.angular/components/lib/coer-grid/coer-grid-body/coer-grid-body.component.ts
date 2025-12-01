@@ -1,6 +1,6 @@
-import { Tools } from 'coer91.tools';
-import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo, IGridCheckRow, IGridInputCheckRow } from '../interfaces';
-import { Component, computed, input, output, WritableSignal } from '@angular/core'; 
+import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo, IGridCheckRow, IGridInputCheckRow, IGridSort, IGridHeaderSearch, IGridColumn } from '../interfaces';
+import { Component, computed, input, output, signal, WritableSignal } from '@angular/core'; 
+import { Dates, Tools } from 'coer91.tools';
 
 
 @Component({
@@ -13,6 +13,8 @@ export class CoerGridBody<T> {
 
     //Variables
     protected readonly IsNotOnlyWhiteSpace = Tools.IsNotOnlyWhiteSpace;
+    protected readonly _sort = signal<IGridSort>({ property: '', direction: 'none', icon: '' });
+    protected _isLoadingSort: boolean = false;
     protected _checkAll: boolean = false;
 
     //Elements 
@@ -22,6 +24,8 @@ export class CoerGridBody<T> {
     public readonly columns         = input.required<IGridColumnIndex<T>[]>();
     public readonly valueSIGNAL     = input.required<T[]>();
     public readonly dataSource      = input.required<IGridDataSource[]>();
+    public readonly search          = input.required<IGridHeaderSearch>(); 
+    public readonly searchSIGNAL    = input.required<string | number>();
     public readonly buttonDelete    = input.required<IGridRowButtonDelete<T>>(); 
     public readonly buttonEdit      = input.required<IGridRowButtonEdit<T>>(); 
     public readonly buttonModal     = input.required<IGridRowButtonModal<T>>(); 
@@ -43,6 +47,7 @@ export class CoerGridBody<T> {
     protected readonly onSwitchChange   = output<IGridItem<T>>();
     protected readonly onCheckboxChange = output<IGridInputCheckRow<T>>();
     protected readonly onSelectedValue  = output<T[]>();
+    protected readonly onSort           = output<T[]>();
 
     //computed  
     protected isLoading = computed(() => this.isLoadingSIGNAL()());  
@@ -247,4 +252,100 @@ export class CoerGridBody<T> {
             }); 
         }
     } 
+
+
+    /** */
+    protected _IconSearchHeader = (column: IGridColumn<T>) => { 
+        return this.search().show 
+            && !Tools.IsBooleanTrue(this.search()?.ignore)
+            && Tools.IsNotOnlyWhiteSpace(String(this.searchSIGNAL()))
+            && Tools.IsNull(column?.coerSwitch)
+            && (Tools.IsNull(this.search()?.properties) || this.search()?.properties!.length <= 0 || this.search().properties?.includes(column.property)) 
+            ? 'i91-magnifying-glass' : '';
+    }  
+
+
+    /** */
+    protected _IconShortHeader = (property: string) => {
+        return this._sort().property.equals(property) ? this._sort().icon : '';
+    }
+
+
+    /** */
+    protected async _ToggleSort(column: IGridColumn<T>): Promise<void> {
+        
+        if (!Tools.IsBooleanFalse(column?.short)) {   
+           
+            this._isLoadingSort = true;
+            const { direction } = this._sort();
+            const COLUMN_TYPE = column?.type;
+
+            let DATA_SOURCE = [];
+            switch(COLUMN_TYPE) {
+                case 'number': {
+                    DATA_SOURCE = [...this.valueSIGNAL()].map((item: any) => ({ ...item, [column.property]: Number(item[column.property]) }));
+                    break
+                }
+
+                case 'currency': {
+                    DATA_SOURCE = [...this.valueSIGNAL()].map((item: any) => ({ ...item, [column.property]: Number(String(item[column.property]).replace('$', '')) }));
+                    break
+                }
+
+                case 'date': {
+                    DATA_SOURCE = [...this.valueSIGNAL()]
+                        .map((item: any) => ({ 
+                            ...item, 
+                            [column.property]: Dates.IsValidDate(item[column.property]) ? item[column.property] : Dates.ToFormatDB(String(item[column.property])) 
+                        }));
+                    break
+                }
+
+                case 'datetime': {
+                    DATA_SOURCE = [...this.valueSIGNAL()]
+                        .map((item: any) => ({ 
+                            ...item, 
+                            [column.property]: Dates.IsValidDate(item[column.property]) ? item[column.property] : Dates.ToFormatDB(String(item[column.property])) 
+                        }));
+                    break
+                }
+
+                case 'time': {
+                    DATA_SOURCE = [...this.valueSIGNAL()]
+                        .map((item: any) => ({ 
+                            ...item, 
+                            [column.property]: Dates.IsValidDate(item[column.property]) ? item[column.property] : Dates.ToFormatDB(String(item[column.property])) 
+                        }));
+                    break
+                }
+
+                default: {
+                    DATA_SOURCE = [...this.valueSIGNAL()].map((item: any) => ({ ...item, [column.property]: String(item[column.property]) }));
+                    break;
+                } 
+            } 
+
+            if (direction == 'descendant') { 
+                this.onSort.emit(DATA_SOURCE.sortAsc(column.property));                 
+
+                this._sort.set({ 
+                    property: column.property, 
+                    direction: 'ascendant', 
+                    icon: 'i91-arrow-down-sort-asc' 
+                });
+            }
+
+            else {
+                this.onSort.emit(DATA_SOURCE.sortDesc(column.property));
+
+                this._sort.set({ 
+                    property: column.property, 
+                    direction: 'descendant', 
+                    icon: 'i91-arrow-down-sort-desc' 
+                });
+            } 
+             
+            this._isLoadingSort = false;
+        }
+    }
 }

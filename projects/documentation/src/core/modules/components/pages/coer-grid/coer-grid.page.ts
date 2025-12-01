@@ -11,15 +11,17 @@ export class CoerGridPage extends page {
     
     constructor() {
         super('coer-grid');
+        console.log(typeof new Date)
     }
 
     protected dataSource2 = []
     //Variables
     protected dataSource = [
-        { id: 1, name: 'One'  , isBool: true, checked: true },
-        { id: 2, name: 'Two'  , isBool: false, checked: false  },
-        { id: 3, name: 'Three', isBool: true, checked: true  }, 
-        { id: 4, name: 'Four' , isBool: false, checked: false },  
+        { id: `$1.00`,  name: new Date('2024-08-08 01:00:00')  , isBool: true, checked: true },
+        { id: `$2.10`,  name: new Date('2024-07-08 01:00:00')  , isBool: false, checked: false  },
+        { id: `$2.00`,  name: new Date('2024-08-08 00:05:00'), isBool: true, checked: true  }, 
+        { id: `$14.00`, name: new Date('2024-08-08 00:40:00') , isBool: false, checked: false },  
+        { id: `$5.00`,  name: new Date('2024-08-08 00:00:00') , isBool: false, checked: false },  
     ]; 
 
     Log(event: string, value: any){ 
@@ -31,7 +33,7 @@ export class CoerGridPage extends page {
 
     coerSwitch = (element: any): IGridCoerSwitch => {
         return {
-            showInput: true, 
+            showInput: true 
         }
 
     }

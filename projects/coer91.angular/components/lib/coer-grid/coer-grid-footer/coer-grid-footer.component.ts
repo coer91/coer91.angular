@@ -14,7 +14,7 @@ export class CoerGridfooter<T> implements AfterViewInit, OnDestroy {
     public footer          = input.required<IGridFooter>();
     public valueSIGNAL     = input.required<T[]>();
     public valueFiltered   = input.required<T[]>();
-    public valueSelected   = input.required<T[]>(); 
+    public selectedValue   = input.required<T[]>(); 
     public searchSIGNAL    = input.required<string | number>(); 
     public isLoadingSIGNAL = input.required<WritableSignal<boolean>>(); 
 

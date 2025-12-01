@@ -8,9 +8,9 @@
     <coer-grid 
         [(ngModel)]="dataSource" 
         [columns]="[
-            { property: 'id'  ,   alias: 'id'    , width: '20px' },
-            { property: 'name',   alias: 'Hola'   },
-            { property: 'isBool', alias: 'is', coerSwitch }
+            { property: 'id'  ,   alias: 'id', width: '50px', type: 'currency' },
+            { property: 'name',   alias: 'Hola', type: 'date' },
+            { property: 'isBool', alias: 'is', coerSwitch  }
         ]" 
         [search]="{ show: true }"
         [headerButtonAdd]="{ show: true, }"
@@ -24,7 +24,7 @@
         [checkbox]="{ show: true, onlyOneCheck: false, checkOnRow: false }"
         [isLoading]="false"
         [isReadonly]="false"
-        height="calc(100vh - 95px)"
+        height="calc(100vh - 95px - 50px)"
         (onClickExport)="Log('onClickExport', $event)"
         (onClickImport)="Log('onClickImport', $event)"
         (onClickAdd)="Log('onClickAdd', $event)"
@@ -42,6 +42,4 @@
         (onDestroy)="Log('onDestroy', $event)"
         (onCheckboxChange)="Log('onCheckboxChange', $event)"
     ></coer-grid> 
-</section>
-
-{{ dataSource | json }}
+</section> 

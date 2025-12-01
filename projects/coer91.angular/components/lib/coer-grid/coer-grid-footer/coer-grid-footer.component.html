@@ -5,9 +5,9 @@
                 <span class="animation-fade"> Loading </span>
             }
 
-            @else if(valueSelected().length > 0) {
+            @else if(selectedValue().length > 0) {
                 <span class="margin-left-5px">
-                    <i class="i91-check-square font-size-20px"></i>{{ valueSelected().length | numericFormat }}
+                    <i class="i91-check-square font-size-20px"></i>{{ selectedValue().length | numericFormat }}
                 </span>
             }
         </span>

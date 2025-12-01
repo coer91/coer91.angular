@@ -17,14 +17,22 @@ section.coer-grid-body {
                 background-color: var(--gray) !important;
                 color: var(--smoke) !important;  
                 overflow: hidden !important;
-                // white-space: nowrap !important; 
-                // word-wrap: break-word !important;
                 text-overflow: ellipsis !important;
                 min-width: 20px !important;
                 min-height: 20px !important;
                 padding: 5px !important;
                 user-select: none !important; 
-            }
+
+                div.th-content {
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: space-between !important;
+
+                    i {
+                        font-size: 15px !important;
+                    }
+                }
+            } 
         }
          
         tbody {  

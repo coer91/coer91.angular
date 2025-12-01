@@ -18,30 +18,30 @@ export class CoerGridHeader<T> implements AfterViewInit, OnDestroy {
     protected readonly IsBooleanTrue = Tools.IsBooleanTrue; 
     
     //Inputs   
-    public CalculateId      = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>(); 
-    public columns          = input.required<IGridColumn<T>[]>();
-    public valueSIGNAL      = input.required<T[]>();
-    public dataSourceExport = input.required<T[]>();
-    public exportButton     = input.required<IGridHeaderButtonExport>();
-    public importButton     = input.required<IGridHeaderButtonImport>();
-    public addButton        = input.required<IGridHeaderButtonAdd>();
-    public saveButton       = input.required<IGridHeaderButton>();
-    public search           = input.required<IGridHeaderSearch>();
-    public searchSIGNAL     = input.required<WritableSignal<string | number>>();
-    public isLoadingSIGNAL  = input.required<WritableSignal<boolean>>();
-    public isLoading        = input.required<boolean>();
-    public isReadonly       = input.required<boolean>(); 
+    public readonly CalculateId      = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>(); 
+    public readonly columns          = input.required<IGridColumn<T>[]>();
+    public readonly valueSIGNAL      = input.required<T[]>();
+    public readonly dataSourceExport = input.required<T[]>();
+    public readonly exportButton     = input.required<IGridHeaderButtonExport>();
+    public readonly importButton     = input.required<IGridHeaderButtonImport>();
+    public readonly addButton        = input.required<IGridHeaderButtonAdd>();
+    public readonly saveButton       = input.required<IGridHeaderButton>();
+    public readonly search           = input.required<IGridHeaderSearch>();
+    public readonly searchSIGNAL     = input.required<WritableSignal<string | number>>();
+    public readonly isLoadingSIGNAL  = input.required<WritableSignal<boolean>>();
+    public readonly isLoading        = input.required<boolean>();
+    public readonly isReadonly       = input.required<boolean>(); 
     
     //Outputs
-    protected onClickExport      = output<T[]>();
-    protected onClickImport      = output<IGridInputImport<T>>();
-    protected onClickAdd         = output<void>();
-    protected onClickSave        = output<void>();
-    protected onClickSearch      = output<IGridInputEnter<T>>();
-    protected onClickClearSearch = output<IGridInputEnter<T>>();
-    protected onKeyupEnterSearch = output<IGridInputEnter<T>>();  
-    protected onReady            = output<void>();
-    protected onDestroy          = output<void>(); 
+    protected readonly onClickExport      = output<T[]>();
+    protected readonly onClickImport      = output<IGridInputImport<T>>();
+    protected readonly onClickAdd         = output<void>();
+    protected readonly onClickSave        = output<void>();
+    protected readonly onClickSearch      = output<IGridInputEnter<T>>();
+    protected readonly onClickClearSearch = output<IGridInputEnter<T>>();
+    protected readonly onKeyupEnterSearch = output<IGridInputEnter<T>>();  
+    protected readonly onDestroy          = output<void>(); 
+    protected onReady                     = output<void>();
 
     //AfterViewInit
     async ngAfterViewInit() {

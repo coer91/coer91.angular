@@ -52,6 +52,8 @@
                     [columns]="_columns()"
                     [valueSIGNAL]="_valueSIGNAL()"
                     [dataSource]="_dataSource()" 
+                    [search]="search()"
+                    [searchSIGNAL]="_searchSIGNAL()"
                     [buttonDelete]="rowButtonDelete()"
                     [buttonEdit]="rowButtonEdit()"
                     [buttonModal]="rowButtonModal()"
@@ -71,6 +73,7 @@
                     (onSwitchChange)="_SetValueInput($event, 'coer-switch')"
                     (onCheckboxChange)="onCheckboxChange.emit($event)"
                     (onSelectedValue)="_SetSelectedValue($event)"
+                    (onSort)="setValue($event); onSort.emit($event);"
                 ></coer-grid-body>
 
             <!-- Loading / Empty -->
@@ -95,7 +98,7 @@
             [footer]="footer()"
             [valueSIGNAL]="_valueSIGNAL()"
             [valueFiltered]="_valueFiltered()"
-            [valueSelected]="[]"
+            [selectedValue]="selectedValue"
             [searchSIGNAL]="_searchSIGNAL()"
             [isLoadingSIGNAL]="_isLoadingSIGNAL"
             (onReady)="_footerReady=true"
