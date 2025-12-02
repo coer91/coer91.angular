@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'; 
 import { page } from '@library/tools';
-import { IGridCoerSwitch } from 'projects/coer91.angular/components/lib/coer-grid/interfaces';
+import { IGridCoerSwitch, IGridCoerTextBox } from 'projects/coer91.angular/components/lib/coer-grid/interfaces';
 
 @Component({
     selector: 'coer-grid-page',
@@ -33,6 +33,15 @@ export class CoerGridPage extends page {
     coerSwitch = (element: any): IGridCoerSwitch => {
         return {
             showInput: true 
+        }
+
+    }
+
+
+    coerTextbox = (element: any): IGridCoerTextBox => {
+        return {
+            showInput: true,
+            isValid: true 
         }
 
     }

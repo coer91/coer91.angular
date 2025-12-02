@@ -9,8 +9,8 @@
         [(ngModel)]="dataSource" 
         [columns]="[
             { property: 'id'  ,   alias: 'id', width: '50px', type: 'currency' },
-            { property: 'name',   alias: 'Hola', type: 'datetime' },
-            { property: 'isBool', alias: 'is', coerSwitch  }
+            { property: 'name',   alias: 'Hola', type: 'datetime', coerTextbox },
+            { property: 'isBool', alias: 'is', coerSwitch: true  }
         ]" 
         [search]="{ show: true }"
         [headerButtonAdd]="{ show: true, }"

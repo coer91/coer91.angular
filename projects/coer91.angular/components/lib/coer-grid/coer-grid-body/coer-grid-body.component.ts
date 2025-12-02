@@ -1,4 +1,4 @@
-import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo, IGridCheckRow, IGridInputCheckRow, IGridSort, IGridHeaderSearch, IGridColumn } from '../interfaces';
+import { IGridDataSource, IGridColumnIndex, IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonModal, IGridItem, IGridRowButtonGo, IGridCheckRow, IGridInputCheckRow, IGridSort, IGridHeaderSearch, IGridColumn, IGridInputEnter } from '../interfaces';
 import { Component, computed, input, output, signal, WritableSignal } from '@angular/core'; 
 import { Dates, Tools } from 'coer91.tools';
 
@@ -39,16 +39,20 @@ export class CoerGridBody<T> {
     public readonly isEnabled       = input.required<boolean>();   
 
     //Outputs
-    protected readonly onClickRow       = output<T>();
-    protected readonly onDoubleClickRow = output<T>();
-    protected readonly onClickDeleteRow = output<T>();
-    protected readonly onClickEditRow   = output<T>();
-    protected readonly onClickModalRow  = output<T>();
-    protected readonly onClickGoRow     = output<T>();
-    protected readonly onSwitchChange   = output<IGridItem<T>>();
-    protected readonly onCheckboxChange = output<IGridInputCheckRow<T>>();
-    protected readonly onSelectedValue  = output<T[]>();
-    protected readonly onSort           = output<T[]>();
+    protected readonly onClickRow        = output<T>();
+    protected readonly onDoubleClickRow  = output<T>();
+    protected readonly onClickDeleteRow  = output<T>();
+    protected readonly onClickEditRow    = output<T>();
+    protected readonly onClickModalRow   = output<T>();
+    protected readonly onClickGoRow      = output<T>();
+    protected readonly onSwitchChange    = output<IGridItem<T>>();
+    protected readonly onCheckboxChange  = output<IGridInputCheckRow<T>>();
+    protected readonly onTextboxChange   = output<IGridItem<T>>();
+    protected readonly onNumberboxChange = output<IGridItem<T>>();
+    protected readonly onSelectboxChange = output<IGridItem<T>>();
+    protected readonly onKeyupEnter      = output<IGridInputEnter<T>>();
+    protected readonly onSelectedValue   = output<T[]>();
+    protected readonly onSort            = output<T[]>();
 
     //computed  
     protected isLoading = computed(() => this.isLoadingSIGNAL()());  

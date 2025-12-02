@@ -1,4 +1,5 @@
 import { IGridCoerSwitch } from "./grid-coer-switch.interface";
+import { IGridCoerTextBox } from "./grid-coer-textbox.interface";
 import { IGridItem } from "./grid-item.interface"; 
 
 export interface IGridColumn<T> {
@@ -14,7 +15,7 @@ export interface IGridColumn<T> {
     type?:             'number' | 'currency' | 'date' | 'datetime' | 'time' | 'string';
     template?:         null    | string  | ((item: IGridItem<T>) => string);
     coerSwitch?:       null    | boolean | ((item: IGridItem<T>) => IGridCoerSwitch);
-    // coerTextbox?:   null    | boolean | ((item: IGridItem<T>) => IGridCoerTextBox);
+    coerTextbox?:      null    | boolean | ((item: IGridItem<T>) => IGridCoerTextBox);
     // coerNumberbox?: null    | boolean | ((item: IGridItem<T>) => IGridCoerNumberBox);
     // coerSelectbox?: null    | boolean | ((item: IGridItem<T>) => IGridCoerSelectBox);
     // coerDatebox?:   null    | boolean | ((item: IGridItem<T>) => IGridCoerTextBox);

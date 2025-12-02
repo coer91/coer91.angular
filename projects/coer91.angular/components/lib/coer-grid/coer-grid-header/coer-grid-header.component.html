@@ -81,17 +81,17 @@
                 (onInput)="searchSIGNAL().set($event)"
                 (onSearch)="onClickSearch.emit({
                     id: CalculateId()(-1, -1, 'search'),
-                    input: 'coer-search', 
+                    input: 'coerSearch', 
                     value: $event
                 })"
                 (onClear)="searchSIGNAL().set(''); onClickClearSearch.emit({
                     id: CalculateId()(-1, -1, 'search'),
-                    input: 'coer-search', 
+                    input: 'coerSearch', 
                     value: ''
                 })"
                 (onKeyupEnter)="onKeyupEnterSearch.emit({
                     id: CalculateId()(-1, -1, 'search'),
-                    input: 'coer-search', 
+                    input: 'coerSearch', 
                     value: $event
                 })"
             ></coer-textbox>

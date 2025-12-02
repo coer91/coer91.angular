@@ -35,7 +35,7 @@
             (onClickSave)="onClickSave.emit()"
             (onClickSearch)="onClickSearch.emit($event)"
             (onClickClearSearch)="onClickClearSearch.emit($event)"
-            (onKeyupEnterSearch)="onKeyupEnterSearch.emit($event)"
+            (onKeyupEnterSearch)="onKeyupEnter.emit($event)"
             (onReady)="_headerReady=true"> 
             <ng-content></ng-content> 
         </coer-grid-header>
@@ -71,7 +71,10 @@
                     (onClickEditRow)="onClickEditRow.emit($event)" 
                     (onClickModalRow)="onClickModalRow.emit($event)"
                     (onClickGoRow)="onClickGoRow.emit($event)" 
-                    (onSwitchChange)="_SetValueInput($event, 'coer-switch')"
+                    (onSwitchChange)="_SetValueInput($event, 'coerSwitch')"
+                    (onTextboxChange)="_SetValueInput($event, 'coerTextbox')"
+                    (onNumberboxChange)="_SetValueInput($event, 'coerNumberbox')"
+                    (onSelectboxChange)="_SetValueInput($event, 'coerSelectbox')"
                     (onCheckboxChange)="onCheckboxChange.emit($event)"
                     (onSelectedValue)="_SetSelectedValue($event)"
                     (onSort)="setValue($event); onSort.emit($event);"

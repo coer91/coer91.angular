@@ -64,7 +64,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected readonly onClickSave        = output<void>();
     protected readonly onClickSearch      = output<IGridInputEnter<T>>();
     protected readonly onClickClearSearch = output<IGridInputEnter<T>>();
-    protected readonly onKeyupEnterSearch = output<IGridInputEnter<T>>();
+    protected readonly onKeyupEnter       = output<IGridInputEnter<T>>();
     protected readonly onClickRow         = output<T>();
     protected readonly onDoubleClickRow   = output<T>();
     protected readonly onClickDeleteRow   = output<T>();
@@ -95,7 +95,7 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
 
 
     //ControlValueAccessor
-    protected _SetValueInput(row: IGridItem<T>, input: 'coer-switch' | 'coer-textbox' | 'coer-numberbox' | 'coer-selectbox'): void {  
+    protected _SetValueInput(row: IGridItem<T>, input: 'coerSwitch' | 'coerTextbox' | 'coerNumberbox' | 'coerSelectbox'): void {  
         if(Tools.IsNotNull(this._value[row.indexRow])) {            
             (this._value[row.indexRow] as any)[row.property] = row.value;
             
@@ -109,10 +109,10 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
             });
 
             switch(input) { 
-                case 'coer-switch'   : this.onSwitchChange.emit(row);    break;
-                case 'coer-textbox'  : this.onTextboxChange.emit(row);   break;
-                case 'coer-numberbox': this.onNumberboxChange.emit(row); break;
-                case 'coer-selectbox': this.onSelectboxChange.emit(row); break;
+                case 'coerSwitch'   : this.onSwitchChange.emit(row);    break;
+                case 'coerTextbox'  : this.onTextboxChange.emit(row);   break;
+                case 'coerNumberbox': this.onNumberboxChange.emit(row); break;
+                case 'coerSelectbox': this.onSelectboxChange.emit(row); break;
             }
         }  
     }
