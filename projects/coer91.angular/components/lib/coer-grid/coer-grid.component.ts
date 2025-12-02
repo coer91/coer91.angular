@@ -1,7 +1,7 @@
 import { IGridCheckRow, IGridColumn, IGridColumnIndex, IGridDataSource, IGridFooter, IGridHeaderButton, IGridHeaderButtonAdd, IGridHeaderButtonExport, IGridHeaderButtonImport, IGridHeaderSearch, IGridInputCheckRow, IGridInputEnter, IGridInputImport,  IGridItem,  IGridRowButtonDelete, IGridRowButtonEdit, IGridRowButtonGo, IGridRowButtonModal } from './interfaces';
 import { Component, input, AfterViewInit, output, OnDestroy, computed, signal, viewChild } from '@angular/core';
 import { CONTROL_VALUE, ControlValue } from '@library/tools';
-import { HTMLElements, Tools } from 'coer91.tools';
+import { Dates, HTMLElements, Tools } from 'coer91.tools';
 import { CoerGridHeader } from './coer-grid-header/coer-grid-header.component';
 
 @Component({
@@ -163,12 +163,12 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         const DATA_SOURCE = this._valueFiltered(); 
 
         //Response
-        return [{
+        return DATA_SOURCE.length > 0 ? [{
             groupBy: 'Not Grouped',
             indexGroup: -1,
             length: -1,
             rows: [...DATA_SOURCE].splice(0, this.rowsByPage())
-        }];
+        }] : [];
     });
 
 
@@ -185,9 +185,19 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
         //Filter by search   
         const SEARCH_PROPERTIES = Tools.IsNull(this.search().properties) 
             ? this.columns().filter(item => item.property.isNotOnlyWhiteSpace() && Tools.IsNull(item?.coerSwitch)).map(item => item.property)  
-            : this.search().properties!.filter(property => property.isNotOnlyWhiteSpace()); 
+            : this.search().properties!.filter(property => property.isNotOnlyWhiteSpace());  
 
-        return DATA_SOURCE.search(SEARCH_TEXT, SEARCH_PROPERTIES);
+        //Data Formated
+        const DATA_SOURCE_FORMAT = (DATA_SOURCE as any[]).map(data => 
+            this._columns()
+            .map(x => x.config)
+            .reduce((item, { property, type }) => ({
+                ...item,
+                [property]: this._ApplyFormat(data[property], type)
+            }), { ...data })
+        ).search(SEARCH_TEXT, SEARCH_PROPERTIES);  
+
+        return DATA_SOURCE.intercept(DATA_SOURCE_FORMAT, 'indexRow');
     });
 
 
@@ -225,6 +235,19 @@ export class CoerGrid<T> extends ControlValue implements AfterViewInit, OnDestro
     protected _isEnabled = computed<boolean>(() => {
         return !this.isLoading() && !this.isInvisible() && !this.isReadonly() && !this.isHidden();
     }); 
+
+
+    /** */
+    protected _ApplyFormat = (value: any, type: 'string' | 'number' | 'currency' | 'date' | 'datetime' | 'time' = 'string') => {
+        switch(type) {
+            case 'string'  : return String(value).cleanUpBlanks();
+            case 'number'  : return Number(value).toNumericFormat();
+            case 'currency': return Number(value).toCurrency();
+            case 'date'    : return Dates.ToFormatDate(value);
+            case 'datetime': return Dates.ToFormatDateTime(value, true);
+            case 'time'    : return Dates.ToFormatTime(value, true);
+        }
+    };
 
 
     /**  */

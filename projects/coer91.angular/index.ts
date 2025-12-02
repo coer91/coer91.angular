@@ -26,7 +26,6 @@ import * as pipes      from '@library/pipes';
         RouterOutlet,
         FormsModule,
         ReactiveFormsModule,
-        pages.HomePage,  
         components.CoerAccordion,
         components.CoerButton,
         components.CoerGrid,
@@ -35,10 +34,14 @@ import * as pipes      from '@library/pipes';
         components.CoerSidenav, // Este NO
         components.CoerSwitch,
         components.CoerTextBox,
-        components.CoerToolbar,
+        components.CoerToolbar, // ESTE NO
+        pipes.DatePipe,
+        pipes.DateTimePipe,
+        pipes.CurrencyPipe,
         pipes.HtmlPipe,
         pipes.NoImagePipe,
-        pipes.NumericFormatPipe 
+        pipes.NumericFormatPipe,
+        pipes.TimePipe 
     ]
 })
 export class coer91Module { } 

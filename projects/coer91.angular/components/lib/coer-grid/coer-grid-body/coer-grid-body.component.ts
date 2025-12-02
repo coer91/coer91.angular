@@ -21,6 +21,7 @@ export class CoerGridBody<T> {
     
     //Inputs  
     public readonly CalculateId     = input.required<(indexRow: number, indexColumn: number, suffix?: string) => string>();
+    public readonly ApplyFormat     = input.required<(value: any, type: 'string' | 'number' | 'currency' | 'date' | 'datetime' | 'time') => string>();
     public readonly columns         = input.required<IGridColumnIndex<T>[]>();
     public readonly valueSIGNAL     = input.required<T[]>();
     public readonly dataSource      = input.required<IGridDataSource[]>();
@@ -69,7 +70,7 @@ export class CoerGridBody<T> {
     protected _ShowDeleteButton(row: any = null) {
         let response = false;
 
-        if(this.isEnabled() && !this.isLoading()) {
+        if(this.isEnabled() && !this.isLoading() && this.dataSource().length > 0) {
             if (Tools.IsNull(row)) {
                 response = Tools.IsBoolean(this.buttonDelete().show) ? Boolean(this.buttonDelete().show) : true;
             }
@@ -92,7 +93,7 @@ export class CoerGridBody<T> {
     protected _ShowEditButton(row: any = null) {
         let response = false;
 
-        if(this.isEnabled() && !this.isLoading()) {
+        if(this.isEnabled() && !this.isLoading() && this.dataSource().length > 0) {
             if (Tools.IsNull(row)) {
                 response = Tools.IsBoolean(this.buttonEdit().show) ? Boolean(this.buttonEdit().show) : true;
             }
@@ -275,13 +276,13 @@ export class CoerGridBody<T> {
     protected async _ToggleSort(column: IGridColumn<T>): Promise<void> {
         
         if (!Tools.IsBooleanFalse(column?.short)) {   
-           
+            if(this._isLoadingSort) return;
+
             this._isLoadingSort = true;
-            const { direction } = this._sort();
-            const COLUMN_TYPE = column?.type;
+            const { direction } = this._sort(); 
 
             let DATA_SOURCE = [];
-            switch(COLUMN_TYPE) {
+            switch(column?.type) {
                 case 'number': {
                     DATA_SOURCE = [...this.valueSIGNAL()].map((item: any) => ({ ...item, [column.property]: Number(item[column.property]) }));
                     break

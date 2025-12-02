@@ -9,7 +9,7 @@
         [(ngModel)]="dataSource" 
         [columns]="[
             { property: 'id'  ,   alias: 'id', width: '50px', type: 'currency' },
-            { property: 'name',   alias: 'Hola', type: 'date' },
+            { property: 'name',   alias: 'Hola', type: 'datetime' },
             { property: 'isBool', alias: 'is', coerSwitch  }
         ]" 
         [search]="{ show: true }"
@@ -43,3 +43,5 @@
         (onCheckboxChange)="Log('onCheckboxChange', $event)"
     ></coer-grid> 
 </section> 
+
+{{ dataSource | json }}

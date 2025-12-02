@@ -89,6 +89,7 @@
                                     'cursor'        : _checkOnRow() ? 'pointer' : 'default'
                                 }">
                                 <coer-grid-cell
+                                    [ApplyFormat]="ApplyFormat()"
                                     [id]="CalculateId()(row.indexRow, column.indexColumn)"
                                     [column]="column"
                                     [row]="row" 
@@ -173,4 +174,4 @@
             </tbody>
         }
     </table> 
-</section>
+</section> 

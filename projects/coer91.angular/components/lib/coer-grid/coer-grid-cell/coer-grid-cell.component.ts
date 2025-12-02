@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';  
 import { IGridColumnIndex, IGridItem } from '../interfaces';
-import { Tools } from 'coer91.tools';
+import { Dates, Tools } from 'coer91.tools';
 
 @Component({
     selector: 'coer-grid-cell',
@@ -13,17 +13,18 @@ export class CoerGridCell<T> {
     //Elements   
 
     //Inputs 
-    public id        = input.required<string>();
-    public column    = input.required<IGridColumnIndex<T>>();
-    public row       = input.required<any>();
-    public minHeight = input.required<string>();  
-    public isEnabled = input.required<boolean>();
-    public isLoading = input.required<boolean>();
+    public readonly ApplyFormat = input.required<(value: any, type: 'string' | 'number' | 'currency' | 'date' | 'datetime' | 'time') => string>();
+    public readonly id          = input.required<string>();
+    public readonly column      = input.required<IGridColumnIndex<T>>();
+    public readonly row         = input.required<any>();
+    public readonly minHeight   = input.required<string>();  
+    public readonly isEnabled   = input.required<boolean>();
+    public readonly isLoading   = input.required<boolean>();
 
     //Outputs 
-    protected onSwitchChange   = output<IGridItem<T>>();
-    protected onClickRow       = output<T>();
-    protected onDoubleClickRow = output<T>();
+    protected readonly onSwitchChange   = output<IGridItem<T>>();
+    protected readonly onClickRow       = output<T>();
+    protected readonly onDoubleClickRow = output<T>();
 
     /** */
     public get input(): 'coer-switch' | 'coer-textbox' | 'coer-numberbox' | 'coer-selectbox' | 'coer-datebox' | '' {
@@ -55,25 +56,25 @@ export class CoerGridCell<T> {
 
     /** */
     protected _GetCellValue = computed<string>(() => {  
-        let value = String((this.row() as any)[this.column().config.property] || ''); 
+        let value = (this.row() as any)[this.column().config.property] || ''; 
         
         //Template
         if(Tools.IsNotNull(this.column().config?.template)) {  
             if(Tools.IsFunction(this.column()?.config?.template)) {
-                value = (this.column()?.config as any)?.template({
+                return (this.column()?.config as any)?.template({
                     indexRow: this.row().indexRow,
                     property: this.column()?.config?.property,
                     row: { ...this.row() },
-                    value: value
+                    value
                 });
             }
 
             else if(Tools.IsNotOnlyWhiteSpace(this.column()?.config?.template)) {
-                value = this.column()?.config?.template as string;
+                return this.column()?.config?.template as string;
             }
         }
 
-        return value.trim();
+        return this.ApplyFormat()(value, this.column().config?.type || 'string'); 
     }); 
 
 

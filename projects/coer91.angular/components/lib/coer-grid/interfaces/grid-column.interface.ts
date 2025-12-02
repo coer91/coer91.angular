@@ -11,7 +11,7 @@ export interface IGridColumn<T> {
     textAlignX?:       'left' | 'center' | 'right';
     textAlignY?:       'top'  | 'middle' | 'bottom';
     color?:            'primary' | 'secondary' | 'success' | 'warning'  | 'danger' | 'navigation' | 'information' | 'dark' | 'light' | ((item: IGridItem<T>) => 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'navigation' | 'information' | 'dark' | 'light');
-    type?:             'number' | 'currency' | 'date' | 'datetime' | 'time' | 'string' | ((item: IGridItem<T>) => 'number'  | 'currency'  | 'date' | 'datetime' | 'time' | 'string');
+    type?:             'number' | 'currency' | 'date' | 'datetime' | 'time' | 'string';
     template?:         null    | string  | ((item: IGridItem<T>) => string);
     coerSwitch?:       null    | boolean | ((item: IGridItem<T>) => IGridCoerSwitch);
     // coerTextbox?:   null    | boolean | ((item: IGridItem<T>) => IGridCoerTextBox);
