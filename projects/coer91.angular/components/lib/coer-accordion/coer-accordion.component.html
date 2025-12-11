@@ -1,0 +1,52 @@
+<div class="coer-accordion animation-fadeIn" title="">
+    <div [ngStyle]="{ 
+        'min-width'    : minWidth(),
+        'max-width'    : maxWidth(), 
+        'min-height'   : _minHeight,
+        'max-height'   : _maxHeight,
+        'margin-top'   : marginTop(),
+        'margin-right' : marginRight(),
+        'margin-bottom': marginBottom(),
+        'margin-left'  : marginLeft()  
+    }">
+        <div [id]="_id" [class]="'coer-accordion-header coer-accordion-header-' + type()" 
+            [ngClass]="{ 
+                'cursor-pointer': !isReadonly(),
+                'border-radius-bottom-0px': !_isCollapsed
+            }"
+            (click)="Toggle()">
+        
+            <h4>
+                @if(IsNotOnlyWhiteSpace(icon())) {
+                    <i [class]="icon()"></i>
+                }
+                <span>{{ title() }}</span>
+            </h4>
+
+            @if(!isReadonly()) {
+                <button type="button">
+                    <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed }"></i> 
+                </button>
+            }
+        </div>
+        
+        <div class="coer-accordion-body" [class]="bodyColor() ? 'coer-accordion-body-' + type() : 'coer-accordion-body-light'"
+            [ngStyle]="{ 
+                'overflow'   : (_isCollapsed || isLoading() ? 'hidden' : 'auto'), 
+                'min-height' : (_isCollapsed ? '0px'    : `calc(${_minHeight} - 35px)`),
+                'max-height' : (_isCollapsed ? '0px'    : `calc(${_maxHeight} - 35px)`),
+                'padding'    : padding()
+            }"> 
+            <div [ngClass]="{ 'display-none': _isCollapsed }">
+                <ng-content></ng-content>
+
+                @if(isLoading()) {
+                    <div class="loading">
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+                        <span>Loading</span>
+                    </div>
+                } 
+            </div> 
+        </div>   
+    </div>
+</div>    

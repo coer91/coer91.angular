@@ -1,0 +1,99 @@
+<div class="coer-selectbox animation-fadeIn">
+    <div [id]="_id + '-container'" [ngClass]="{ 
+        'readonly'              : isReadonly() && !isInvisible(),
+        'invisible'             : isInvisible(),
+        'display-none'          : isHidden() 
+    }"
+    [ngStyle]="{
+        'padding-right': _paddingRight, 
+        'width'        : `calc(${width()} - ${_paddingRight} - 10px)`,
+        'min-width'    : `calc(${minWidth()} - ${_paddingRight} - 10px)`,
+        'max-width'    : `calc(${maxWidth()} - ${_paddingRight} - 10px)`,
+        'margin-top'   : marginTop(),
+        'margin-right' : marginRight(),
+        'margin-bottom': marginBottom(),
+        'margin-left'  : marginLeft()  
+    }">
+
+        @if(isInvisible()) {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_value"
+                [readOnly]="true" 
+            />
+        }
+    
+        @else {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_search()"
+                [disabled]="!_isEnabled"
+                [minLength]="minLength()"
+                [maxLength]="maxLength()"
+                [placeholder]="_placeholder"
+                (input)="_SetSearch(component.value)" 
+                [ngStyle]="{ 'text-align': textPosition() }" 
+            />
+        
+            @if(isLoading() && !isInvisible()) {
+                <div class="loading border-radius-inherit"></div>
+            }       
+            
+            @if(IsNotOnlyWhiteSpace(this.label())) {
+                <label [for]="_id" 
+                    [ngClass]="{ 
+                        'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)), 
+                        'color-primary': (_isFocused && !isInvalid()),
+                        'color-danger' : (isInvalid() && _isEnabled)
+                    }">{{ _label }}</label>
+            }
+
+            
+            <span class="icon-container">
+                @if(_showClearButton) {
+                    <span>
+                        <i class="i91-x font-size-normal" (click)="Clear()"></i>
+                    </span>
+                } 
+
+                @else if(isInvalid() && _isEnabled) {
+                    <span>
+                        <i class="i91-exclamation-circle-fill font-size-normal color-red"></i>
+                    </span>
+                }
+        
+                @else if(isValid() && _isEnabled) {
+                    <span>
+                        <i class="i91-check-circle-fill font-size-normal color-green"></i>
+                    </span>
+                } 
+
+                @if(_isEnabled) {
+                    <span (click)="Toggle()">
+                        <i class="i91-angle-up font-size-30px" [ngClass]="{ 'i91-180deg': !_isCollapsed(), 'color-primary' : !_isCollapsed() }"></i>
+                    </span>  
+                }
+            </span>
+        }
+
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && _isEnabled) }"></div>
+
+        <ul [id]="_id + '-options'" [ngStyle]="{ 'max-height' : (_isCollapsed() ? '0px' : '175px') }">
+            @for(item of _dataSource(); track item.index) {
+                <li [id]="_id + '-index' + item.index" [ngClass]="{ 'focus': _index() == item.index }" (click)="_ClickOption(item)"> 
+                    @if(_GetIcon(item).isNotOnlyWhiteSpace()) {
+                        <span class="icon-container-option">
+                            <i [class]="_GetIcon(item)"></i> 
+                        </span>
+                    }
+
+                    <span class="display-property-option">{{ _GetDisplay(item) }}</span>    
+                </li>
+            }
+        </ul>
+    </div>
+</div>    

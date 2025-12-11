@@ -1,0 +1,109 @@
+@switch(_input()) {
+    @case ('coerSwitch') {
+        <div class="input-switch">
+            <coer-switch 
+                [id]="id()"
+                [ngModel]="row()[column().config.property]"
+                [isReadonly]="_GetAttributeValue('isReadonly', false)" 
+                [type]="_GetAttributeValue('type', 'switch')"
+                [color]="_GetAttributeValue('color', 'primary')"
+                [tooltip]="_GetAttributeValue('tooltip', '')"
+                [tooltipPosition]="_GetAttributeValue('tooltipPosition', 'left')" 
+                marginLeft="auto"
+                marginRight="auto"
+                [isLoading]="isLoading()"
+                (onInput)="onSwitchChange.emit({ 
+                    indexRow: row().indexRow,  
+                    property: column().config.property, 
+                    row: row(), 
+                    value: $event 
+                })"
+            ></coer-switch>
+        </div>
+    }
+
+    @case ('coerTextbox') { 
+        <div>
+            <coer-textbox 
+                [id]="id()"
+                [ngModel]="row()[column().config.property]"
+                [isReadonly]="_GetAttributeValue('isReadonly', false)"
+                [isValid]="_GetAttributeValue('isValid', false)"
+                [isInvalid]="_GetAttributeValue('isInvalid', false)"
+                [placeholder]="_GetAttributeValue('placeholder', ('type ' + column().columnName.toLowerCase() + '...'))"
+                [selectOnFocus]="_GetAttributeValue('selectOnFocus', true)"
+                [textPosition]="_GetAttributeValue('textPosition', 'left')"
+                [minLength]="_GetAttributeValue('minLength', 0)"
+                [maxLength]="_GetAttributeValue('maxLength', 50)"
+                (onInput)="onTextboxChange.emit({ 
+                    indexRow: row().indexRow,  
+                    property: column().config.property, 
+                    row: row(), 
+                    value: $event
+                })"
+                (onKeyupEnter)="onKeyupEnter.emit({ 
+                    id: id(),
+                    input: _input(), 
+                    row: row(), 
+                    value: $event
+                })"
+            ></coer-textbox> 
+        </div> 
+    }
+
+    @case ('coerNumberbox') {
+         
+    }
+
+    @case ('coerSelectbox') {
+        <div class="input-selectbox"> 
+            <coer-selectbox 
+                [id]="id()"
+                [ngModel]="row()[column().config.property]" 
+                [isReadonly]="_GetAttributeValue('isReadonly', false)"
+                [isValid]="_GetAttributeValue('isValid', false)"
+                [isInvalid]="_GetAttributeValue('isInvalid', false)"
+                [dataSource]="_GetAttributeValue('dataSource', [])"
+                [placeholder]="_GetAttributeValue('placeholder', '-- select --')"
+                [displayProperty]="_GetAttributeValue('displayProperty', 'name')" 
+                (onInput)="onSelectboxChange.emit({ 
+                    indexRow: row().indexRow,  
+                    property: column().config.property, 
+                    row: row(), 
+                    value: $event 
+                })"               
+                (onClear)="onSelectboxChange.emit({ 
+                    indexRow: row().indexRow,  
+                    property: column().config.property, 
+                    row: row(), 
+                    value: $event
+                })" 
+                (onKeyupEnter)="onSelectboxChange.emit({ 
+                    indexRow: row().indexRow,  
+                    property: column().config.property, 
+                    row: row(), 
+                    value: $event 
+                })" 
+            ></coer-selectbox> 
+        </div> 
+    }
+
+
+    @case ('coerDatebox') {
+        
+    }
+
+    @default {
+        <div class="default-cell" 
+            [ngStyle]="{
+                'justify-content': _GetTextAlignX(),
+                'word-break'     : _GetTextBreak(),
+                'white-space'    : _GetSpaceBreak(),
+                'min-height'     : minHeight()  
+            }"
+            (click)="isEnabled() ? onClickRow.emit(row()) : null"
+            (dblclick)="isEnabled() ? onDoubleClickRow.emit(row()) : null">  
+            <div [innerHTML]="_GetCellValue() | html" class="display-flex"></div>          
+        </div>
+    }
+}

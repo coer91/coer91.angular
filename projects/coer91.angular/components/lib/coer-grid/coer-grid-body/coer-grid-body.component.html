@@ -1,0 +1,182 @@
+<section class="coer-grid-body">
+    <table [ngClass]="{ }">        
+        <thead>
+            <tr>  
+                @if(_showCheckbox()) {
+                    <th class="action-column" scope="col">    
+                        <div class="action-column-content height-20px">
+                            <div [ngClass]="{ 'display-none': _isInvisibleCheckboxAll }">
+                                <coer-switch 
+                                    type="checkbox"
+                                    [(ngModel)]="_checkAll"
+                                    (onClick)="_ClickCheckAll($event)"
+                                ></coer-switch>
+                            </div>   
+                        </div>
+                    </th>
+                }
+
+                @for(header of columns(); track header.indexColumn) {
+                    <th scope="col" 
+                        (dblclick)="_ToggleSort(header.config)"
+                        [ngStyle]="{ 
+                            'width'     : `calc(${header.config.width} - 10px)`,
+                            'text-align': header.config.textAlignX
+                        }">                       
+                        <div class="th-content">
+                            <span>
+                                <span> {{ header.columnName }} </span> 
+                                <i [class]="_IconShortHeader(header.config.property)"></i>
+                            </span>
+
+                            <i [class]="_IconSearchHeader(header.config)"></i>
+                        </div>
+                    </th>
+                } 
+
+                @if(_ShowDeleteButton()) {
+                    <th class="action-column" scope="col"></th>
+                }
+                   
+                @if(_ShowEditButton()) { 
+                    <th class="action-column" scope="col"></th>
+                }   
+
+                @if(_ShowModalButton()) { 
+                    <th class="action-column" scope="col"></th>
+                } 
+                
+                @if(_ShowGoButton()) {
+                    <th class="action-column" scope="col"></th>
+                }
+            </tr>
+        </thead>
+            
+        @for(group of dataSource(); track group.indexGroup) {
+            <tbody>     
+                @for(row of group.rows; let i = $index; track row.indexRow) {
+                    <tr [id]="CalculateId()(row.indexRow, 0, 'row')" 
+                        [ngClass]="{ 
+                            'striped': (showStriped() && (i % 2 != 0)), 
+                            'no-striped': !(showStriped() && (i % 2 != 0)),
+                            'hover'  : showHover() 
+                        }">
+
+                        <!-- CheckBox Column -->
+                        @if(_showCheckbox()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                <div class="action-column-content" [ngStyle]="{ 'height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                    <div [ngClass]="{ 'display-none': isLoading() }">
+                                        <coer-switch 
+                                            [ngModel]="row.checked"
+                                            [isReadonly]="!isEnabled()"
+                                            type="checkbox"
+                                            (onClick)="_ClickCheck($event, row)"
+                                        ></coer-switch>
+                                    </div>
+    
+                                    <div [class]="isLoading() ? 'display-contents' : 'display-none'">
+                                        <i class="icon-circle-notch animation-spin text-primary"></i> 
+                                    </div>
+                                </div>
+                            </td>
+                        }
+                                                    
+                        @for(column of columns(); track column.indexColumn) {
+                            <td class="td-content" 
+                                [ngStyle]="{ 
+                                    'border-bottom' : (showBorders() ? '1px solid var(--readonly)' : ''), 
+                                    'vertical-align': column.config.textAlignY,
+                                    'cursor'        : _checkOnRow() ? 'pointer' : 'default'
+                                }">
+                                <coer-grid-cell
+                                    [ApplyFormat]="ApplyFormat()"
+                                    [id]="CalculateId()(row.indexRow, column.indexColumn)"
+                                    [column]="column"
+                                    [row]="row" 
+                                    [isEnabled]="isEnabled()"
+                                    [isLoading]="isLoading()"
+                                    [minHeight]="`calc(${column.config.height} - ${showBorders() ? '0.800px' : '0px'})`"
+                                    (onClickRow)="_ClickOnRow(row)"
+                                    (onDoubleClickRow)="onDoubleClickRow.emit(row)"
+                                    (onSwitchChange)="onSwitchChange.emit($event)"
+                                    (onTextboxChange)="onTextboxChange.emit($event)"
+                                    (onNumberboxChange)="onNumberboxChange.emit($event)"
+                                    (onSelectboxChange)="onSelectboxChange.emit($event)"
+                                    (onKeyupEnter)="onKeyupEnter.emit($event)"
+                                ></coer-grid-cell>
+                            </td>
+                        } 
+
+                        <!-- Delete Button -->
+                        @if(_ShowDeleteButton()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowDeleteButton(row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonDelete().color) ? buttonDelete().color! : 'danger'"
+                                            icon="delete"  
+                                            (onClick)="onClickDeleteRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
+    
+                        <!-- Edit Button -->
+                        @if(_ShowEditButton()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowEditButton(row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonEdit().color) ? buttonEdit().color! : 'primary'"
+                                            icon="edit" 
+                                            (onClick)="onClickEditRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        } 
+
+
+                        <!-- Modal Button -->
+                        @if(_ShowModalButton()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowModalButton(row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonModal().color) ? buttonModal().color! : 'primary'"
+                                            icon="modal" 
+                                            (onClick)="onClickModalRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
+
+    
+                        <!-- Go Button -->
+                        @if(_ShowGoButton()) {
+                            <td class="action-column" [ngStyle]="{ 'border-bottom': (showBorders() ? '1px solid var(--readonly)' : '')}">
+                                @if(_ShowGoButton(row)) {
+                                    <div class="action-column-content" [ngStyle]="{ 'max-height': `calc(30px - ${showBorders() ? '0.800px' : '0px'})`}">
+                                        <coer-button
+                                            type="icon-rounded"
+                                            [color]="IsNotOnlyWhiteSpace(buttonGo().color) ? buttonGo().color! : 'navigation'"
+                                            icon="go" 
+                                            [path]="_GetPath(row)"
+                                            (onClick)="onClickGoRow.emit(row)"
+                                        ></coer-button>
+                                    </div>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        }
+    </table> 
+</section> 

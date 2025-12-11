@@ -1,0 +1,111 @@
+<div class="coer-grid animation-fadeIn">
+    <div [id]="_id + '-container'" class="coer-grid-container"
+        [ngClass]="{ 
+            'invisible'   : isInvisible(),
+            'display-none': isHidden() 
+        }"
+        [ngStyle]="{ 
+            'width'        : width(),
+            'min-width'    : minWidth(),
+            'max-width'    : maxWidth(),
+            'margin-top'   : marginTop(),
+            'margin-right' : marginRight(),
+            'margin-bottom': marginBottom(),
+            'margin-left'  : marginLeft()  
+        }">
+        <coer-grid-header 
+            #coerGridHeader 
+            [id]="_id + '-coer-grid-header'" 
+            [CalculateId]="_CalculateId"
+            [columns]="columns()"
+            [valueSIGNAL]="_valueSIGNAL()" 
+            [dataSourceExport]="_dataSourceExport()"
+            [exportButton]="headerButtonExport()"
+            [importButton]="headerButtonImport()"
+            [addButton]="headerButtonAdd()"
+            [saveButton]="headerButtonSave()"
+            [search]="search()"
+            [searchSIGNAL]="_searchSIGNAL"
+            [isLoadingSIGNAL]="_isLoadingSIGNAL"
+            [isLoading]="isLoading()"
+            [isReadonly]="isReadonly()" 
+            (onClickExport)="onClickExport.emit($event)"
+            (onClickImport)="_Import($event)"
+            (onClickAdd)="_Add()"
+            (onClickSave)="onClickSave.emit()"
+            (onClickSearch)="onClickSearch.emit($event)"
+            (onClickClearSearch)="onClickClearSearch.emit($event)"
+            (onKeyupEnterSearch)="onKeyupEnter.emit($event)"
+            (onReady)="_headerReady=true"> 
+            <ng-content></ng-content> 
+        </coer-grid-header>
+
+        <section class="coer-grid-container-body" [ngStyle]="{ 'overflow': !isLoading() ? 'auto' : 'hidden' }">  
+            <div [ngStyle]="{ 
+                'height'    : `calc(${height()} - ${_heightCompensation})`, 
+                'min-height': `calc(${minHeight()} - ${_heightCompensation})`, 
+                'max-height': `calc(${maxHeight()} - ${_heightCompensation})` 
+            }"> 
+                <coer-grid-body
+                    #coerGridBody
+                    [CalculateId]="_CalculateId" 
+                    [ApplyFormat]="_ApplyFormat"
+                    [columns]="_columns()"
+                    [valueSIGNAL]="_valueSIGNAL()"
+                    [dataSource]="_dataSource()" 
+                    [search]="search()"
+                    [searchSIGNAL]="_searchSIGNAL()"
+                    [buttonDelete]="rowButtonDelete()"
+                    [buttonEdit]="rowButtonEdit()"
+                    [buttonModal]="rowButtonModal()"
+                    [buttonGo]="rowButtonGo()"
+                    [checkbox]="checkbox()"
+                    [showStriped]="showStriped()"
+                    [showBorders]="showBorders()"
+                    [showHover]="showHover()"
+                    [isLoadingSIGNAL]="_isLoadingSIGNAL"
+                    [isEnabled]="_isEnabled()"
+                    (onClickRow)="onClickRow.emit($event)" 
+                    (onDoubleClickRow)="onDoubleClickRow.emit($event)" 
+                    (onClickDeleteRow)="_DeleteRow($event)" 
+                    (onClickEditRow)="onClickEditRow.emit($event)" 
+                    (onClickModalRow)="onClickModalRow.emit($event)"
+                    (onClickGoRow)="onClickGoRow.emit($event)" 
+                    (onSwitchChange)="_SetValueInput($event, 'coerSwitch')"
+                    (onTextboxChange)="_SetValueInput($event, 'coerTextbox')"
+                    (onNumberboxChange)="_SetValueInput($event, 'coerNumberbox')"
+                    (onSelectboxChange)="_SetValueInput($event, 'coerSelectbox')"
+                    (onCheckboxChange)="onCheckboxChange.emit($event)"
+                    (onSelectedValue)="_SetSelectedValue($event)"
+                    (onSort)="setValue($event); onSort.emit($event);"
+                ></coer-grid-body>
+
+            <!-- Loading / Empty -->
+            @if(isLoading()) {
+                <div class="loading">
+                    <div class="loading-content">
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+                        <span class="fa-fade">Loading</span>
+                    </div>
+                </div> 
+            } 
+
+            @else if(_isEnabled() && _valueSIGNAL().length <= 0) {
+                <div class="empty-data">
+                    <div class="empty-data-content"> No Data </div>
+                </div>
+            } 
+            </div>
+        </section> 
+        
+        <coer-grid-footer
+            [footer]="footer()"
+            [valueSIGNAL]="_valueSIGNAL()"
+            [valueFiltered]="_valueFiltered()"
+            [selectedValue]="selectedValue"
+            [searchSIGNAL]="_searchSIGNAL()"
+            [isLoadingSIGNAL]="_isLoadingSIGNAL"
+            (onReady)="_footerReady=true"
+        ></coer-grid-footer>
+    </div>
+</div>    

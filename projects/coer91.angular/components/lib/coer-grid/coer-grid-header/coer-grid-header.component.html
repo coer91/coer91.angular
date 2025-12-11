@@ -1,0 +1,100 @@
+<header class='flex-wrap-middle-right' [ngClass]="{ 'margin-bottom-5px': marginBottom() }"> 
+       
+    <!-- Slot -->
+    <div class="flex-basis-fit-content margin-right-auto">
+        <ng-content></ng-content>
+    </div> 
+ 
+    <div class="flex-basis-min-content display-flex gap-5px">
+        <!-- Export Button -->
+        @if(_showExportButton()) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded" 
+                    icon="excel"
+                    [color]="IsNotOnlyWhiteSpace(exportButton().color) ? exportButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(exportButton().path) ? exportButton().path! : ''"         
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(exportButton().isLoading)"
+                    (onClick)="_Export()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Import Button -->
+        @if(_showImportButton()) {
+            <div>
+                <input type="file" #inputFileRef [multiple]="false" (change)="_Import($event)" (cancel)="isLoadingSIGNAL().set(false)">
+    
+                <coer-button
+                    type="icon-filled-rounded" 
+                    icon="import"
+                    [color]="IsNotOnlyWhiteSpace(importButton().color) ? importButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(importButton().path) ? importButton().path! : ''"       
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(importButton().isLoading)"
+                    (onClick)="_Import()"
+                ></coer-button>
+            </div>
+        }
+        
+        <!-- Add Button -->
+        @if(_showAddButton()) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded"
+                    icon="add"
+                    [color]="IsNotOnlyWhiteSpace(addButton().color) ? addButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(addButton().path) ? addButton().path! : ''" 
+                    [isLoading]="IsBooleanTrue(addButton().isLoading)"
+                    (onClick)="onClickAdd.emit()"
+                ></coer-button>
+            </div>
+        }
+    
+        <!-- Save Button -->
+        @if(_showSaveButton()) {
+            <div>
+                <coer-button
+                    type="icon-filled-rounded"
+                    icon="save"
+                    [color]="IsNotOnlyWhiteSpace(saveButton().color) ? saveButton().color! : 'primary'"
+                    [path]="IsNotOnlyWhiteSpace(saveButton().path) ? saveButton().path! : ''"            
+                    [isLoading]="_isLoadingInner() || IsBooleanTrue(saveButton().isLoading)"
+                    (onClick)="onClickSave.emit()"
+                ></coer-button>
+            </div>
+        } 
+    </div>
+        
+    <!-- Search -->
+    @if(search().show) { 
+        <div class="mv-flex-basis-100 mv-flex-grow-1 xs-flex-basis-100 md-flex-basis-min-content">
+            <coer-textbox
+                #inputSearch
+                [id]="CalculateId()(-1, -1, 'search')"
+                [ngModel]="searchSIGNAL()()"
+                placeholder="Search" 
+                [selectOnFocus]="true"
+                [showSearchButton]="true"
+                [showClearButton]="true"
+                [isLoading]="_isLoadingInner()"
+                minWidth="250px"
+                (onInput)="searchSIGNAL().set($event)"
+                (onSearch)="onClickSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coerSearch', 
+                    value: $event
+                })"
+                (onClear)="searchSIGNAL().set(''); onClickClearSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coerSearch', 
+                    value: ''
+                })"
+                (onKeyupEnter)="onKeyupEnterSearch.emit({
+                    id: CalculateId()(-1, -1, 'search'),
+                    input: 'coerSearch', 
+                    value: $event
+                })"
+            ></coer-textbox>
+        </div>
+    } 
+</header> 

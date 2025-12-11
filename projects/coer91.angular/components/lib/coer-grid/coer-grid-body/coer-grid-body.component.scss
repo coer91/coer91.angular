@@ -1,0 +1,77 @@
+section.coer-grid-body {  
+
+    table {
+        width: 100% !important;
+        table-layout: auto !important;
+        border-collapse: separate !important;
+        border-spacing: 1px 0px !important;
+        margin: 0px !important;
+        font-size: 14px; 
+                 
+        thead {
+            tr th {
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 9 !important;
+                vertical-align: middle !important;
+                background-color: var(--gray) !important;
+                color: var(--smoke) !important;  
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                min-width: 20px !important;
+                min-height: 20px !important;
+                padding: 5px !important;
+                user-select: none !important; 
+
+                div.th-content {
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: space-between !important;
+
+                    i {
+                        font-size: 15px !important;
+                    }
+                }
+            } 
+        }
+         
+        tbody {  
+            tr td {
+                text-overflow: ellipsis !important;                 
+                padding: 0px !important;  
+                background-color: var(--ligth); 
+            }
+
+            tr.striped td {
+                background-color: var(--input) !important;
+            }
+
+            tr.no-striped td {
+                background-color: var(--light) !important;
+            }
+
+            tr.hover:hover td {
+                background-color: var(--hover) !important;
+            }
+        } 
+
+        //action-column
+        th.action-column, td.action-column {  
+            width: 20px !important;
+            min-width: 20px !important;
+            max-width: 20px !important; 
+            height: 20px !important;                
+            padding: 0px !important;
+            overflow: hidden !important;
+            vertical-align: middle !important;
+
+            div.action-column-content,
+            div.action-column-content-checkbox { 
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+        } 
+    } 
+} 
+ 

@@ -1,0 +1,127 @@
+<div class="coer-sidenav" [ngStyle]="{ transform: _isOpen() ? 'translateX(0px)' : 'translateX(-225px)' }">
+    <nav [ngClass]="{ 'display-none': _isLoadingInner() }">
+        <ul class="lv1">
+            @for(lv1 of _navigationSIGNAL().setIndex(); let i1 = $index; track `${lv1.id}-${i1}`) {
+                <li class="lv1">
+                    @if(_IsOption(lv1)) {
+                        <div [id]="`lv1-${lv1.id}-index${i1}`" class="option lv1-option" (click)="_ClickOptionLv1(lv1, `lv1-${lv1.id}-index${i1}`);">
+                            @if(lv1.icon?.isNotOnlyWhiteSpace()) {
+                                <i [class]="lv1.icon"></i>
+                            }
+                            <span>{{ lv1.label }}</span>
+                        </div>
+                    }
+
+                    @else if(_isMenu(lv1)) {
+                        <coer-sidenav-accordion 
+                            [id]="`lv1-${lv1.id}-index${i1}`" 
+                            level="LV1"
+                            [icon]="lv1.icon" 
+                            [title]="lv1.label" 
+                            paddingLeft="10px" 
+                            (onOpen)="_ClickMenu(lv1, true, `lv1-${lv1.id}-index${i1}`)" 
+                            (onClose)="_ClickMenu(lv1, false, `lv1-${lv1.id}-index${i1}`)">
+                            
+                            <ul class="lv2">
+                                @for(lv2 of lv1.items!.setIndex(); let i2 = $index; track `${lv2.id}-${i2}`) {
+                                    <li class="lv2">
+                                        @if(_IsOption(lv2)) {
+                                            <div [id]="`lv2-${lv2.id}-index${i2}`" class="option lv2-option" (click)="_ClickOptionLv2(lv2, lv1, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
+                                                @if(lv2.icon?.isNotOnlyWhiteSpace()) {
+                                                    <i [class]="lv2.icon"></i>
+                                                }
+                                                <span>{{ lv2.label }}</span>
+                                            </div>
+                                        }
+    
+                                        @else if(_isMenu(lv2)) {
+                                            <coer-sidenav-accordion 
+                                                [id]="`lv2-${lv2.id}-index${i2}`" 
+                                                level="LV2"
+                                                [icon]="lv2.icon" 
+                                                [title]="lv2.label" 
+                                                paddingLeft="35px" 
+                                                (onOpen)="_ClickSubmenu(lv2, lv1, true, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)" 
+                                                (onClose)="_ClickSubmenu(lv2, lv1, false, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
+                                                
+                                                <ul class="lv3">
+                                                    @for(lv3 of lv2.items!.setIndex(); let i3 = $index; track `${lv3.id}-${i3}`) {
+                                                        @if(_IsOption(lv3)) {
+                                                            <div [id]="`lv3-${lv3.id}-index${i3}`" class="option lv3-option" (click)="_ClickOptionLv3(lv3, lv2, lv1, `lv3-${lv3.id}-index${i3}`, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
+                                                                <i [class]="lv3.icon?.isNotOnlyWhiteSpace() ? lv3.icon : 'width-15px'"></i> 
+                                                                <span>{{ lv3.label }}</span>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </coer-sidenav-accordion>
+                                        }
+
+                                        @else {
+                                            <div [id]="`lv2-${lv2.id}-index${i2}`" class="option lv2-option padding-right-5px" (click)="_ClickSubmenuGrid(lv2, lv1, `lv2-${lv2.id}-index${i2}`, `lv1-${lv1.id}-index${i1}`)">
+                                                @if(lv2.icon?.isNotOnlyWhiteSpace()) {
+                                                    <i [class]="lv2.icon"></i>
+                                                }
+
+                                                <div class="grid">
+                                                    <span>{{ lv2.label }}</span>
+                                                    <i class="i91-grid"></i>
+                                                </div> 
+                                            </div>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        </coer-sidenav-accordion>
+                    }
+
+                    @else {
+                        <div [id]="`lv1-${lv1.id}-index${i1}`" class="option lv1-option padding-right-5px" (click)="_ClickMenuGrid(lv1, `lv1-${lv1.id}-index${i1}`)">
+                            @if(lv1.icon?.isNotOnlyWhiteSpace()) {
+                                <i [class]="lv1.icon"></i>
+                            }
+
+                            <div class="grid">
+                                <span>{{ lv1.label }}</span>
+                                <i class="i91-grid"></i>
+                            </div> 
+                        </div>
+                    }
+                </li>
+            } 
+        </ul>
+    </nav>
+
+    <!-- Loading -->
+    @if(_isLoadingInner()) {
+        <nav>
+            <ul class="lv1">
+                <li class="lv1">
+                    <div class="option lv1-option animation-appear">                    
+                        <span> Loading </span>
+                        <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    }
+
+    <div class="coer-sidenav-content"  
+        [ngStyle]="{ 
+            width: (_isOpen() && !_showBackdrop() ? 'calc(100vw - 225px)' : '100vw'),
+            transform: (!_showBackdrop() ? 'translateX(225px)' : 'translateX(0px)')
+        }">
+        <div class="margin"></div>
+        <ng-content></ng-content>
+    </div> 
+</div> 
+ 
+<div (click)="Close()" [ngClass]="{ 
+    'backdrop': _showBackdrop() || _isLoadingSIGNAL(), 
+    'left-0px': !_isOpen() || (_isLoadingSIGNAL() && !_isOpen())
+}">
+    @if(_isLoadingSIGNAL()) {
+        <div class="loading-image" style="background-image: url('coer91/images/loading.gif');"></div>
+    }
+</div>
+ 

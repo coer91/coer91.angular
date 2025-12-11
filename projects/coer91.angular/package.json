@@ -1,0 +1,19 @@
+{
+  "name": "coer91.angular",
+  "version": "0.0.0",
+  "author": "Christian Omar Escamilla Rodríguez", 
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "coer91.styles": "^0.0.40",
+    "coer91.tools": "^0.0.68"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": true
+} 

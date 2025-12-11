@@ -1,0 +1,55 @@
+div.coer-switch {   
+    --primary-light: color-mix(in srgb, var(--primary), var(--light) 80%);
+    --secondary-light: color-mix(in srgb, var(--secondary), var(--light) 80%); 
+    --success-light: color-mix(in srgb, var(--success), var(--light) 80%); 
+    --warning-light: color-mix(in srgb, var(--warning), var(--light) 80%); 
+    --danger-light: color-mix(in srgb, var(--danger), var(--light) 80%); 
+    --navigation-light: color-mix(in srgb, var(--navigation), var(--light) 80%); 
+    --information-light: color-mix(in srgb, var(--information), var(--light) 80%);  
+
+    div.coer-switch-container {
+        height: 35px !important;
+        max-height: 35px !important;
+        display: flex !important;
+        align-items: center !important; 
+        gap: 5px !important;
+       
+        div.coer-switch-base {
+            min-width: 45px !important;
+            height: 16px !important; 
+            border-radius: 10px !important;
+            position: relative !important; 
+
+            div.coer-switch-selector {
+                height: 22px;
+                width: 22px;
+                border-radius: 50px; 
+                position: absolute !important;
+                top: calc(0px - 3px) !important;
+                transition: all 0.3s ease !important; 
+            }
+        }
+
+        div.coer-checkbox-base {
+            width: 16px !important; 
+            max-width: 16px !important;
+            height: 16px !important; 
+            max-height: 16px !important;
+            border: 2px solid var(--gray);
+            border-radius: 5px !important;
+            transition: all 0.3s ease !important;
+
+            i {
+                display: flex !important;
+                transition: color 0.3s ease !important; 
+            }
+        }
+
+        label {
+            cursor: inherit !important;
+            font-weight: bold !important;
+            overflow: hidden !important;
+            transition: color 0.3s ease !important;
+        }
+    }
+}

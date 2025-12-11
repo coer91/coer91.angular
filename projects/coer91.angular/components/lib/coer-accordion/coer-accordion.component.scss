@@ -1,0 +1,156 @@
+div.coer-accordion > div {    
+    border-radius: 5px !important;
+    overflow: hidden !important;
+
+    div.coer-accordion-header {
+        height: 35px !important;
+        border-top-left-radius: inherit !important;
+        border-top-right-radius: inherit !important;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit; 
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;  
+        padding-left: 10px !important;
+        padding-right: 5px;
+        transition: border-radius 0.3s ease-in-out !important;
+
+        h4 {
+            display: inherit !important;
+            align-items: inherit !important;
+            gap: 10px !important;
+            white-space: nowrap !important; 
+            width: calc(100% - 35px) !important;  
+            cursor: inherit !important;
+
+            span { 
+                overflow: hidden !important; 
+                text-overflow: ellipsis !important;
+                max-width: calc(100% - 20px) !important;
+            }
+        }
+
+        button {
+            padding: 0px !important;
+            background-color: transparent !important;
+            border: none !important;
+            cursor: inherit !important;
+            color: inherit !important;
+
+            i {
+                transition: transform 0.3s ease-in-out !important;
+                color: inherit !important;
+            }
+        }
+    }
+
+    div.coer-accordion-body {
+        border-radius: 0px 0px 5px 5px !important;  
+        height: calc(100% - 35px) !important; 
+        transition: all 0.3s ease-in-out; 
+        position: relative;
+
+        div.loading {
+            border-radius: inherit !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+            font-weight: bold !important;
+            color: var(--gray) !important;
+            i { font-size: 30px !important; }
+        }
+    } 
+
+    //primary
+    div.coer-accordion-header-primary {
+        background-color: var(--primary) !important;
+        color: var(--light); 
+    } 
+
+    div.coer-accordion-body-primary {
+        background-color: color-mix(in srgb, var(--primary), var(--light) 85%) !important; 
+    }
+
+    //secondary
+    div.coer-accordion-header-secondary {
+        background-color: var(--secondary) !important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-secondary {
+        background-color: color-mix(in srgb, var(--secondary), var(--light) 85%) !important; 
+    }
+
+    //success
+    div.coer-accordion-header-success {
+        background-color: var(--success) !important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-success {
+        background-color: color-mix(in srgb, var(--success), var(--light) 85%) !important; 
+    }
+
+    //warning
+    div.coer-accordion-header-warning {
+        background-color: var(--warning) !important;
+        color: var(--dark);
+    }
+
+    div.coer-accordion-body-warning {
+        background-color: color-mix(in srgb, var(--warning), var(--light) 85%) !important; 
+    }
+
+    //danger
+    div.coer-accordion-header-danger {
+        background-color: var(--danger) !important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-danger {
+        background-color: color-mix(in srgb, var(--danger), var(--light) 85%) !important; 
+    }
+
+    //navigation
+    div.coer-accordion-header-navigation {
+        background-color: var(--navigation) !important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-navigation {
+        background-color: color-mix(in srgb, var(--navigation), var(--light) 85%) !important; 
+    }
+
+    //information
+    div.coer-accordion-header-information {
+        background-color: var(--information)!important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-information {
+        background-color: color-mix(in srgb, var(--information), var(--light) 85%) !important; 
+    }
+
+    //dark
+    div.coer-accordion-header-dark {
+        background-color: var(--dark) !important;
+        color: var(--light);
+    }
+
+    div.coer-accordion-body-dark {
+        background-color: color-mix(in srgb, var(--dark), var(--light) 85%) !important; 
+    }
+
+    //light
+    div.coer-accordion-header-light {
+        background-color: var(--light) !important;
+        color: var(--dark);
+    } 
+
+    div.coer-accordion-body-light {
+        background-color: var(--light) !important;
+        color: var(--dark);
+    } 
+}

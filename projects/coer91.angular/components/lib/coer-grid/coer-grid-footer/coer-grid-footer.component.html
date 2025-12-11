@@ -1,0 +1,25 @@
+@if(footer().show) {
+    <footer class="flex-middle-between">
+        <span class="item-selected">
+            @if(isLoading()) {
+                <span class="animation-fade"> Loading </span>
+            }
+
+            @else if(selectedValue().length > 0) {
+                <span class="margin-left-5px">
+                    <i class="i91-check-square font-size-20px"></i>{{ selectedValue().length | numericFormat }}
+                </span>
+            }
+        </span>
+
+        @if(_showFilter()) {
+            <span class="margin-right-5px flex-middle-center gap-2px">
+                <i class="i91-filter-fill"></i>{{ valueFiltered().length | numericFormat }} Rows 
+            </span>
+        } 
+
+        @else if(valueSIGNAL().length > 0) {
+            <span class="margin-right-5px"> {{ valueSIGNAL().length | numericFormat }} Rows </span>
+        }  
+    </footer>
+}  

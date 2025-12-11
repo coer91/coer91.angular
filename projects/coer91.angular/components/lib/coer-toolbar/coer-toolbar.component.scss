@@ -1,0 +1,94 @@
+header.coer-toolbar {    
+    position: relative !important;
+    top: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
+    height: 40px !important;
+    max-height: 40px !important;
+    margin-bottom: 10px !important; 
+    overflow: visible !important;
+    background-color: var(--light) !important;
+    color: var(--light) !important;
+    display: flex !important;
+    align-items: center !important;  
+    justify-content: space-between !important;
+    z-index: 100 !important;
+
+    div.coer-toolbar-toogle {
+        display: flex !important;
+        align-items: center !important; 
+        gap: 3px !important;
+        margin-left: 5px !important;
+
+        h3 {
+            margin: 0px;
+            color: var(--dark)
+        }
+    } 
+}   
+
+figure {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 101;
+
+    div.user-container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        min-width: 225px !important;
+        height: 40px !important;
+        position: absolute !important;
+        background-color: var(--light) !important; 
+        z-index: 1 !important;
+        top: -5px !important;
+        right: 0px !important;
+
+        div.user-container-loading {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            font-weight: bold !important;
+        }
+        
+
+        div.user-container-identity {
+            display: inherit !important;
+            align-items: inherit !important;
+            justify-content: inherit !important; 
+            border-radius: 5px !important; 
+            cursor: pointer !important;
+            height: 40px !important;
+            max-height: 40px !important;
+            padding: 0px 5px;
+
+
+            div.user-container-identity-image {
+                min-width: 38px !important;
+                max-width: 38px !important; 
+                min-height: 38px !important;
+                max-height: 38px !important;
+                border-radius: 25px;
+                background: transparent;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: top;
+            }
+
+            div.user-container-identity-name { 
+                padding-left: 5px !important;
+                p {
+                    white-space: nowrap !important;
+                    font-size: 14px !important;
+                    font-weight: bold !important;
+                }
+            }
+        }
+
+        div.user-container-identity:hover,
+        div.user-container-identity-hover {
+            box-shadow: 0px 0px 10px 0px var(--dark) !important;
+        }
+    } 
+} 

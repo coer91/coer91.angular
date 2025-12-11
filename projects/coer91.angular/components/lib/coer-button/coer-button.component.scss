@@ -1,0 +1,114 @@
+@mixin hover-shadown($color) { 
+    box-shadow: 0px 0px 10px 0px $color;
+}
+
+@mixin focus-shadown($color) { 
+    box-shadow: 0px 0px 10px 3px $color;
+    outline: 3px double $color;
+}
+
+div.coer-button {   
+    display: inline-block !important;
+    
+    a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: inherit !important;
+        min-width: inherit !important;
+        max-width: inherit !important;
+        height: inherit !important;
+        min-height: inherit !important;
+        max-height: inherit !important; 
+
+        button { 
+            width: inherit !important;
+            min-width: inherit !important;
+            max-width: inherit !important;
+            height: inherit !important;
+            min-height: inherit !important;
+            max-height: inherit !important;  
+            font-weight: bold !important;
+            border: none; 
+            
+            span.label-container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+            }
+        }
+    
+        button.button-hover-primary:hover  {
+            @include hover-shadown(var(--primary));
+        }
+    
+        button.button-focus-primary:focus  {
+            @include focus-shadown(var(--primary));
+        }
+    
+        button.button-hover-secondary:hover {
+            @include hover-shadown(var(--secondary));
+        }
+    
+        button.button-focus-secondary:focus  {
+            @include focus-shadown(var(--secondary));
+        }
+    
+        button.button-hover-success:hover {
+            @include hover-shadown(var(--success));
+        }
+    
+        button.button-focus-success:focus  {
+            @include focus-shadown(var(--success));
+        }
+    
+        button.button-hover-warning:hover {
+            @include hover-shadown(var(--warning));
+        }
+    
+        button.button-focus-warning:focus  {
+            @include focus-shadown(var(--warning));
+        }
+    
+        button.button-hover-danger:hover {
+            @include hover-shadown(var(--danger));
+        }
+    
+        button.button-focus-danger:focus  {
+            @include focus-shadown(var(--danger));
+        }
+    
+        button.button-hover-navigation:hover {
+            @include hover-shadown(var(--navigation));
+        }
+    
+        button.button-focus-navigation:focus  {
+            @include focus-shadown(var(--navigation));
+        }
+    
+        button.button-hover-information:hover {
+            @include hover-shadown(var(--information));
+        }
+    
+        button.button-focus-information:focus  {
+            @include focus-shadown(var(--information));
+        }
+    
+        button.button-hover-dark:hover {
+            @include hover-shadown(var(--dark));
+        }
+    
+        button.button-focus-dark:focus  {
+            @include focus-shadown(var(--dark));
+        }
+    
+        button.button-hover-light:hover {
+            @include hover-shadown(var(--light));
+        }
+        
+        button.button-focus-light:focus  {
+            @include focus-shadown(var(--light));
+        }
+    }
+}

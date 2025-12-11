@@ -1,0 +1,135 @@
+div.coer-sidenav {    
+    position: absolute !important;
+    top: 40px !important;
+    left: 0px !important;
+    bottom: 0px !important;
+    right: 0px;
+    width: 225px !important; 
+    max-width: 225px !important; 
+    background-color: var(--sidenav) !important; 
+    transition: transform 0.5s ease !important;
+    z-index: 100 !important;
+
+    nav {
+        position: inherit !important;
+        top: 0px !important;
+        left: inherit !important;
+        bottom: inherit !important;
+        right: inherit !important;
+        overflow: auto !important;
+        z-index: inherit !important;
+        background-color: inherit !important;
+
+        ul.lv1 {
+            li.lv1 { 
+                min-height: 40px !important;                 
+                cursor: pointer !important;  
+                color: var(--sidenav-color);
+
+                div.lv1-option,
+                div.lv2-option,
+                div.lv3-option {
+                    height: calc(40px - 0.800px) !important;
+                    max-height: calc(40px - 0.800px) !important;
+                    padding-left: 10px !important;
+                    padding-right: 10px;
+                    display: flex !important;
+                    align-items: center !important;
+                    gap: 10px !important;
+                    background-color: var(--sidenav);
+                    border-bottom: 1px solid color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
+                    user-select: none !important;  
+                   
+                    i { 
+                        width: 15px !important;
+                        min-width: 15px !important;
+                        max-width: 15px !important;
+                        height: 15px !important;
+                        min-height: 15px !important;
+                        max-height: 15px !important;
+                    }
+
+                    span {
+                        white-space: nowrap !important;
+                        overflow: hidden !important;
+                        font-weight: bold !important;
+                    }
+
+                    div.grid {
+                        width: 100% !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: space-between !important;
+
+                        i {
+                            width: 30px !important;
+                            min-width: 30px !important;
+                            max-width: 30px !important;
+                            height: 15px !important;
+                            min-height: 15px !important;
+                            max-height: 15px !important;
+                        }
+                    }
+                }
+
+                div.lv2-option {
+                    padding-left: 35px !important;
+                }
+
+                div.lv3-option {
+                    padding-left: 35px !important;
+                }
+
+                div.option.selected {
+                    color: var(--navigation) !important;
+                }
+            }
+
+            div.option:hover {
+                background-color: color-mix(in srgb, var(--body), var(--sidenav) 90%) !important;
+            }
+        }
+    }
+
+    div.coer-sidenav-content { 
+       transition: width 0.5s ease !important;  
+       height: calc(100vh - 50px) !important;
+       padding-bottom: 10px !important;
+       overflow: auto !important; 
+
+        div.margin {
+            height: 10px!important;
+            background: linear-gradient(
+                to bottom,
+                color-mix(in srgb, var(--smoke), var(--dark) 15%),  
+                var(--smoke)
+            ) !important;
+            position: sticky !important;
+            top: 0px !important;
+            left: 0px !important;
+            right: 0px !important;
+        }
+    } 
+}
+
+div.backdrop { 
+    position: absolute !important;
+    top: 40px !important; 
+    right: 0px !important; 
+    bottom: 0px !important; 
+    left: 225px; 
+    transition: all 0.5s ease !important;
+    z-index: 100 !important; 
+
+    div.loading-image {
+        position: fixed !important;
+        top: 10% !important; 
+        width: 80% !important;
+        height: 80% !important; 
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important; 
+        margin-left: 10% !important;
+        margin-right: 10% !important; 
+    }
+}

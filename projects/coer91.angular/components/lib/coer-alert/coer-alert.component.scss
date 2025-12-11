@@ -1,0 +1,175 @@
+aside.coer-alert {
+    position: fixed !important; 
+    gap: 10px !important;
+    padding: 10px 10px 0px 10px !important;
+    right: 0px !important;
+    bottom: 0px !important;
+    max-height: calc(100vh - 70px) !important;
+    overflow-x: visible !important; 
+    overflow-Y: auto !important;
+    z-index: 3000;
+
+    div.coer-alert { 
+        cursor: default !important;
+        border-radius: 10px !important; 
+        color: var(--light) !important; 
+        min-width: 300px !important; 
+        margin: 10px 0px !important;
+        max-width: 400px; 
+        opacity: 100%;
+        transition: all 0.5s ease-in-out !important; 
+
+        div.coer-alert-header {  
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 5px !important;
+            height: 20px !important; 
+            max-height: 20px !important;
+            padding: 10px !important;
+            font-size: 17px !important;
+            font-weight: bold !important;
+            white-space: nowrap !important;
+            width: calc(100% - 20px) !important;
+            border-radius: inherit !important;
+
+            div.coer-alert-header-title { 
+                width: inherit !important;
+                display: inherit !important;
+                align-items: inherit !important; 
+                gap: inherit !important;
+                
+                i {
+                    font-size: 18px !important;
+                }
+
+                b {
+                    width: inherit !important;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important;
+                }
+            }
+
+            button {
+                color: inherit !important;
+                cursor: pointer !important;
+                font-size: 20px !important;
+            }
+        } 
+
+        div.coer-alert-body {  
+            min-height: 20px !important; 
+            padding: 10px !important; 
+            border-top: 2px solid var(--light) !important; 
+            transition: all 0.5s ease-in-out !important;
+            
+            pre {
+                white-space: pre-line !important;
+                word-break: break-all !important;
+            }
+        }
+    }
+
+    div.coer-alert.background-color-information:hover,
+    div.coer-alert.background-color-success:hover,
+    div.coer-alert.background-color-warning:hover,
+    div.coer-alert.background-color-danger:hover {
+        box-shadow: 0px 0px 7px 1px var(--gray) !important;
+        transform: scale(1.01) !important;
+    }
+
+
+    div.coer-alert.background-color-warning {
+        color: var(--dark) !important;  
+
+        div.coer-alert-body { 
+            border-color: var(--dark) !important;
+        }
+    } 
+
+    .alert-hidden {
+        opacity: 0% !important;
+    } 
+}
+
+
+aside.coer-confirm {
+    position: fixed !important;  
+    top: 0px !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    right: 0px !important; 
+    display: flex !important;  
+    align-items: top !important;
+    justify-content: center !important;
+    backdrop-filter: blur(1.5px) !important;
+    //transition: background-color 0.3s ease-in-out !important;
+    background-color: transparent;
+    z-index: 1; 
+
+    div.coer-confirm { 
+        position: absolute !important;
+        margin-top: 50px !important;
+        display: grid !important;
+        grid-template-rows: 150px 80px 80px !important;
+        background-color: var(--light) !important;
+        border-radius: 10px !important;
+        min-width: 300px !important;
+        transform: scale(0);
+        width: 400px;
+        transition: transform 0.5s ease-in-out !important;
+
+        header {
+            border-radius: 10px 10px 0px 0px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important; 
+
+            i {
+                font-size: 100px !important;
+            }
+        }
+
+        section {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-weight: bold !important;
+            font-size: 18px !important;
+        }
+
+        footer {
+            border-radius: 0px 0px 10px 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important; 
+
+            button {
+                border: none !important;
+                border-radius: 5px !important;
+                width: 100px !important;
+                height: 35px !important;
+                font-weight: bold !important;
+                cursor: pointer !important;
+                user-select: none !important; 
+            }
+        } 
+    }
+
+    @mixin Color($background, $color: var(--light)) {
+        header i { 
+            color: $background !important; 
+        }
+        
+        footer button { 
+            background-color: $background !important; 
+            color: $color !important;
+        };
+    }
+
+    div.coer-confirm.information { @include Color(var(--information)) }
+    div.coer-confirm.success     { @include Color(var(--success)    ) }
+    div.coer-confirm.warning     { @include Color(var(--warning), var(--dark)) }
+    div.coer-confirm.danger      { @include Color(var(--danger)     ) } 
+}

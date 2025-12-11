@@ -1,0 +1,91 @@
+header.coer-page-title {
+    max-height: 50px !important;
+    margin: 0px 30px !important;
+    overflow: visible !important;
+
+
+    h2 {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        height: 25px !important;
+        font-size: 20px !important;
+        margin-bottom: 5px !important;
+        padding: 0px 5px 0px 0px!important;
+
+        span {
+            font-size: 20px !important;
+        } 
+        
+        button {
+            font-size: 17px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: var(--breadcrumbs) !important;
+            background-color: transparent !important;
+            padding: 0px !important;
+            width: 25px !important;
+            height: 25px !important;
+            border: none !important;
+        }
+
+        button:focus {
+            box-shadow: 0px 0px 20px 0px !important;
+        }
+    }
+
+    nav {
+        height: auto !important;
+        min-height: 20px !important;
+        max-height: 20px !important;
+        font-size: small !important; 
+        background-color: color-mix(in srgb, var(--gray), var(--light) 90%) !important;
+        display: flex !important; 
+        align-items: center !important;
+        justify-content: space-between !important; 
+        border-radius: 3px !important; 
+        overflow: hidden !important;
+
+        div.breadcrumbs {
+            display: flex !important; 
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            flex-grow: 1 !important; 
+            color: var(--breadcrumbs) !important; 
+            max-width: calc(100% - 30px - 20px) !important;
+            overflow: auto !important;
+            text-overflow: ellipsis;
+
+            span.slash {
+                font-size: 14px !important;
+                padding: 0px 5px !important;  
+                font-weight: 600 !important;
+            }
+
+            span:first-child { 
+                padding-left: 0px !important;  
+            }
+        } 
+
+        a {
+            margin: 0px !important;
+            display: flex !important; 
+            justify-content: center !important; 
+            text-decoration: none !important;
+            color: var(--breadcrumbs) !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+        } 
+
+        a.go-back {
+            margin-left: 10px !important;
+            justify-content: flex-end !important;
+        }
+    } 
+
+    li {
+        border: none;
+    } 
+}

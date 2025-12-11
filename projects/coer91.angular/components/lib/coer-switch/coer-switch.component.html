@@ -1,0 +1,59 @@
+<div class="coer-switch animation-fadeIn"
+    [ngClass]="{ 'display-none': isHidden(), 'invisible': isInvisible() }"
+    [ngStyle]="{
+        'width'        : width(), 
+        'max-width'    : maxWidth(), 
+        'margin-top'   : marginTop(),
+        'margin-right' : marginRight(),
+        'margin-bottom': marginBottom(),
+        'margin-left'  : marginLeft()         
+    }">   
+     
+    <div class="coer-switch-container" [ngClass]="{ 'cursor-pointer': _isEnabled, 'cursor-loading': isLoading() }">
+        @if(labelPosition().equals('left') && label().isNotOnlyWhiteSpace()) {
+            <label (click)="Toggle()" [ngStyle]="{ 'color': _textColor }"
+                [ngClass]="{ 
+                    'white-space-nowrap': !breakLabel(),
+                    'word-break-all'    : !breakLabel(),                
+            }"> {{ label() }} </label>
+        }
+         
+        @switch(type()) {
+            @case('switch') {
+                <div (click)="Toggle()" 
+                    class="coer-switch-base"
+                    [ngClass]="{ 'animation-appear': isLoading() }" 
+                    [ngStyle]="{ 
+                        'background-color': !_value ? 'var(--readonly)' : `var(--${color()}-light)` 
+                    }">
+                    <div class="coer-switch-selector" 
+                        [ngStyle]="{ 
+                            'background-color': !_value ? 'var(--gray)' : `var(--${color()})`,
+                            'left': !_value ? '0px' : '24px' 
+                    }"></div>
+                </div>
+            }
+
+            @case ('checkbox') {
+                <div (click)="Toggle()" 
+                    class="coer-checkbox-base"
+                    [ngClass]="{ 'animation-appear': isLoading() }"
+                    [ngStyle]="{ 
+                        'background-color': !_value ? 'var(--light)'   : `var(--${color()})`, 
+                        'border-color'    : !_value ? 'var(--readonly)': `var(--${color()})` 
+                    }">
+
+                    <i class="i91-check" [ngStyle]="{ color: _checkboxColor }"></i>
+                </div>
+            }
+        } 
+        
+        @if(labelPosition().equals('right')  && label().isNotOnlyWhiteSpace()) {
+            <label (click)="Toggle()" [ngStyle]="{ 'color': _textColor }"
+                [ngClass]="{ 
+                    'white-space-nowrap': !breakLabel(),
+                    'word-break-all'    : !breakLabel(),                
+            }"> {{ label() }} </label>
+        }
+    </div>
+</div>     

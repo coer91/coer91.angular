@@ -1,0 +1,86 @@
+<div class="coer-textbox animation-fadeIn">
+    <div [ngClass]="{ 
+        'readonly'    : isReadonly() && !isInvisible(),
+        'invisible'   : isInvisible(),
+        'display-none': isHidden() 
+    }"
+    [ngStyle]="{
+        'padding-right': _paddingRight, 
+        'width'        : `calc(${width()} - ${_paddingRight} - 10px)`,
+        'min-width'    : `calc(${minWidth()} - ${_paddingRight} - 10px)`,
+        'max-width'    : `calc(${maxWidth()} - ${_paddingRight} - 10px)`,
+        'margin-top'   : marginTop(),
+        'margin-right' : marginRight(),
+        'margin-bottom': marginBottom(),
+        'margin-left'  : marginLeft()  
+    }">
+
+        @if(isInvisible()) {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_value"
+                [readOnly]="true" 
+            />
+        }
+    
+        @else {
+            <input type="text" 
+                #component
+                [id]="_id"
+                [name]="_id"
+                [value]="_value"
+                [disabled]="!_isEnabled"
+                [minLength]="minLength()"
+                [maxLength]="maxLength()"
+                [placeholder]="IsOnlyWhiteSpace(this.label()) ? placeholder() : ''"
+                (input)="setValue(component.value)" 
+                [ngStyle]="{ 'text-align': textPosition() }" 
+            />
+        
+            @if(isLoading() && !isInvisible()) {
+                <div class="loading border-radius-inherit"></div>
+            }       
+            
+            @if(IsNotOnlyWhiteSpace(this.label())) {
+                <label [for]="_id" 
+                    [ngClass]="{ 
+                        'focus'        : (_isFocused || IsNotOnlyWhiteSpace(_value)),  
+                        'color-primary': (_isFocused && !isInvalid()),
+                        'color-danger' : (isInvalid() && _isEnabled)
+                    }">{{ _label }}</label>
+            }
+
+            @if(_paddingRight != '10px') {
+                <span class="icon-container">
+                    @if(isInvalid() && _isEnabled) {
+                        <span>
+                            <i class="i91-exclamation-circle-fill font-size-normal color-red"></i>
+                        </span>
+                    }
+        
+                    @else if(isValid() && _isEnabled) {
+                        <span>
+                            <i class="i91-check-circle-fill font-size-normal color-green"></i>
+                        </span>
+                    }
+    
+                    @if(_showSearchButton) {
+                        <span (click)="_ClickSearch()">
+                            <i class="i91-magnifying-glass"></i>
+                        </span>
+                    }
+        
+                    @else if(_showClearButton) {
+                        <span (click)="Clear()">
+                            <i class="i91-x font-size-normal"></i>
+                        </span>
+                    } 
+                </span>
+            }
+        }
+
+        <div [ngClass]="{ 'line': true, 'focus': _isFocused, 'isInvalid': (isInvalid() && _isEnabled) }"></div>
+    </div>
+</div>   

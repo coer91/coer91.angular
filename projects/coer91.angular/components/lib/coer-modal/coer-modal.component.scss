@@ -1,0 +1,73 @@
+div.coer-modal {   
+    position: absolute !important;
+    top: 0px !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    right: 0px !important; 
+    display: flex !important;  
+
+    div.coer-modal-content {
+        display: grid !important;
+        min-width: 250px !important;
+        min-height: 50px !important;
+        background-color: var(--light) !important;
+        border-radius: 10px !important;
+        transition: all 0.5s ease-in-out !important; 
+        z-index: 111 !important;
+
+        header { 
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 5px !important;
+            border-radius: 10px 10px 0px 0px !important;
+            border-bottom: 1px solid var(--input) !important;
+            padding: 0px 10px !important;
+            width: inherit !important;
+            min-width: inherit !important;
+            max-width: calc(100% - 20px) !important;  
+            overflow: hidden !important; 
+
+            h3 { 
+                max-width: calc(100% - 26px) !important;  
+                display: inherit !important;
+                align-items: inherit !important;
+                gap: inherit !important;
+
+                i {
+                    min-width: 20px !important;
+                    min-height: 20px !important;
+                }
+
+                span {
+                    overflow: hidden !important;
+                    text-overflow: ellipsis !important; 
+                    white-space: nowrap !important;
+                }
+            }
+        }
+
+        section {
+            padding: 0px 10px !important; 
+            min-height: 40px !important;
+        }
+
+        footer {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 10px !important;
+            border-radius: 0px 0px 10px 10px !important;
+            padding: 0px 10px !important;
+        }
+    }
+
+
+    .animation-beat-1 {
+        animation-name: __KeyScale !important;
+        animation-iteration-count: 2 !important;
+        animation-direction: alternate !important;
+        animation-timing-function: linear !important;
+        animation-duration: 0.5s; 
+    }
+}

@@ -1,0 +1,60 @@
+<header class="coer-page-title" title=''>
+    @if((title() && title()!.length > 0) || information().show) {
+        <h2>
+            <span> {{ title() }} </span>
+    
+            <!-- Button Information -->
+            @if(information().show) {
+                <coer-button
+                    type="icon-rounded"
+                    icon="i91-circle-info font-size-17px" 
+                    minWidth="17px"
+                    maxWidth="17px"
+                    minHeight="17px"
+                    maxHeight="17px"
+                    (onClick)="onClickInformation.emit()"
+                ></coer-button>
+            }
+        </h2>
+    }
+
+    <!-- Navigation -->
+    @if(showBreadcrumbs()) {
+        <nav>    
+            <!-- Breadcrumbs -->
+            <div class="breadcrumbs">  
+                <a class="padding-left-5px padding-rigth-5px" draggable="false">
+                    @if(_labelRoot) {
+                        {{ _labelRoot }}
+                    }
+
+                    @else {
+                        <i [class]="_iconRoot"></i>
+                    }
+                </a>
+
+                @for(breadcrumb of _breadcrumbs().setIndex(); track breadcrumb.index) {
+                    <span class="slash">/</span>
+                    <a [routerLink]='(breadcrumb.path && breadcrumb.path.length > 0) ? breadcrumb.path : null'
+                       [queryParams]='breadcrumb.queryParams' 
+                       (click)="(breadcrumb.click) ? breadcrumb.click() : null"
+                       draggable="false">
+                       {{ breadcrumb.page }}
+                   </a>
+                }               
+            </div>
+            
+
+            <!-- Go Back -->
+            @if(goBack().show) {
+                <a  class="go-back"
+                    [routerLink]="goBack().path"
+                    [queryParams]='goBack().queryParams'
+                    (click)="_ClickGoBack()"
+                    draggable="false">
+                    <i class="i91-reply font-size-20px"></i>
+                </a> 
+            }
+        </nav>
+    }
+</header> 

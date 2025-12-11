@@ -6,5 +6,25 @@
   },
   "newProjectRoot": "projects",
   "projects": {
+    "coer91.angular": {
+      "projectType": "library",
+      "root": "projects/coer91.angular",
+      "sourceRoot": "projects/coer91.angular/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/coer91.angular/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/coer91.angular/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    }
   }
 }

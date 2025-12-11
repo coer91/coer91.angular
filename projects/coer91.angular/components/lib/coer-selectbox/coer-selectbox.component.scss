@@ -1,0 +1,148 @@
+div.coer-selectbox > div {     
+    height: 33px !important;
+    max-height: 35px !important;      
+    padding-left: 10px !important;
+    padding-bottom: 2px !important;
+    background-color: var(--input);
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+    position: relative;
+
+    input {
+        width: 100% !important;
+        height: 23px !important;
+        max-height: inherit !important;
+        border: 0px !important;
+        padding: 10px 0px 0px 0px !important; 
+        font-size: 16px !important;
+        background-color: inherit;
+        border-radius: inherit !important;
+        cursor: inherit !important;
+        color: var(--dark) !important;
+    }
+
+    input:focus { 
+        outline: none !important;
+    }
+
+    label {
+        font-size: 16px !important;
+        position: absolute;
+        top: 0px !important;
+        left: 10px !important; 
+        z-index: 2 !important;
+        display: flex !important;
+        align-items: center !important; 
+        width: fit-content !important;
+        transform: translate(0px, 10px) !important;
+        transition: all 0.2s ease-in-out !important;
+        color: var(--gray);
+    }
+
+    label.focus {
+        height: 14px !important;
+        font-weight: bold !important;
+        transform: translate(-5px, -7px) !important;
+        background-color: inherit; 
+        border-radius: 5px !important;
+        padding: 2px 5px 0px 5px !important;
+         
+    }
+
+    span.icon-container {
+        position: absolute !important;
+        top: 0px !important;
+        right: 5px !important;
+        display: flex !important;  
+        
+        span {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 33px !important;
+            width: 25px !important;
+            max-width: 25px !important;
+            cursor: pointer !important;
+
+            i {
+                color: var(--loading);
+                transition: transform 0.3s ease-in-out !important;
+            }
+
+            i:hover {
+                color: var(--gray);
+            }
+        }
+    }
+
+    div.line {
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        height: 2px;
+        bottom: 1px;
+        background-color: var(--loading);      
+        transition: background-color 0.6s ease-in-out !important;   
+    }
+
+    div.line.focus {
+        background-color: var(--primary);
+    }
+
+    div.line.isInvalid {
+        background-color: var(--danger);
+    }
+
+
+    ul {
+        list-style: none !important;
+        padding-left: 0 !important;
+        background-color: var(--ghost) !important;
+        position: absolute !important;
+        top: 35px !important;
+        left: 0px !important;
+        right: 0px !important;
+        border-radius: 0px 0px 5px 5px !important;  
+        overflow: auto !important;
+        transition: max-height 0.3s ease-in-out !important;
+        z-index: 10; 
+
+        li { 
+            min-height: 24.2px !important;
+            border-bottom: 1px solid var(--loading) !important; 
+            display: flex !important;
+            align-items: center !important;
+            padding: 5px 10px !important;
+            overflow: hidden !important;            
+            cursor: pointer !important;
+            gap: 5px !important;
+
+            span.icon-container-option {
+                width: 25px !important;
+                max-width: 25px !important;
+                display: inherit !important;
+                align-items: inherit !important;
+                justify-content: center !important;
+            }
+
+            span.display-property-option {  
+                display: flex !important;
+                align-items: center !important;
+                word-break: break-all !important;
+            }
+        } 
+
+        li:last-child { 
+            border-bottom-color: transparent !important;
+        }
+  
+        li:not(.focus):hover {
+            background-color: var(--hover);
+            border-radius: 0px 0px 5px 5px !important;
+        }
+
+        li.focus {
+            background-color: var(--focus); 
+        }
+    }
+} 

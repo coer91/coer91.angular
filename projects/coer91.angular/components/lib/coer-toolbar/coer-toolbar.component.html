@@ -1,0 +1,140 @@
+<header class="coer-toolbar">
+    <div class="coer-toolbar-toogle animation-fadeIn">
+        <coer-button 
+            icon="i91-bars font-size-16px" 
+            color="navigation" 
+            type="icon-rounded" 
+            minWidth="25px"
+            maxWidth="25px"
+            minHeight="25px"
+            maxHeight="25px"
+            (onClick)="onClickToogle.emit()"
+        ></coer-button>
+
+        <h3>{{ _appSettings.appInfo.title }}</h3>
+    </div> 
+</header>  
+
+<figure>
+    <div class="user-container">
+        @if(_isLoading()) {
+            <div class="user-container-loading animation-appear">
+                <span> Loading </span>
+                <i class="i91-arrows-rotate animation-spin animation-speed-15"></i>
+            </div>
+        }
+
+        @else {
+            <div class="user-container-identity" [ngClass]="{ 'user-container-identity-hover': _isOpenMenu }" (click)="selectboxRef.Focus()">
+                <div class="user-container-identity-image" [ngStyle]="{ backgroundImage: `url('coer91/images/no-user.png')` }"></div>
+                
+                @if(_showIdentity()) {
+                    <div class="user-container-identity-name">
+                        <p>{{ user()?.fullName }}</p>
+                        <p>{{ user()?.role     }}</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <coer-selectbox 
+        #selectboxRef 
+        [useIconProperty]="true"
+        [showClearButton]="false"
+        displayProperty="label"
+        width="225px"
+        maxWidth="225px"
+        [dataSource]="_menu()" 
+        (onOpen)="_isOpenMenu = true"
+        (onClose)="_isOpenMenu = false"
+        (onInput)="_SelectMenu($event)"
+    ></coer-selectbox>
+</figure> 
+
+
+<coer-modal #modalUser [header]="{ title: user()?.fullName, icon: 'i91-user-fill' }" overflow="visible" (onClose)="_ResetUser(user())">    
+    <div class="flex-wrap margin-top-15px  md-max-width-650px ">
+        <!-- User -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-textbox
+                label="User"
+                [ngModel]="user()?.user"
+                [isReadonly]="true"
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+            ></coer-textbox> 
+        </div> 
+
+        <!-- Email -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-textbox
+                label="Email"
+                [ngModel]="user()?.email"
+                [isReadonly]="true"
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+            ></coer-textbox> 
+        </div>
+
+        <!-- Partner -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-textbox
+                label="Partner"
+                [ngModel]="user()?.partner"
+                [isReadonly]="true"
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+            ></coer-textbox> 
+        </div>
+
+        <!-- Role -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-selectbox
+                label="Role"
+                [(ngModel)]="_role"
+                [dataSource]="_roleList()"
+                [isReadonly]="(_roleList().length <= 1)"
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+                (onInput)="$event ? onUpdateRole.emit($event.name || '') : null"
+            ></coer-selectbox> 
+        </div>
+    </div> 
+</coer-modal>
+
+
+<coer-modal #modalPassword [header]="{ title: 'Reset Password', icon: 'i91-lock-fill' }" overflow="visible" (onClose)="_ResetPassword()">    
+    <div class="flex-wrap margin-top-15px max-width-300px">
+        <!-- Password -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-textbox
+                label="Password"
+                [(ngModel)]="_password" 
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+            ></coer-textbox> 
+        </div> 
+
+        <!-- Confirm -->
+        <div class="flex-basis-300px flex-grow-1">
+            <coer-textbox
+                label="Confirm"
+                [(ngModel)]="_confirm" 
+                [isLoading]="_isLoading()"
+                marginBottom="10px"
+            ></coer-textbox> 
+        </div>
+    </div>
+    
+    <ng-template templateRef="modal-footer">
+        <coer-button
+            label="Update"
+            icon="save"
+            color="success"
+            [isLoading]="_isLoading()"
+            [isReadonly]="!_enableUpdatePassword"
+            (onClick)="onUpdatePassword.emit(_password)"
+        ></coer-button>
+    </ng-template>
+</coer-modal>

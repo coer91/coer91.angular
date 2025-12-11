@@ -1,0 +1,67 @@
+<div title=""
+    (click)="_clickBackdrop($event)"
+    class="coer-modal"
+    [class]="(_value ? 'backdrop' : 'background-color-transparent')"
+    [style]="{ 
+        'align-items': _alignY(), 
+        'justify-content': _alignX(),  
+        'z-index': (_value ? '110' : '0'),
+    }">   
+    
+    <div [id]="`${_id}-content`"
+        class="coer-modal-content animation-speed-2" 
+        (click)="$event.stopPropagation()"
+        [ngStyle]="{ 
+            'grid-template-rows': _gridTemplateRows(), 
+            'margin'   : _margin(), 
+            'transform': (_value ? 'scale(1.0)' : 'scale(0)'),
+            'width'    : `calc(${width()} - 20px)`, 
+            'max-width': `calc(${maxWidth()} - 20px)`
+        }">
+        @if(_showModalHeader()) {
+            <header> 
+                <h3>
+                    @if(IsNotOnlyWhiteSpace(header().icon)) {
+                        <i [class]="header().icon || ''"></i>
+                    }
+                    <span> {{ header().title || '' }} </span>
+                </h3>
+
+                @if(!IsBooleanFalse(header().showCancelButton)) {
+                    <coer-button
+                        type="icon-rounded"
+                        icon="i91-x font-size-25px"
+                        color="secondary"
+                        minWidth="26px"
+                        maxWidth="26px"
+                        minHeight="26px"
+                        maxHeight="26px"
+                        (onClick)="Close()"
+                    ></coer-button>
+                }
+            </header>
+        }
+             
+        <section [ngStyle]="{ 
+            'width'     : `calc(${width()} - 20px)`, 
+            'max-width' : `calc(${maxWidth()} - 20px)`,
+            'height'    : height(), 
+            'max-height': _maxHeight(),
+            'overflow'  : overflow()
+        }"> 
+            @if(IsNotNull(_modalBody()?.template) && _modalBody()?.show()) {
+                <ng-container [ngTemplateOutlet]="_modalBody().template"></ng-container>
+            }
+    
+            @else {
+                <ng-content></ng-content>
+            }
+        </section>
+
+        @if(_showModalFooter()) { 
+            <footer [ngStyle]="{ 'width': `calc(${width()} - 20px)`, 'max-width': `calc(${maxWidth()} - 20px)` }">
+                <ng-container [ngTemplateOutlet]="_modalFooter().template"></ng-container>
+            </footer>
+        }
+    </div>
+</div>    
