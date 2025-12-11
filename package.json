@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "build": "ng build",
-    "server": "ng serve",
+    "server": "ng serve documentation",
     "update:styles": "npm uninstall coer91.styles & npm cache clean --force & npm install coer91.styles@latest",
     "update:tools": "npm uninstall coer91.tools & npm cache clean --force & npm install coer91.tools@latest",
-    "build:styles": "sass --no-source-map --style=compressed projects/coer91.angular/styles.scss ./dist/coer91.angular/styles.scss",
+    "build:styles": "sass --no-source-map --style=compressed projects/coer91.angular/index.scss ./dist/coer91.angular/styles.scss",
     "build:lib": "ng build coer91.angular & npm run build:styles"
   },
   "packageManager": "npm@11.6.2",
@@ -29,6 +29,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "jsdom": "^27.1.0",
     "ng-packagr": "^21.0.0",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
   }
 }

@@ -1,0 +1,64 @@
+<coer-page-title 
+    title="Alert"
+    [breadcrumbs]="breadcrumbs"
+    [goBack]="goBack" 
+></coer-page-title>
+
+<section class="container-section">
+    <coer-button
+        label="information"
+        color="information"
+        (onClick)="Information()"
+    ></coer-button>
+
+    <coer-button
+        label="success"
+        color="success"
+        (onClick)="Success()"
+    ></coer-button>
+
+    <coer-button
+        label="warning"
+        color="warning"
+        (onClick)="Warning()"
+    ></coer-button>
+
+    <coer-button
+        label="error"
+        color="danger"
+        (onClick)="Error()"
+    ></coer-button>
+
+    <coer-button
+        label="Close"
+        color="secondary"
+        (onClick)="Close()"
+    ></coer-button> 
+</section>
+
+
+<section class="container-section">
+    <coer-button
+        label="information"
+        color="information"
+        (onClick)="ConfirmInformation()"
+    ></coer-button>
+
+    <coer-button
+        label="success"
+        color="success"
+        (onClick)="ConfirmSuccess()"
+    ></coer-button>
+
+    <coer-button
+        label="warning"
+        color="warning"
+        (onClick)="ConfirmWarning()"
+    ></coer-button>
+
+    <coer-button
+        label="error"
+        color="danger"
+        (onClick)="ConfirmError()"
+    ></coer-button> 
+</section>

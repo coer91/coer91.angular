@@ -33,5 +33,13 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "references": [
+    {
+      "path": "./projects/documentation/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/documentation/tsconfig.spec.json"
+    }
+  ]
 }

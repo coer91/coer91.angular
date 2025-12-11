@@ -1,0 +1,63 @@
+@use './components/lib/coer-alert/coer-alert.component.scss';
+
+body {
+    background-color: var(--smoke) !important;  
+    margin: 0px !important;
+}
+
+* {
+    font-family: 'OpenSans', 'sans-serif';
+}
+
+h1, h2, h3, h4, h5, h6, p, pre, hr, figure, fieldset, ul, ol {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+*::-webkit-scrollbar {
+    background-color: var(--input) !important;
+    width: 5px !important;
+    height: 5px !important;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--readonly) !important;
+    border-radius: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: var(--hover) !important;
+    cursor: grab !important;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: var(--gray) !important;
+    cursor: grabbing !important;
+}
+
+.scrollbar-invisible::-webkit-scrollbar { 
+    width: 0px !important;
+    height: 0px !important; 
+}  
+
+input[type=file] {
+    display: none !important;
+}
+
+//Components
+coer-button, coer-switch { 
+    display: contents !important;
+}
+
+
+coer-grid {
+    div.coer-selectbox > div {
+        background-color: transparent !important;
+
+        div.line {
+            background-color: transparent !important;
+        }
+    }
+}
+

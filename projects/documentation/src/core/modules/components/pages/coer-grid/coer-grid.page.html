@@ -1,0 +1,45 @@
+<coer-page-title
+    title="Grid"
+    [breadcrumbs]="breadcrumbs"
+    [goBack]="goBack"
+></coer-page-title>
+
+<section class="container-section padding-bottom-0px">
+    <coer-grid 
+        [(ngModel)]="dataSource" 
+        [columns]="[
+            { property: 'id'  ,   alias: 'id', width: '50px', type: 'currency' },
+            { property: 'name',   alias: 'Hola', coerSelectbox },
+            { property: 'isBool', alias: 'is', coerSwitch: true  }
+        ]" 
+        [search]="{ show: true }"
+        [headerButtonAdd]="{ show: true, }"
+        [headerButtonSave]="{ show: true }"
+        [headerButtonExport]="{ show: true, onlyRowFiltered: false, onlySelectedItem: true }"
+        [headerButtonImport]="{ show: true  }" 
+        [rowButtonDelete]="{ show: true }"
+        [rowButtonEdit]="{ show: false }"
+        [rowButtonModal]="{ show: false }"
+        [rowButtonGo]="{ show: false }"
+        [checkbox]="{ show: true, onlyOneCheck: false, checkOnRow: false }"
+        [isLoading]="false"
+        [isReadonly]="false"
+        height="calc(100vh - 95px - 50px)"
+        (onClickExport)="Log('onClickExport', $event)"
+        (onClickImport)="Log('onClickImport', $event)"
+        (onClickAdd)="Log('onClickAdd', $event)"
+        (onClickSave)="Log('onClickSave', $event)"
+        (onClickSearch)="Log('onClickSearch', $event)"
+        (onClickClearSearch)="Log('onClickClearSearch', $event)"
+        (onKeyupEnterSearch)="Log('onKeyupEnterSearch', $event)"
+        (onDoubleClickRow)="Log('onDoubleClickRow', $event)"
+        (onClickRow)="Log('onClickRow', $event)"
+        (onClickDeleteRow)="Log('onClickDeleteRow', $event)"
+        (onClickEditRow)="Log('onClickEditRow', $event)"
+        (onClickModalRow)="Log('onClickModalRow', $event)"
+        (onClickGoRow)="Log('onClickGoRow', $event)"
+        (onReady)="Log('onReady', $event)"
+        (onDestroy)="Log('onDestroy', $event)"
+        (onCheckboxChange)="Log('onCheckboxChange', $event)"
+    ></coer-grid> 
+</section> 
