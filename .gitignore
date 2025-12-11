@@ -1,9 +1,9 @@
 /.github
 /.vs 
-/.vscode 
+/.vscode
 /.angular
 /node_modules  
-/dist
+/dist 
 
 # Document files
 *.pdf
