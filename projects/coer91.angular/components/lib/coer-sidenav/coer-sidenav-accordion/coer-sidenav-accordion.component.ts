@@ -1,5 +1,5 @@
-import { Component, input, AfterViewInit, output, OnDestroy, computed, EffectRef, effect, signal } from '@angular/core';
-import {  HTMLElements, Tools }from 'coer91.tools';
+import { Component, input, AfterViewInit, output, OnDestroy, computed, signal } from '@angular/core';
+import {  HTMLElements, Tools } from 'coer91.tools';
 
 @Component({
     selector: 'coer-sidenav-accordion',

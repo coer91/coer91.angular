@@ -1,0 +1,21 @@
+<coer-toolbar
+    #toolbar
+    [user]="user()" 
+    [menu]="toolbarMenu()" 
+    [showProfileMenu]="showProfileMenu()"
+    [preventProfileMenu]="preventProfileMenu()"
+    [showPasswordMenu]="showPasswordMenu()"
+    [preventPasswordMenu]="preventPasswordMenu()"
+    [showLogOutMenu]="showLogOutMenu()"
+    [preventLogOutMenu]="preventLogOutMenu()"
+    (onClickToogle)="sidenav.Toogle()" 
+    (onClickOptionMenu)="_ClickOptionMenu($event)"
+    (onUpdateRole)="onUpdateRole.emit($event)"
+    (onUpdatePassword)="onUpdatePassword.emit($event)"
+></coer-toolbar>
+
+<coer-sidenav #sidenav [navigation]="navigation()">
+    <router-outlet></router-outlet>  
+</coer-sidenav>  
+
+<coer-alert></coer-alert>

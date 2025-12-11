@@ -2,7 +2,7 @@ import { Component, OnDestroy, signal, input, viewChildren, EffectRef, effect, c
 import { HTMLElements, Navigation, Tools, Screen, Strings, Source }from 'coer91.tools';
 import { IMenu, IMenuSelected, IScreenSize } from 'coer91.tools/interfaces'; 
 import { CoerSidenavAccordion } from './coer-sidenav-accordion/coer-sidenav-accordion.component';
-import { breakpointSIGNAL, isLoadingSIGNAL, navigationSIGNAL } from '../../../signals/index';
+import { breakpointSIGNAL, isLoadingSIGNAL, navigationSIGNAL } from 'coer91.angular/signals';
 import { Router } from '@angular/router';
 
 @Component({

@@ -1,0 +1,16 @@
+<!-- Title -->
+<coer-page-title
+    [title]="title()"
+    [showBreadcrumbs]="false"
+></coer-page-title>
+
+<div class="coer-menu flex-wrap mv-margin-ltr-15px margin-ltr-30px mv-gap-15px xs-gap-30px mv-padding-bottom-15px xs-padding-bottom-30px fade-in">
+    @for(item of _pages(); track item.index) {           
+        <a [routerLink]="_getPath(item)" class="mv-flex-basis-150px xs-flex-basis-200px flex-grow-1">
+            @if(IsNotOnlyWhiteSpace(item?.icon)) {
+                <i [class]="item!.icon"></i>
+            }
+            <span> {{ item.label }} </span>
+        </a> 
+    }
+</div>

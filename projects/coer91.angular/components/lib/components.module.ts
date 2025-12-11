@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from 'coer91.angular/directives';
-import { PipesModule      } from 'coer91.angular/pipes';
+import { PipesModule } from 'coer91.angular/pipes';
 import 'coer91.tools/extensions'; 
 
 //Components 
@@ -18,11 +18,11 @@ import { CoerGridfooter       } from './coer-grid/coer-grid-footer/coer-grid-foo
 import { CoerModal            } from './coer-modal/coer-modal.component';
 import { CoerPageTitle        } from './coer-page-title/coer-page-title.component';
 import { CoerSelectBox        } from './coer-selectbox/coer-selectbox.component';
-// import { CoerSidenav          } from './coer-sidenav/coer-sidenav.component';
-// import { CoerSidenavAccordion } from './coer-sidenav/coer-sidenav-accordion/coer-sidenav-accordion.component';
+import { CoerSidenav          } from './coer-sidenav/coer-sidenav.component';
+import { CoerSidenavAccordion } from './coer-sidenav/coer-sidenav-accordion/coer-sidenav-accordion.component';
 import { CoerSwitch           } from './coer-switch/coer-switch.component';
 import { CoerTextBox          } from './coer-textbox/coer-textbox.component';
-// import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
+import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
 
 @NgModule({
     imports: [
@@ -45,11 +45,11 @@ import { CoerTextBox          } from './coer-textbox/coer-textbox.component';
         CoerModal,
         CoerPageTitle,
         CoerSelectBox,
-        // CoerSidenav,
-        // CoerSidenavAccordion,
+        CoerSidenav,
+        CoerSidenavAccordion,
         CoerSwitch,
         CoerTextBox,
-        // CoerToolbar
+        CoerToolbar
     ],
     exports: [ 
         CoerAccordion,
@@ -59,10 +59,10 @@ import { CoerTextBox          } from './coer-textbox/coer-textbox.component';
         CoerModal,
         CoerPageTitle,
         CoerSelectBox,
-        // CoerSidenav, 
+        CoerSidenav, 
         CoerSwitch,
         CoerTextBox,
-        // CoerToolbar
+        CoerToolbar
     ]
 })
 export class ComponentsModule { }
