@@ -1,6 +1,5 @@
 export * from './lib/components.module'; 
-export * from './lib/coer-accordion/coer-accordion.component';
-export * from './lib/coer-alert/coer-alert.component';
+export * from './lib/coer-accordion/coer-accordion.component'; 
 export * from './lib/coer-button/coer-button.component';
 export * from './lib/coer-grid/coer-grid.component';
 export * from './lib/coer-grid/interfaces';

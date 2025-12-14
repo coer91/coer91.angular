@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import 'coer91.tools/extensions'; 
 
 //Pipes 
 import { CurrencyPipe      } from './currency.pipe';

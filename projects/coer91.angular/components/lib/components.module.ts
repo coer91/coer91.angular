@@ -7,8 +7,7 @@ import { PipesModule } from 'coer91.angular/pipes';
 import 'coer91.tools/extensions'; 
 
 //Components 
-import { CoerAccordion        } from './coer-accordion/coer-accordion.component';
-import { CoerAlert            } from './coer-alert/coer-alert.component';
+import { CoerAccordion        } from './coer-accordion/coer-accordion.component'; 
 import { CoerButton           } from './coer-button/coer-button.component';
 import { CoerGrid             } from './coer-grid/coer-grid.component';
 import { CoerGridHeader       } from './coer-grid/coer-grid-header/coer-grid-header.component';
@@ -34,8 +33,7 @@ import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
         PipesModule
     ],
     declarations: [ 
-        CoerAccordion,
-        CoerAlert,
+        CoerAccordion, 
         CoerButton,
         CoerGrid,
         CoerGridHeader,
@@ -52,8 +50,7 @@ import { CoerToolbar          } from './coer-toolbar/coer-toolbar.component';
         CoerToolbar
     ],
     exports: [ 
-        CoerAccordion,
-        CoerAlert,
+        CoerAccordion, 
         CoerButton,
         CoerGrid,
         CoerModal,

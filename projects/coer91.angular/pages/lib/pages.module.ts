@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';     
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from 'coer91.angular/components';
+import { CoerAlert } from 'coer91.angular/tools';
 import 'coer91.tools/extensions'; 
 
 //Pages  
@@ -19,7 +20,8 @@ export const ROUTES: any = [
 @NgModule({    
     imports: [
         RouterModule,
-        ComponentsModule
+        ComponentsModule,
+        CoerAlert
     ],
     declarations: [ 
         Coer91,

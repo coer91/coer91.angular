@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, inject, Inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { CoerAlert } from '../lib/coer-alert/coer-alert.component';
+import { ActivatedRoute, Router } from "@angular/router"; 
 import { PageControl, Tools } from "coer91.tools";
 
 @Component({ template: '' })
 export class page extends PageControl implements AfterViewInit {
 
     //Injection
-    //protected readonly alert  = inject(CoerAlert);
+    protected readonly alert  = inject(CoerAlert);
     protected readonly router = inject(Router);
     private readonly __activatedRoute = inject(ActivatedRoute);
 
@@ -29,7 +30,6 @@ export class page extends PageControl implements AfterViewInit {
         await Tools.Sleep();
         this.isReadyPage = true;
         this.RunPage(); 
-         
     }
 
 

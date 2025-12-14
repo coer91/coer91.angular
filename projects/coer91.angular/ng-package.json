@@ -3,5 +3,9 @@
   "dest": "../../dist/coer91.angular",
   "lib": {
     "entryFile": "index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "coer91.styles", "coer91.tools"
+  ],
+  "assets": ["./environments"]
 }

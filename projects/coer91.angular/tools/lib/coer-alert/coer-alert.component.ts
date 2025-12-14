@@ -5,7 +5,7 @@ import { HTMLElements, Tools } from 'coer91.tools';
     selector: 'coer-alert',
     templateUrl: './coer-alert.component.html',
     styleUrls: ['./coer-alert.component.scss'],
-    standalone: false
+    standalone: true
 })
 export class CoerAlert implements AfterViewInit { 
 
@@ -159,49 +159,49 @@ export class CoerAlert implements AfterViewInit {
 
 
     /** */
-    public async OkInformation(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async InformationOk(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmInformation(message, icon, true);
     }
 
 
     /** */
-    public async OkSuccess(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async SuccessOk(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmSuccess(message, icon, true); 
     }
 
 
     /** */
-    public async OkWarning(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async WarningOk(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmWarning(message, icon, true);
     }
 
 
     /** */
-    public async OkError(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async ErrorOk(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmError(message, icon, true);  
     }
 
 
     /** */
-    public async ConfirmInformation(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async InformationConfirm(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmInformation(message, icon, false);
     }
 
 
     /** */
-    public async ConfirmSuccess(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async SuccessConfirm(message: string | null = null, icon: string | null = null): Promise<boolean> {
         return await this._ConfirmSuccess(message, icon, false); 
     }
 
 
     /** */
-    public async ConfirmWarning(message: string | null = null, icon: string | null = null): Promise<boolean> {
+    public async WarningConfirm(message: string | null = null, icon: string | null = null): Promise<boolean> {
        return await this._ConfirmWarning(message, icon, false); 
     }
 
 
     /** */
-    public async ConfirmError(message: string | null = null, icon: string | null = null): Promise<boolean> { 
+    public async ErrorConfirm(message: string | null = null, icon: string | null = null): Promise<boolean> { 
         return await this._ConfirmError(message, icon, false);  
     }
 

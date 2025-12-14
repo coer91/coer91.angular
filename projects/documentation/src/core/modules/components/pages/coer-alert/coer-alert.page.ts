@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core'; 
-import { CoerAlert } from 'coer91.angular/components';
+import { CoerAlert } from 'coer91.angular/tools';
 import { page } from 'coer91.angular/tools';
 
 @Component({
@@ -7,10 +7,7 @@ import { page } from 'coer91.angular/tools';
     templateUrl: './coer-alert.page.html', 
     standalone: false
 })
-export class CoerAlertPage extends page {   
-    
-    //Inject
-    protected readonly alert = inject(CoerAlert);
+export class CoerAlertPage extends page {    
     
     //Elements 
 
@@ -48,18 +45,18 @@ export class CoerAlertPage extends page {
     }
 
     protected ConfirmInformation() {
-        this.alert.ConfirmInformation().then(response => console.log(response));
+        this.alert.InformationConfirm().then(response => console.log(response));
     }
 
     protected ConfirmSuccess() {
-        this.alert.ConfirmSuccess().then(response => console.log(response));
+        this.alert.SuccessConfirm().then(response => console.log(response));
     }
 
     protected ConfirmWarning() {
-        this.alert.ConfirmWarning().then(response => console.log(response));
+        this.alert.WarningConfirm().then(response => console.log(response));
     }
 
     protected ConfirmError() {
-        this.alert.OkError().then(response => console.log(response));
+        this.alert.ErrorOk().then(response => console.log(response));
     }
 }
